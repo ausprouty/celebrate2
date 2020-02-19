@@ -86,9 +86,8 @@ h6 {
   font-family: 'Montserrat', sans-serif;
 }
 h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: red;
+  font-size: 18px;
+  color: green;
 }
 h2 {
   font-size: 24px;

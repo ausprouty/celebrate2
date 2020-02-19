@@ -9,7 +9,7 @@
     </div>
     <div v-if="this.authorized">
       <h2>Existing Editors</h2>
-      <Users />
+      <Team />
       <h2>Register New Editor</h2>
       <form @submit.prevent="saveForm">
         <BaseInput
@@ -22,9 +22,7 @@
           @blur="$v.firstname.$touch()"
         />
         <template v-if="$v.firstname.$error">
-          <p v-if="!$v.firstname.required" class="errorMessage">
-            First name is required.
-          </p>
+          <p v-if="!$v.firstname.required" class="errorMessage">First name is required.</p>
         </template>
 
         <BaseInput
@@ -37,9 +35,7 @@
           @blur="$v.firstname.$touch()"
         />
         <template v-if="$v.lastname.$error">
-          <p v-if="!$v.lastname.required" class="errorMessage">
-            Last name is required.
-          </p>
+          <p v-if="!$v.lastname.required" class="errorMessage">Last name is required.</p>
         </template>
         Scope:
         <v-select
@@ -60,9 +56,7 @@
           @blur="$v.username.$touch()"
         />
         <template v-if="$v.username.$error">
-          <p v-if="!$v.username.required" class="errorMessage">
-            Username is required.
-          </p>
+          <p v-if="!$v.username.required" class="errorMessage">Username is required.</p>
         </template>
 
         <BaseInput
@@ -75,9 +69,7 @@
           @blur="$v.password.$touch()"
         />
         <template v-if="$v.password.$error">
-          <p v-if="!$v.password.required" class="errorMessage">
-            Password is required.
-          </p>
+          <p v-if="!$v.password.required" class="errorMessage">Password is required.</p>
         </template>
         <div v-if="!this.registered">
           <p class="errorMessage">{{ this.error_message }}</p>
@@ -96,15 +88,14 @@ import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
 import vSelect from 'vue-select'
-import Users from '@/views/Users.vue'
+import Team from '@/views/team/Team.vue'
 import { required } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
-
 
 export default {
   components: {
     NavBar,
-    Users,
+    Team,
     'v-select': vSelect
   },
   mixins: [authorMixin],

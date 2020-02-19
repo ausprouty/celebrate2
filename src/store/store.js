@@ -16,7 +16,8 @@ export default new Vuex.Store({
       css: '/content/',
       styles: '/styles/',
       icons: '/images/icons/',
-      root: '/images/'
+      root: '/images/',
+      members: '/images/members/'
     },
     revision: '0.1',
     baseURL: './',
@@ -39,9 +40,9 @@ export default new Vuex.Store({
     SET_USER_DATA(state, userData) {
       state.user = userData
       localStorage.setItem('user', JSON.stringify(userData))
-      axios.defaults.headers.common['Authorization'] = `Bearer ${
-        userData.token
-      }`
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${userData.token}`
     }
   },
   actions: {

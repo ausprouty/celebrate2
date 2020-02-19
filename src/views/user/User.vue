@@ -108,7 +108,7 @@ export default {
         username: null,
         password: null
       },
-      user_image: null,
+      member_image: null,
       submitted: false,
       wrong: null,
       registered: true

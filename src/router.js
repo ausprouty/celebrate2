@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Debug from './views/Debug.vue'
+import Debug from './views/admin/Debug.vue'
 import Home from './views/Home.vue'
-import Login from './views/Login.vue'
+import Login from './views/user/Login.vue'
 import NotFoundComponent from './views/NotFound.vue'
-import Register from './views/Register.vue'
-import User from './views/User.vue'
-import Users from './views/Users.vue'
+import Register from './views/team/Register.vue'
+import User from './views/user/User.vue'
+import Team from './views/team/Team.vue'
 import Validate from './views/Validate.vue'
 
 Vue.use(Router)
@@ -40,10 +40,10 @@ export default new Router({
       props: true
     },
     {
-      path: '/users',
-      name: 'users',
-      component: Users,
-      props: false
+      path: '/team/:tid',
+      name: 'team',
+      component: Team,
+      props: true
     },
   
     {

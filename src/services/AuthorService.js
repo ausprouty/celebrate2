@@ -36,6 +36,24 @@ export default {
     //  console.log(response)
     return response
   },
+  async getMembers(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getMembers&action=getMembers',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async getTeam(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getTeam&action=getTeam',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   async getUser(params) {
     var contentForm = this.toAuthorizedFormData(params)
