@@ -182,7 +182,6 @@ export default {
   },
   async created() {
     this.authorized = this.authorize('register', 'global')
-    await this.scopeOptions()
   }
 }
 </script>

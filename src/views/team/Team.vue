@@ -53,11 +53,8 @@ export default {
       try {
         var params = {}
         params.tid = this.tid
-        console.log(params)
         this.team = await AuthorService.getTeam(params)
-        console.log(this.team)
         this.users = await AuthorService.getMembers(params)
-        console.log(this.users)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

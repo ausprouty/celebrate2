@@ -90,7 +90,7 @@ h1 {
   color: green;
 }
 h2 {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
 }
 h3 {
@@ -102,11 +102,11 @@ h4 {
   font-weight: 700;
 }
 h5 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
 }
 h6 {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
 b,
@@ -286,7 +286,7 @@ textarea {
 [type='number'],
 [type='search'],
 [type='password'] {
-  height: 52px;
+  height: 24px;
   width: 100%;
   padding: 0 10px;
   font-size: 20px;

@@ -45,6 +45,16 @@ export default {
     let response = res.data.content
     return response
   },
+  async getStandardItems(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getStandardItems&action=getStandardItems',
+      contentForm
+    )
+    let response = res.data.content
+    console.log(response)
+    return response
+  },
   async getTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(

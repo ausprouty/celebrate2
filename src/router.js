@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Debug from './views/admin/Debug.vue'
 import Home from './views/Home.vue'
 import Login from './views/user/Login.vue'
+import MyCelebrations from './views/user/MyCelebrations.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import Register from './views/team/Register.vue'
 import User from './views/user/User.vue'
@@ -37,6 +38,12 @@ export default new Router({
       path: '/user/:uid',
       name: 'user',
       component: User,
+      props: true
+    },
+    {
+      path: '/user/celebrations/:uid',
+      name: 'myCelebrations',
+      component: MyCelebrations,
       props: true
     },
     {

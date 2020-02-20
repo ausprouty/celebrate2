@@ -1,72 +1,38 @@
 <template>
-  <div class="app-link" v-on:click="showPage(user)">
-    <div class="shadow-card -shadow">
-      <img v-bind:src="appDir.members + this.image" class="member" />
-
-      <div class="card-names">
-        <span class="card-name">{{ user.firstname }} {{ user.lastname }}</span>
-      </div>
+  <div>
+    <div class="celebration-names" v-on:click="showPage(celebration)">
+      <span class="card-name">{{ celebration.name }}</span>
+    </div>
+    <div class="form">
+      <BaseInput
+        v-model="choose_language"
+        label=celebration.name
+        type="text"
+        placeholder="Choose Language"
+        class="field"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   props: {
-    user: Object
+    celebration: Object
+  },
+  data: function() {
+    return {}
   },
 
-  data: function() {
-    return {
-      image: 'blank.png'
-    }
-  },
-  computed: mapState(['appDir']),
   methods: {
-    showPage: function(user) {
-      console.log('user')
-      console.log(user)
-      this.$router.push({
-        name: 'user',
-        params: {
-          uid: this.user.uid
-        }
-      })
+    showPage: function(celebration) {
+      alert(celebration.paraphrase)
     }
-  },
-  created() {
-    this.image = this.user.image
   }
 }
 </script>
 <style scoped>
 <style scoped > div.break {
   display: inline;
-}
-
-.shadow-card {
-  background-color: #efefef;
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: left;
-  transition: all 0.2s linear;
-  width: 95%;
-}
-div.card-names {
-  float: right;
-  font-size: 18px;
-  vertical-align: top;
-  width: 70%;
-  line-height: 60px;
-}
-.card-name {
-  font-weight: bold;
-  line-height: 20px;
-}
-.card-name-english {
-  font-weight: normal;
-  line-height: 20px;
 }
 </style>
