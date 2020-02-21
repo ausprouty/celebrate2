@@ -45,6 +45,16 @@ export default {
     let response = res.data.content
     return response
   },
+  async getGoals(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getGoals&action=getGoals',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+
   async getStandardItems(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -96,6 +106,18 @@ export default {
     console.log('about to leave login at AuthorService')
     return response
   },
+  async updateGoals(params) {
+    console.log('in updateGoals at AuthorService')
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    console.log(contentForm)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateGoals&action=updateGoals',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   toAuthorizedFormData(params) {
     params.my_uid = store.state.user.uid
@@ -105,10 +127,10 @@ export default {
       form_data.append(key, params[key])
     }
     // Display the key/value pairs
-    //   for (var pair of form_data.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1])
-    //    }
-    //console.log(form_data)
+    //for (var pair of form_data.entries()) {
+    //  console.log(pair[0] + ', ' + pair[1])
+    //}
+   // console.log(form_data)
     return form_data
   },
   async updateUser(params) {
