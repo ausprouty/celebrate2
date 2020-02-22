@@ -54,6 +54,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async getItem(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getItem&action=getItem',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   async getStandardItems(params) {
     var contentForm = this.toAuthorizedFormData(params)
@@ -118,6 +127,18 @@ export default {
     let response = res.data.content
     return response
   },
+  async updateItem(params) {
+    console.log('in updateItem at AuthorService')
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    console.log(contentForm)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateItem&action=updateItem',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   toAuthorizedFormData(params) {
     params.my_uid = store.state.user.uid
@@ -130,7 +151,7 @@ export default {
     //for (var pair of form_data.entries()) {
     //  console.log(pair[0] + ', ' + pair[1])
     //}
-   // console.log(form_data)
+    // console.log(form_data)
     return form_data
   },
   async updateUser(params) {

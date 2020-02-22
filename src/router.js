@@ -5,6 +5,7 @@ import Debug from './views/admin/Debug.vue'
 import Home from './views/Home.vue'
 import Login from './views/user/Login.vue'
 import MyGoals from './views/user/MyGoals.vue'
+import MyItem from './views/user/MyItem.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import Register from './views/team/Register.vue'
 import User from './views/user/User.vue'
@@ -41,9 +42,15 @@ export default new Router({
       props: true
     },
     {
-      path: '/user/goals/:uid',
+      path: '/user/:uid/goals',
       name: 'myGoals',
       component: MyGoals,
+      props: true
+    },
+    {
+      path: '/user/:uid/item/:id?',
+      name: 'myItem',
+      component: MyItem,
       props: true
     },
     {

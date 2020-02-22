@@ -53,6 +53,8 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  background-image: url('/images/background/confetti.png');
+  
 }
 
 #app {
@@ -250,7 +252,7 @@ img.screen-shot {
   padding: 10px;
 }
 label {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.9);
   font-weight: 700;
 }
 p.rtl {

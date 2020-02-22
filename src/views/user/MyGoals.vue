@@ -17,25 +17,26 @@
             <th>Goal</th>
           </tr>
           <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
-            <td :id="item.id + 'R'" class="item" @click="showDefinition(item)">
+            <td
+              :id="item.id + 'R'"
+              class="item"
+              @click="showDefinition(item)"
+              v-bind:class="{ selected: evaluateSelect(item.number) }"
+            >
               {{ item.name }}
               <span :id="item.id" class="definition"></span>
             </td>
             <td :id="item.id + 'R'" class="goal">
-              <input
-                class="goal"
-                @change="toggleHighlight(item.id)"
-                type="text"
-                v-model="item.number"
-              />
+              <input class="goal" type="text" v-model="item.number" />
             </td>
           </tr>
         </table>
 
         <br />
-        <button class="button red" @click="addGoal">Add Personal Goal</button>
+
         <button class="button green" @click="saveForm">Update</button>
       </form>
+      <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
   </div>
 </template>
@@ -55,46 +56,54 @@ export default {
   data() {
     return {
       items: [],
-      fred: 5
+      highlight: true
     }
   },
   methods: {
     showDefinition(item) {
       var present = document.getElementById(item.id).innerHTML
-      console.log(present)
+
       if (present == '') {
-        document.getElementById(item.id).innerHTML =
-          '<br>(' + item.paraphrase + ')'
+        var message = '<br>(' + item.paraphrase + ')'
+        if (item.uid == this.$route.params.uid) {
+          var link =
+            message +
+            '<br> <a href= "/user/' +
+            this.$route.params.uid +
+            '/item/' +
+            item.id +
+            '"> Update Item </a>'
+          message = link
+        }
+        document.getElementById(item.id).innerHTML = message
       } else {
         document.getElementById(item.id).innerHTML = null
       }
     },
-    toggleHighlight(id) {
-      return
-      var idr = id + 'R'
-      if (this.items[id].number > 0) {
-        document.getElementById(idr).className += ' selected'
-      } else {
-        document.getElementById(idr).classList.remove('selected')
+    evaluateSelect(quantity) {
+      if (quantity > 0) {
+        return true
       }
+      return false
     },
-    showHighlights() {
-      console.log('show highlights')
-      console.log(this.items)
-      var idr = null
-      var clean = null
-      var l = this.items.length
-      for (var i = 0; i < l; i++) {
-        clean = parseInt(this.items[i]['number'], 10)
-        console.log(clean)
-        if (typeof clean == 'number') {
-          if (clean > 0) {
-            idr = this.items[i]['id'] + 'R'
-            console.log(idr)
-            document.getElementById(idr).className += ' selected'
-          }
+    async addItem() {
+      await this.saveForm()
+      this.$router.push({
+        name: 'myItem',
+        params: {
+          uid: this.$route.params.uid
         }
-      }
+      })
+    },
+    async updateItem(id) {
+      await this.saveForm()
+      this.$router.push({
+        name: 'myItem',
+        params: {
+          uid: this.$route.params.uid,
+          id: id
+        }
+      })
     },
     async saveForm() {
       try {
@@ -147,6 +156,7 @@ export default {
 table.goals {
   width: 100%;
   border-collapse: collapse;
+  background-color: white;
 }
 
 tr:nth-child(even) {
