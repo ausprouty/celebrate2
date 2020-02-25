@@ -13,10 +13,14 @@
       <form @submit.prevent="saveForm">
         <table class="goals">
           <tr>
+            <th>Icon</th>
             <th>Item</th>
             <th>Goal</th>
           </tr>
           <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
+            <td  class="icon">
+               <img v-bind:src="appDir.icons + item.celebration_set  + '/'+ item.image" class="icon" />
+            </td>
             <td
               :id="item.id + 'R'"
               class="item"
@@ -51,7 +55,7 @@ export default {
     NavBar
   },
   props: ['uid'],
-  computed: mapState(['user']),
+  computed: mapState(['user', 'appDir']),
   mixins: [authorMixin],
   data() {
     return {
@@ -187,7 +191,7 @@ td.item {
   width: 80%;
 }
 .item {
-  color: black;
+  color: blue;;
 }
 .definition {
   color: red;

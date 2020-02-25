@@ -54,7 +54,6 @@ body {
   font-size: 16px;
   line-height: 1.5;
   background-image: url('/images/background/confetti.png');
-  
 }
 
 #app {
@@ -196,6 +195,7 @@ textarea {
   line-height: 1.15;
   margin: 0;
 }
+
 button,
 input {
   overflow: visible;
@@ -288,11 +288,12 @@ textarea {
 [type='number'],
 [type='search'],
 [type='password'] {
-  height: 24px;
+  height: 36px;
   width: 100%;
   padding: 0 10px;
   font-size: 20px;
 }
+
 [type='text']:focus,
 [type='number']:focus,
 [type='search']:focus,
@@ -425,4 +426,5 @@ div.lesson-lookforward {
 .notpublished {
   background-color: yellow;
 }
+
 </style>

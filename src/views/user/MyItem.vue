@@ -15,33 +15,45 @@
       </p>
       <form @submit.prevent="saveForm">
         <BaseInput
-          v-model="name"
+          v-model="$v.item.name.$model"
           label="Item"
           type="text"
           class="field"
-          :class="{ error: $v.name.$error }"
-          @blur="$v.name.$touch()"
+          :class="{ error: $v.item.name.$error }"
+          @blur="$v.item.name.$touch()"
         />
         <BaseTextarea
-          v-model="paraphrase"
+          v-model="$v.item.paraphrase.$model"
           label="Description"
           type="text"
           class="field"
-          :class="{ error: $v.paraphrase.$error }"
-          @blur="$v.paraphrase.$touch()"
+          :class="{ error: $v.item.paraphrase.$error }"
+          @blur="$v.item.paraphrase.$touch()"
         />
         <BaseInput
-          v-model="details"
+          v-model="$v.item.details.$model"
           label="Any details you want to track?"
           type="text"
           class="field"
         />
-        <BaseSelect label="Record Number?" :options="yes_or_no" v-model="numbers" class="field" />
-        <div v-if="numbers == 'Y'">
-          <BaseSelect label="Cumulative" :options="yes_or_no" v-model="cumulative" class="field" />
+        <BaseSelect
+          label="Record Number?"
+          :options="yes_or_no"
+          v-model="$v.item.numbers.$model"
+          class="field"
+        />
+        <div v-if="$v.item.numbers.$model == 'Y'">
+          <BaseSelect
+            label="Cumulative"
+            :options="yes_or_no"
+            v-model="$v.item.cumulative.$model"
+            class="field"
+          />
         </div>
-        <button class="button green" @click="saveForm">Update</button>
+       
       </form>
+       <button class="button green" @click="saveForm">Update</button>
+      <button class="button red" @click="deleteForm">Delete</button>
     </div>
   </div>
 </template>
@@ -60,53 +72,64 @@ export default {
   mixins: [authorMixin],
   data() {
     return {
-      res: null,
       yes_or_no: ['Y', 'N'],
-      celebration_set: null,
-      tid: null,
-      sequence: null,
-      page: null,
-      code: null,
-      name: null,
-      definition: null,
-      paraphrase: null,
-      details: null,
-      numbers: 'Y',
-      cumulative: 'Y'
+      item: {
+        id: null,
+        celebration_set: 'personal',
+        tid: null,
+        uid: null,
+        sequence: null,
+        page: null,
+        code: null,
+        name: null,
+        definition: null,
+        paraphrase: null,
+        details: null,
+        numbers: 'Y',
+        cumulative: 'Y'
+      }
     }
   },
   validations: {
-    id: {},
-    celebration_set: {},
-    tid: {},
-
-    sequence: {},
-    page: {},
-    code: {},
-    name: { required },
-    definition: {},
-    paraphrase: { required },
-    details: {},
-    numbers: { required },
-    cumulative: { required }
+    item: {
+      id: {},
+      celebration_set: {},
+      tid: {},
+      uid: {},
+      sequence: {},
+      page: {},
+      code: {},
+      name: { required },
+      definition: {},
+      paraphrase: { required },
+      details: {},
+      numbers: { required },
+      cumulative: { required }
+    }
   },
   methods: {
     async saveForm() {
       var params = {}
-      if (typeof this.id != 'undefined') {
-        params.id = this.id
-      }
-      params.name = this.name
-      params.celebration_set = 'personal'
-      params.uid = this.uid
-      params.paraphrase = this.paraphrase
-      if (typeof this.details != 'undefined') {
-        params.details = this.details
-      }
-      params.numbers = this.numbers
-      params.cumulative = this.cumulative
+      this.item.uid = this.$route.params.uid
+      params.item = JSON.stringify(this.item)
       console.log(params)
-      await AuthorService.updateItem(params)
+      var res = await AuthorService.updateItem(params)
+      //console.log(res)
+      this.return()
+    },
+    async deleteForm() {
+      var params = {}
+      params.uid = this.uid
+      params.item = JSON.stringify(this.item)
+      console.log(params)
+      var res = await AuthorService.deleteItem(params)
+      console.log(res)
+      this.return()
+    },
+    return() {
+      console.log('check')
+    },
+    returnX() {
       this.$router.push({
         name: 'myGoals',
         params: {
@@ -115,6 +138,7 @@ export default {
       })
     }
   },
+
   async created() {
     //this.authorized = this.authorize('write', this.uid)
     this.authorized = true
@@ -128,6 +152,9 @@ export default {
           params['id'] = this.$route.params.id
           var res = await AuthorService.getItem(params)
           console.log(res)
+          if (typeof res != 'undefined') {
+            this.item = res
+          }
         }
       } catch (error) {
         console.log('There was an error in Myitem.vue:', error) // Logs out the error

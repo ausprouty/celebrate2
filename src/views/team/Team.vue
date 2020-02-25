@@ -48,11 +48,11 @@ export default {
     }
   },
   async created() {
-    this.authorized = this.authorize('register', this.tid)
+    this.authorized = this.authorize('register', this.$route.params.tid)
     if (this.authorized) {
       try {
         var params = {}
-        params.tid = this.tid
+        params.tid = this.$route.params.tid
         this.team = await AuthorService.getTeam(params)
         this.users = await AuthorService.getMembers(params)
       } catch (error) {

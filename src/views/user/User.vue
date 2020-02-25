@@ -24,9 +24,7 @@
           @mousedown="$v.member.firstname.$touch()"
         />
         <template v-if="$v.member.firstname.$error">
-          <p v-if="!$v.member.firstname.required" class="errorMessage">
-            First Name is required
-          </p>
+          <p v-if="!$v.member.firstname.required" class="errorMessage">First Name is required</p>
         </template>
 
         <BaseInput
@@ -39,9 +37,7 @@
           @mousedown="$v.member.lastname.$touch()"
         />
         <template v-if="$v.member.lastname.$error">
-          <p v-if="!$v.member.lastname.required" class="errorMessage">
-            Last Name is required
-          </p>
+          <p v-if="!$v.member.lastname.required" class="errorMessage">Last Name is required</p>
         </template>
 
         <BaseInput
@@ -54,9 +50,7 @@
           @mousedown="$v.member.username.$touch()"
         />
         <template v-if="$v.member.username.$error">
-          <p v-if="!$v.member.username.required" class="errorMessage">
-            Username is required
-          </p>
+          <p v-if="!$v.member.username.required" class="errorMessage">Username is required</p>
         </template>
 
         <BaseInput
@@ -69,9 +63,7 @@
           @mousedown="$v.member.password.$touch()"
         />
         <template v-if="$v.member.password.$error">
-          <p v-if="!$v.member.password.required" class="errorMessage">
-            Password is required
-          </p>
+          <p v-if="!$v.member.password.required" class="errorMessage">Password is required</p>
         </template>
 
         <br />
@@ -197,7 +189,7 @@ export default {
     if (this.authorized) {
       try {
         var params = {}
-        params.uid = this.$route.params.uid
+        params.uid= this.$route.params.uid
         this.member = await AuthorService.getUser(params)
         this.member.password = null
         if (this.member.image) {

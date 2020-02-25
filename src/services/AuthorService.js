@@ -26,6 +26,18 @@ export default {
   },
 
   ////////////////////////////////////////////////
+  async deleteItem(params) {
+    console.log('entered delete item')
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=deleteItem&action=deleteItem',
+      contentForm
+    )
+    console.log(res)
+    let response = res.data.content
+    return response
+  },
   async deleteUser(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
@@ -51,6 +63,8 @@ export default {
       'AuthorApi.php?page=getGoals&action=getGoals',
       contentForm
     )
+    console.log ('from getGoals')
+    console.log (res)
     let response = res.data.content
     return response
   },
@@ -75,6 +89,8 @@ export default {
     return response
   },
   async getTeam(params) {
+    console.log ('get team parameters')
+    console.log (params)
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getTeam&action=getTeam',
@@ -106,13 +122,11 @@ export default {
     return response
   },
   async login(params) {
-    console.log('in login at AuthorService')
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
       'AuthorApi.php?action=login',
       contentForm
     )
-    console.log('about to leave login at AuthorService')
     return response
   },
   async updateGoals(params) {
@@ -128,10 +142,7 @@ export default {
     return response
   },
   async updateItem(params) {
-    console.log('in updateItem at AuthorService')
-    console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
-    console.log(contentForm)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=updateItem&action=updateItem',
       contentForm
