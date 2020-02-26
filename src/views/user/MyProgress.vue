@@ -8,33 +8,26 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>When do you want to throw a party?</h2>
-      <p>Pick two or more of these and enter a goal.</p>
+      <h2>What has God enabled you to do?</h2>
       <form @submit.prevent="saveForm">
-        <table class="goals">
-          <tr>
-            <th>Icon</th>
-            <th>Item</th>
-            <th>Goal</th>
-          </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
-            <td class="icon">
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+            <div class="icon">
               <img
                 v-bind:src="
                   appDir.icons + item.celebration_set + '/' + item.image
                 "
                 class="icon"
               />
-            </td>
-            <td
+            </div>
+            <div
               :id="item.id + 'R'"
               class="item"
               @click="showDefinition(item)"
               v-bind:class="{ selected: evaluateSelect(item.number) }"
-            >
+            
               {{ item.name }}
               <span :id="item.id" class="definition"></span>
-            </td>
+            </div>
             <td :id="item.id + 'R'" class="goal">
               <input class="goal" type="text" v-model="item.number" />
             </td>
@@ -45,7 +38,6 @@
 
         <button class="button green" @click="saveForm">Update</button>
       </form>
-      <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
   </div>
 </template>
@@ -60,7 +52,8 @@ export default {
   components: {
     NavBar
   },
-  props: ['uid', 'tid'],
+
+  props: ['uid', 'tid', 'year', 'month', 'page'],
   computed: mapState(['user', 'appDir']),
   mixins: [authorMixin],
   data() {
@@ -101,68 +94,24 @@ export default {
       }
       return false
     },
-    async addItem() {
-      await this.saveForm()
-      this.$router.push({
-        name: 'myItem',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
-        }
-      })
-    },
-    async updateItem(id) {
-      await this.saveForm()
-      this.$router.push({
-        name: 'myItem',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid,
-          id: id
-        }
-      })
-    },
+
     async saveForm() {
-      try {
-        var params = {}
-        var plan = []
-        var now = {}
-        var clean = 0
-        var l = this.items.length
-        for (var i = 0; i < l; i++) {
-          now.id = this.items[i]['id']
-          now.number = 0
-          clean = parseInt(this.items[i]['number'], 10)
-          if (typeof clean == 'number') {
-            now.number = clean
-          }
-          plan.push(now)
-          now = {}
-        }
-        params['goals'] = JSON.stringify(plan)
-        params['uid'] = this.user.uid
-        params['tid'] = this.user.team
-        params['year'] = new Date().getFullYear()
-        var res = await AuthorService.updateGoals(params)
-      } catch (error) {
-        console.log('There was an error in saveForm ', error) //
-      }
+      
     },
-    async addGoal() {
-      console.log('add Goal')
-    }
+   
   },
   async created() {
     this.authorized = this.authorize('write', this.uid)
     if (this.authorized) {
       try {
-        var params = []
-        var route = {}
-        route.uid = this.$route.params.uid
-        route.tid = this.user.team
-        route.year = new Date().getFullYear()
-        params['route'] = JSON.stringify(route)
+        var params = {}
+        params['route'] = JSON.stringify(this.$route.params)
+        var picture =  await AuthorService.getImagePage(params)
+        console.log (picture)
+        var progress =  await AuthorService.getProgress(params)
+        console.log (progress)
         this.items = await AuthorService.getGoals(params)
+          console.log (this.items)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

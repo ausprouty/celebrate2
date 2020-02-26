@@ -77,6 +77,24 @@ export default {
     let response = res.data.content
     return response
   },
+  async getImagePage(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getImagePage&action=getImagePage',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async getProgress(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getProgress&action=getProgress',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   async getStandardItems(params) {
     var contentForm = this.toAuthorizedFormData(params)

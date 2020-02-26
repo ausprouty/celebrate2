@@ -65,7 +65,7 @@ import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   computed: mapState(['user']),
-  props: ['uid', 'id'],
+  props: ['uid', 'tid', 'id'],
   components: {
     NavBar
   },
@@ -133,7 +133,8 @@ export default {
       this.$router.push({
         name: 'myGoals',
         params: {
-          uid: this.$route.params.uid
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid
         }
       })
     }
