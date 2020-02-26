@@ -7,37 +7,72 @@
         now.
       </p>
     </div>
-    <div v-if="this.authorized">
+    <div v-if="this.authorized" class="white">
       <h2>What has God enabled you to do?</h2>
-      <form @submit.prevent="saveForm">
+      <div class="heading">
+        <div class="picture">
+          <img
+            v-bind:src="
+              appDir.page_images + this.$route.params.page + '/' + this.picture
+            "
+            class="picture"
+          />
+        </div>
+        <div class="objective">
+          <p class="objective">{{ this.objective }}</p>
+          <ul class="motto">
+            <li class="motto">Connect to Jesus today.</li>
+            <li class="motto">Impact the nation tomorrow.</li>
+            <li class="motto">Change the world for eternity</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <form @submit.prevent="saveForm">
           <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
-            <div class="icon">
-              <img
-                v-bind:src="
-                  appDir.icons + item.celebration_set + '/' + item.image
-                "
-                class="icon"
+            <div>
+              <div class="icon">
+                <img
+                  v-bind:src="
+                    appDir.icons + item.celebration_set + '/' + item.image
+                  "
+                  class="icon"
+                />
+              </div>
+              <div
+                :id="item.id + 'R'"
+                class="item"
+                @click="showDefinition(item)"
+                v-bind:class="{ selected: evaluateSelect(item.number) }"
+              >
+                {{ item.name }}
+                <span :id="item.id" class="definition"></span>
+              </div>
+            </div>
+            <BaseInput label="Number" v-model="item.entry" type="text" class="field" />
+            <div v-if="item.details">
+              <BaseTextarea
+                v-bind:label="item.details"
+                v-model="item.comment"
+                type="text"
+                class="field paragraph"
               />
             </div>
-            <div
-              :id="item.id + 'R'"
-              class="item"
-              @click="showDefinition(item)"
-              v-bind:class="{ selected: evaluateSelect(item.number) }"
-            
-              {{ item.name }}
-              <span :id="item.id" class="definition"></span>
-            </div>
-            <td :id="item.id + 'R'" class="goal">
-              <input class="goal" type="text" v-model="item.number" />
-            </td>
-          </tr>
-        </table>
-
-        <br />
-
-        <button class="button green" @click="saveForm">Update</button>
-      </form>
+            <BaseTextarea
+              label="Praise or Prayer Request"
+              type="text"
+              v-model="item.prayer"
+              class="field paragraph"
+            />
+          </div>
+        </form>
+        <div v-if="this.$route.params.page > 0" class="left">
+          <button class="button green left" @click="previousForm"><</button>
+        </div>
+        <div v-if="this.$route.params.page < 5" class="right">
+          <button class="button green right" @click="nextForm">></button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,11 +94,17 @@ export default {
   data() {
     return {
       items: [],
-      highlight: true
+      progress: [],
+      entry_number: [],
+      entry_text: [],
+      entry_prayer: [],
+      highlight: true,
+      picture: null,
+      objective: null
     }
   },
   validations: {
-    items: {
+    item: {
       numbers: { integer }
     }
   },
@@ -94,58 +135,96 @@ export default {
       }
       return false
     },
+    async previousForm() {
+      var prev = parseInt(this.$route.params.page, 10) - 1
+      this.$route.params.page = prev
+      this.loadForm()
+    },
+    async nextForm() {
+      this.saveForm()
+      var next = parseInt(this.$route.params.page, 10) + 1
+      this.$route.params.page = next
+      this.loadForm()
+    },
 
     async saveForm() {
-      
+      var params = {}
+      params['route'] = JSON.stringify(this.$route.params)
+      params['items'] = JSON.stringify(this.items)
+      await AuthorService.updateProgressPageEntry(params)
+      console.log('finished save')
     },
-   
-  },
-  async created() {
-    this.authorized = this.authorize('write', this.uid)
-    if (this.authorized) {
-      try {
-        var params = {}
-        params['route'] = JSON.stringify(this.$route.params)
-        var picture =  await AuthorService.getImagePage(params)
-        console.log (picture)
-        var progress =  await AuthorService.getProgress(params)
-        console.log (progress)
-        this.items = await AuthorService.getGoals(params)
-          console.log (this.items)
-      } catch (error) {
-        console.log('There was an error in Team.vue:', error) // Logs out the error
+    async loadForm() {
+      this.authorized = this.authorize('write', this.uid)
+      if (this.authorized) {
+        try {
+          var params = {}
+          params['route'] = JSON.stringify(this.$route.params)
+          this.picture = await AuthorService.getImagePage(params)
+          this.items = await AuthorService.getProgressPageEntry(params)
+          this.objective = this.items[0]['objective']
+          console.log(this.items)
+        } catch (error) {
+          console.log('There was an error in MyProgress.vue:', error) // Logs out the error
+        }
       }
     }
+  },
+  async created() {
+    this.loadForm()
   }
 }
 </script>
 
 <style scoped>
-table.goals {
-  width: 100%;
-  border-collapse: collapse;
+.white {
   background-color: white;
 }
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+img.picture {
+  width: 100%;
+}
+div.icon {
+  display: inline;
+}
+img.icon {
+  width: 48px;
+  margin-top: 20px;
+}
+div.item {
+  display: inline;
+}
+div.left {
+  display: inline;
+}
+div.right {
+  float: right;
+}
+div.picture {
+  float: left;
+  width: 50%;
+}
+div.objective {
+  float: left;
+  width: 50%;
 }
 
-tr:hover {
-  background-color: #ddd;
+p.objective {
+  padding-left: 10px;
+  color: black;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: -5px;
+  margin-bottom: 0px;
 }
-td,
-th {
-  border: 1px solid #ddd;
-  padding: 8px;
+ul.motto {
+  margin-top: 0px;
+  padding-inline-start: 20px;
 }
-
-th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: center;
-  background-color: #4caf50;
-  color: white;
+li.motto {
+  color: green;
+  padding-left: 0px;
+  font-size: 12px;
+  font-style: italic;
 }
 .goal {
   color: green;

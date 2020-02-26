@@ -68,6 +68,17 @@ export default {
     let response = res.data.content
     return response
   },
+  async getGoalsPage(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getGoalsPage&action=getGoalsPage',
+      contentForm
+    )
+    console.log ('from getGoals')
+    console.log (res)
+    let response = res.data.content
+    return response
+  },
   async getItem(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -90,6 +101,25 @@ export default {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getProgress&action=getProgress',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async getProgressPage(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getProgressPage&action=getProgressPage',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+ 
+  async  getProgressPageEntry(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getProgressPageEntry&action=getProgressPageEntry',
       contentForm
     )
     let response = res.data.content
@@ -124,8 +154,6 @@ export default {
       'AuthorApi.php?page=getUser&action=getUser',
       contentForm
     )
-    console.log('response from  getUsers')
-    console.log(res)
     let response = res.data.content
     console.log(response)
     return response
@@ -166,6 +194,18 @@ export default {
       contentForm
     )
     let response = res.data.content
+    return response
+  },
+  async  updateProgressPageEntry(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateProgressPageEntry&action=updateProgressPageEntry',
+      contentForm
+    )
+    var response = null
+    //if (typeof res.data.content != undefined ){
+    //  response = res.data.content
+   // }
     return response
   },
 

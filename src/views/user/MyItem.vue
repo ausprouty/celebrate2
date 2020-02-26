@@ -50,9 +50,8 @@
             class="field"
           />
         </div>
-       
       </form>
-       <button class="button green" @click="saveForm">Update</button>
+      <button class="button green" @click="saveForm">Update</button>
       <button class="button red" @click="deleteForm">Delete</button>
     </div>
   </div>

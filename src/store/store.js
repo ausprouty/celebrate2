@@ -16,8 +16,9 @@ export default new Vuex.Store({
       css: '/content/',
       styles: '/styles/',
       icons: '/images/icons/',
-      root: '/images/',
-      members: '/images/members/'
+      images: '/images/',
+      members: '/images/members/',
+      page_images: '/images/pages/',
     },
     revision: '0.1',
     baseURL: './',
