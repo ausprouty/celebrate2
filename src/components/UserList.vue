@@ -41,12 +41,14 @@ export default {
 }
 </script>
 <style scoped>
-<style scoped > div.break {
+<style scoped > 
+
+div.break {
   display: inline;
 }
 
 .shadow-card {
-  background-color: #efefef;
+  background-color: #d2bcbc;
   cursor: pointer;
   margin-bottom: 10px;
   padding: 5px;
@@ -65,8 +67,5 @@ div.card-names {
   font-weight: bold;
   line-height: 20px;
 }
-.card-name-english {
-  font-weight: normal;
-  line-height: 20px;
-}
+
 </style>

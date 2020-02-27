@@ -97,6 +97,7 @@ export default {
     let response = res.data.content
     return response
   },
+
   async getProgress(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(

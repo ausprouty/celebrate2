@@ -7,7 +7,7 @@
         now
       </p>
     </div>
-    <div v-if="this.authorized">
+    <div v-if="this.authorized" class="white">
       <h1>{{ this.team.name }}</h1>
       <UserList v-for="user in users" :key="user.uid" :user="user" />
     </div>
@@ -23,7 +23,8 @@ import NavBar from '@/components/NavBarAdmin.vue'
 export default {
   props: ['tid'],
   components: {
-    UserList, NavBar
+    UserList,
+    NavBar
   },
 
   mixins: [authorMixin],
@@ -62,3 +63,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.white {
+  background-color: white;
+}
+</style>

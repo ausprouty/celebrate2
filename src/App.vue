@@ -82,7 +82,6 @@ h3,
 h4,
 h5,
 h6 {
-  display: flex;
   align-items: center;
   font-family: 'Montserrat', sans-serif;
 }
@@ -266,7 +265,7 @@ textarea {
 textarea {
   width: 100%;
   overflow: auto;
-  font-size: 20px;
+  font-size: 12px;
 }
 [type='checkbox'],
 [type='radio'] {
@@ -291,7 +290,13 @@ textarea {
   height: 36px;
   width: 100%;
   padding: 0 10px;
-  font-size: 20px;
+}
+[type='number']{
+  width: 80%;
+  margin-left: 10px;
+}
+[type='textarea'] {
+  height: 72px;
 }
 
 [type='text']:focus,
@@ -389,42 +394,4 @@ p.version {
   color: var(--color-version);
   font-size: 10pt;
 }
-
-div.lesson {
-  margin-bottom: 30px;
-  margin-top: 30px;
-  position: relative;
-  text-align: left;
-}
-div.lesson-lookback {
-  font-size: 24px;
-  line-height: 24px;
-  margin-left: 30px;
-  position: absolute;
-  color: var(--color-back);
-  display: inline;
-  text-align: left;
-}
-div.lesson-lookup {
-  font-size: 24px;
-  line-height: 24px;
-  margin-left: 30px;
-  position: absolute;
-  color: var(--color-up);
-  display: inline;
-  text-align: left;
-}
-div.lesson-lookforward {
-  font-size: 24px;
-  line-height: 24px;
-  margin-left: 30px;
-  position: absolute;
-  color: var(--color-forward);
-  display: inline;
-  text-align: left;
-}
-.notpublished {
-  background-color: yellow;
-}
-
 </style>

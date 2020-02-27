@@ -18,7 +18,7 @@ export default new Vuex.Store({
       icons: '/images/icons/',
       images: '/images/',
       members: '/images/members/',
-      page_images: '/images/pages/',
+      page_images: '/images/pages/'
     },
     revision: '0.1',
     baseURL: './',
@@ -29,6 +29,21 @@ export default new Vuex.Store({
       rldir: 'ltr',
       css: ''
     },
+    months: [
+      '',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ],
     content: {}
   },
   mutations: {
