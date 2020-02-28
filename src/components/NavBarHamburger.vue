@@ -3,36 +3,22 @@
     <div v-if="!authorized">
       <div id="nav">
         <router-link to="/">
-          <img
-            class="nav-icon"
-            alt="Home"
-            src="/images/menu/ribbons/TopRibbon600.png"
-          />
+          <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
         </router-link>
       </div>
     </div>
     <div v-if="authorized">
       <div v-on:click="toggleMenu()">
-        <img
-          class="nav-icon"
-          alt="Home"
-          src="/images/menu/ribbons/TopRibbon600.png"
-        />
+        <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
       </div>
       <div v-if="showMenu">
-        <div
-          v-for="menuItem in this.menu"
-          :key="menuItem.link"
-          :menuItem="menuItem"
-        >
-          <div class="menu-card -shadow" v-if="menuItem.show">
+        <div v-for="menuItem in menu" :key="menuItem.index" :menuItem="menuItem">
+          <div class="menu-card -shadow">
             <div
               class="float-left"
               style="cursor:pointer"
-              @click="setNewSelectedOption(menuItem.link)"
-            >
-              {{ menuItem.value }}
-            </div>
+              @click="setNewSelectedOption(menuItem)"
+            >{{ menuItem.value }}</div>
           </div>
         </div>
       </div>
@@ -44,50 +30,67 @@
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
-  computed: mapState(['bookmark']),
+  computed: mapState(['user']),
   mixins: [authorMixin],
-  created() {
-    this.authorized = this.authorize('read', this.$route.params.country_code)
-  },
   data() {
     return {
-      authorized: false,
+      authorized: true,
       showMenu: false,
       menu: [
         {
-          value: 'Edit this page',
-          link: 'page',
           index: 0,
-          show: true
+          value: 'Today',
+          show: true,
+          link: 'myToday'
         },
         {
-          value: 'Preview Latest Countries',
-          link: 'countries',
           index: 1,
-          show: true
+          value: "Let's Pray",
+          show: true,
+          link: 'myPrayer'
         },
         {
-          value: 'Preview Latest Languages',
-          link: 'languages',
           index: 2,
-          show: false
+          value: 'My Progress',
+          show: false,
+          link: 'myProgress'
         },
         {
-          value: 'Edit Latest Library',
-          link: 'library',
           index: 3,
-          show: false
+          value: 'My Goals',
+          show: true,
+          link: 'myGoals'
+        },
+        {
+          index: 4,
+          value: 'Our Team',
+          show: true,
+          link: 'ourTeam'
+        },
+        {
+          index: 5,
+          value: 'My Profile',
+          show: true,
+          link: 'myProfile'
+        },
+        {
+          index: 6,
+          value: 'Logout',
+          show: false,
+          link: 'logout'
         }
       ]
     }
   },
-
   methods: {
     goBack() {
       window.history.back()
     },
     toggleMenu() {
       console.log('tried to toggle this')
+      console.log(this.menu)
+      console.log('did you see menu?')
+
       if (this.showMenu) {
         this.showMenu = false
         console.log('toggle off')
@@ -98,42 +101,17 @@ export default {
     },
     setNewSelectedOption(selectedOption) {
       this.showMenu = false
-      switch (selectedOption) {
-        case 'page':
-          console.log('this route')
-          console.log(this.$route)
-          this.$router.push({
-            path: '/edit/' + this.$route.path
-          })
-          break
-        case 'countries':
-          this.$router.push({
-            name: 'previewCountries'
-          })
-          break
-        case 'languages':
-          this.$router.push({
-            name: 'previewLanguages',
-            params: {
-              country_code: this.bookmark.country.code
-            }
-          })
-          break
-        case 'library':
-          this.$router.push({
-            name: 'previewLibrary',
-            params: {
-              country_code: this.bookmark.country.code,
-              language_iso: this.bookmark.language.iso,
-              library_code: 'library'
-            }
-          })
-          break
-        default:
-          console.log('Can not find route in NavBarAdmin')
-        // code block
-      }
+      this.$router.push({
+        name: selectedOption.link,
+        params: {
+          uid: this.user.uid,
+          tid: this.user.team
+        }
+      })
     }
+  },
+  created() {
+    this.authorized = true
   }
 }
 </script>

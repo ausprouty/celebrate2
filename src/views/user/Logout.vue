@@ -78,7 +78,7 @@ export default {
           response.now = date.getTime()
           this.$store.dispatch('loginUser', [response])
           this.$router.push({
-            name: 'myProfile',
+            name: 'user',
             params: {
               uid: response.uid
             }

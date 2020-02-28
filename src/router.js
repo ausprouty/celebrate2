@@ -4,13 +4,17 @@ import Router from 'vue-router'
 import Debug from './views/admin/Debug.vue'
 import Home from './views/Home.vue'
 import Login from './views/user/Login.vue'
+import Logout from './views/user/Logout.vue'
 import MyGoals from './views/user/MyGoals.vue'
 import MyItem from './views/user/MyItem.vue'
+import MyPrayers from './views/user/MyPrayers.vue'
+import MyProfile from './views/user/MyProfile.vue'
 import MyProgress from './views/user/MyProgress.vue'
+import MyToday from './views/user/MyToday.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import Register from './views/team/Register.vue'
-import User from './views/user/User.vue'
-import Team from './views/team/Team.vue'
+
+import OurTeam from './views/team/OurTeam.vue'
 import Validate from './views/Validate.vue'
 
 Vue.use(Router)
@@ -20,8 +24,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'login',
+      component: Login,
+      props: false
     },
     {
       path: '/farm',
@@ -29,21 +34,20 @@ export default new Router({
       component: Register,
       props: true
     },
-
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/logout',
+      name: 'logout',
+      component: Logout,
       props: false
     },
     {
       path: '/user/:uid',
-      name: 'user',
-      component: User,
+      name: 'myProfile',
+      component:MyProfile,
       props: true
     },
     {
-      path: '/user/:uid/:tid/goals',
+      path: '/user/goals/:uid/:tid/:year?',
       name: 'myGoals',
       component: MyGoals,
       props: true
@@ -55,18 +59,30 @@ export default new Router({
       props: true
     },
     {
-      path: '/user/:uid/:tid/progress/:year/:month/:page?',
+      path: '/user/progress/:uid/:tid/:year?/:month?/:page?',
       name: 'myProgress',
       component: MyProgress,
       props: true
     },
     {
-      path: '/team/:tid',
-      name: 'team',
-      component: Team,
+      path: '/user/prayers/:uid/:tid/:year?/:month?',
+      name: 'myPrayers',
+      component: MyPrayers,
       props: true
     },
-  
+    {
+      path: '/user/today/:uid/:tid/',
+      name: 'myToday',
+      component: MyToday,
+      props: true
+    },
+    {
+      path: '/team/:tid',
+      name: 'team',
+      component: OurTeam,
+      props: true
+    },
+
     {
       path: '/debug/',
       name: 'debug',

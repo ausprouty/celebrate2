@@ -78,7 +78,7 @@
 <script>
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/NavBarAdmin.vue'
+import NavBar from '@/components/NavBarHamburger.vue'
 import vSelect from 'vue-select'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 

@@ -8,9 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="this.member_image">
-        <img v-bind:src="this.member_image" class="member" />
-      </div>
       <h2>When do you want to throw a party?</h2>
       <p>Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
@@ -69,7 +66,6 @@ export default {
   data() {
     return {
       items: [],
-      member_image: null,
       highlight: true
     }
   },
@@ -162,9 +158,6 @@ export default {
       try {
         var params = []
         var route = {}
-        if (this.user.image) {
-          this.member_image = '/images/members/' + this.user.image
-        }
         route.uid = this.$route.params.uid
         route.tid = this.user.team
         route.year = new Date().getFullYear()
