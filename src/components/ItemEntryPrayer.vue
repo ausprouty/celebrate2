@@ -1,7 +1,7 @@
 <template>
-  <div v-if="item.previous_comment">
-    <p>Last month:</p>
-    <p class="prayer">{{ item.previous_comment }}</p>
+  <div v-if="item.previous_prayer">
+    <p>Last month</p>
+    <p class="prayer">{{ item.previous_prayer }}</p>
   </div>
 </template>
 

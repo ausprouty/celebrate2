@@ -37,7 +37,7 @@
           </tr>
         </table>
 
-        <h2>What has the Holy Spirit empowered people to do or become?</h2>
+        <h2>What has the Holy Spirit transformed?</h2>
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
@@ -47,8 +47,8 @@
                 class="shadow-card -shadow"
                 v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
               >
-                <div class="container"  @click="showDefinition(item)">
-                  <div class="icon" >
+                <div class="container" @click="showDefinition(item)">
+                  <div class="icon">
                     <img
                       v-bind:src="
                         appDir.icons + item.celebration_set + '/' + item.image
@@ -59,11 +59,10 @@
                   <div
                     :id="item.id + 'R'"
                     class="item_name"
-                   
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
                   >{{ item.name }}</div>
                   <div :id="item.id" class="collapsed">
-                    <ItemEntryDetails :item="item"></ItemEntryDetails>
+                    <ItemEntryProgress :item="item"></ItemEntryProgress>
                   </div>
                 </div>
                 <hr />
@@ -73,17 +72,25 @@
                 <div v-if="item.details">
                   <BaseTextarea
                     v-bind:label="item.details"
+                    @click="showDetails(item)"
                     v-model="item.comment"
                     type="textarea"
                     class="field paragraph"
                   />
+                  <div :id="item.id + 'Details'" class="collapsed">
+                    <ItemEntryDetails :item="item"></ItemEntryDetails>
+                  </div>
                 </div>
                 <BaseTextarea
                   label="Praise or Prayer Request"
                   type="textarea"
+                   @click="showPrayer(item)"
                   v-model="item.prayer"
                   class="field paragraph"
                 />
+                <div :id="item.id + 'Prayer'" class="collapsed">
+                  <ItemEntryPrayer :item="item"></ItemEntryPrayer>
+                </div>
               </div>
             </div>
           </div>
@@ -102,14 +109,18 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
+import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
 import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
+import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    ItemEntryDetails
+    ItemEntryProgress,
+    ItemEntryDetails,
+    ItemEntryPrayer
   },
 
   props: ['uid', 'tid', 'year', 'month', 'page'],
@@ -141,6 +152,25 @@ export default {
         content.style.display = 'block'
       }
     },
+    showDetails(item) {
+      console.log('hit Show Details button')
+      var content = document.getElementById(item.id + 'Details')
+      if (content.style.display === 'block') {
+        content.style.display = 'none'
+      } else {
+        content.style.display = 'block'
+      }
+    },
+    showPrayer(item) {
+      console.log('hit Show Prayerbutton')
+      var content = document.getElementById(item.id + 'Prayer')
+      if (content.style.display === 'block') {
+        content.style.display = 'none'
+      } else {
+        content.style.display = 'block'
+      }
+    },
+
     evaluateSelect(quantity) {
       if (quantity > 0) {
         return true
@@ -275,7 +305,6 @@ div.right {
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
-
 }
 
 td.item {
@@ -285,7 +314,6 @@ td.item {
   color: black;
   font-weight: bold;
 }
-
 
 td.goals {
   width: 20%;
