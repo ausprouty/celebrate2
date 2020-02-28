@@ -8,18 +8,21 @@
       </div>
     </div>
     <div v-if="authorized">
-      <div v-on:click="toggleMenu()">
-        <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
-      </div>
-      <div v-if="showMenu">
-        <div v-for="menuItem in this.menu" :key="menuItem.index" :menuItem="menuItem">
-          <div class="menu-card -shadow" v-if="menuItem.show">
-            <div
-              class="float-left"
-              style="cursor:pointer"
-              @click="setNewSelectedOption(menuItem)"
-            >{{ menuItem.value }}</div>
-          </div>
+      <div class="dropdown">
+        <div class="dropbtn">
+          <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
+        </div>
+        <div
+          class="dropdown-content"
+          v-for="menuItem in menu"
+          :key="menuItem.index"
+          :menuItem="menuItem"
+        >
+          <div
+            class="float-left"
+            style="cursor:pointer"
+            @click="setNewSelectedOption(menuItem)"
+          >{{ menuItem.value }}</div>
         </div>
       </div>
     </div>
@@ -28,115 +31,129 @@
 
 <script>
 import { mapState } from 'vuex'
-import { authorMixin } from '@/mixins/AuthorMixin.js'
+
 export default {
   computed: mapState(['user']),
-  mixins: [authorMixin],
-  created() {
-    this.authorized = this.authorize('read', this.$route.params.country_code)
-  },
+ 
   data() {
     return {
-      authorized: false,
+      authorized: true,
       showMenu: false,
       menu: [
         {
           index: 0,
           value: 'Today',
           show: true,
-          link: 'myToday',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'myToday'
         },
         {
           index: 1,
           value: "Let's Pray",
           show: true,
-          link: 'myPrayer',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'myPrayer'
         },
         {
           index: 2,
           value: 'My Progress',
           show: false,
-          link: 'myProgress',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'myProgress'
         },
         {
           index: 3,
           value: 'My Goals',
           show: true,
-          link: 'myGoals',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'myGoals'
         },
         {
           index: 4,
           value: 'Our Team',
           show: true,
-          link: 'ourTeam',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'ourTeam'
         },
         {
           index: 5,
           value: 'My Profile',
           show: true,
-          link: 'myProfile',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'myProfile'
         },
         {
           index: 6,
           value: 'Logout',
           show: false,
-          link: 'logout',
-          params: {
-            uid: this.user.uid,
-            tid: this.user.tid
-          }
+          link: 'logout'
         }
       ]
     }
   },
-
   methods: {
     goBack() {
       window.history.back()
     },
-    toggleMenu() {
-      console.log('tried to toggle this')
-      if (this.showMenu) {
-        this.showMenu = false
-        console.log('toggle off')
-      } else {
-        console.log('toggle on')
-        this.showMenu = true
-      }
-    },
     setNewSelectedOption(selectedOption) {
       this.showMenu = false
       this.$router.push({
-        name: selectedOption.name,
-        params: selectedOption.params
+        name: selectedOption.link,
+        params: {
+          uid: this.user.uid,
+          tid: this.user.team
+        }
       })
     }
+  },
+  created() {
+    this.authorized = true
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+/*//https://www.w3schools.com/howto/howto_css_dropdown.asp*/
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+</style>

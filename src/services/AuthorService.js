@@ -151,17 +151,23 @@ export default {
   },
 
   async getUser(params) {
+    console.log (params)
     var contentForm = this.toAuthorizedFormData(params)
+   
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getUser&action=getUser',
       contentForm
     )
+   // alert('hi bob') error may be in data
+  
     let response = res.data.content
+ 
     console.log(response)
     return response
   },
   async getUsers(params) {
     var contentForm = this.toAuthorizedFormData(params)
+   
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getUsers&action=getUsers',
       contentForm
@@ -214,8 +220,13 @@ export default {
   },
 
   toAuthorizedFormData(params) {
+   
     params.my_uid = store.state.user.uid
+    
     params.token = store.state.user.token
+    console.log (params.token)
+  
+
     var form_data = new FormData()
     for (var key in params) {
       form_data.append(key, params[key])
@@ -225,6 +236,7 @@ export default {
     //  console.log(pair[0] + ', ' + pair[1])
     //}
     // console.log(form_data)
+
     return form_data
   },
   async updateUser(params) {

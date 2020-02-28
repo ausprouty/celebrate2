@@ -76,6 +76,8 @@ export default {
           response.expires = res.data.content.expires * 1000
           var date = new Date()
           response.now = date.getTime()
+          console.log ('response')
+          console.log (response)
           this.$store.dispatch('loginUser', [response])
           this.$router.push({
             name: 'myProfile',
@@ -85,6 +87,7 @@ export default {
           })
         } else {
           this.wrong = true
+            console.log ('wrong')
         }
       } catch (error) {
         console.log('Login There was an error ', error) //

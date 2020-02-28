@@ -79,15 +79,14 @@
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarHamburger.vue'
-import vSelect from 'vue-select'
+
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 import { required } from 'vuelidate/lib/validators'
 
 export default {
   components: {
-    NavBar,
-    'v-select': vSelect
+    NavBar
   },
   props: ['uid'],
   mixins: [authorMixin],
@@ -185,12 +184,17 @@ export default {
     }
   },
   async created() {
-    this.authorized = this.authorize('register', 'global')
+    //this.authorized = this.authorize('register', 'global')
+    this.authorized = true
     if (this.authorized) {
       try {
         var params = {}
-        params.uid= this.$route.params.uid
+        params.uid = this.$route.params.uid
+        
         this.member = await AuthorService.getUser(params)
+       
+        console.log ('this.member')
+        console.log (this.member)
         this.member.password = null
         if (this.member.image) {
           this.member_image = '/images/members/' + this.member.image

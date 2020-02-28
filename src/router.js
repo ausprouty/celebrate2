@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Debug from './views/admin/Debug.vue'
-import Home from './views/Home.vue'
+
 import Login from './views/user/Login.vue'
 import Logout from './views/user/Logout.vue'
 import MyGoals from './views/user/MyGoals.vue'
@@ -13,6 +13,7 @@ import MyProgress from './views/user/MyProgress.vue'
 import MyToday from './views/user/MyToday.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import Register from './views/team/Register.vue'
+import NavBarHamburger from './components/NavBarHamburger.vue'
 
 import OurTeam from './views/team/OurTeam.vue'
 import Validate from './views/Validate.vue'
@@ -26,6 +27,12 @@ export default new Router({
       path: '/',
       name: 'login',
       component: Login,
+      props: false
+    },
+    {
+      path: '/debug',
+      name: 'debugger',
+      component: NavBarHamburger,
       props: false
     },
     {
@@ -43,7 +50,7 @@ export default new Router({
     {
       path: '/user/:uid',
       name: 'myProfile',
-      component:MyProfile,
+      component: MyProfile,
       props: true
     },
     {
@@ -78,7 +85,7 @@ export default new Router({
     },
     {
       path: '/team/:tid',
-      name: 'team',
+      name: 'ourTeam',
       component: OurTeam,
       props: true
     },

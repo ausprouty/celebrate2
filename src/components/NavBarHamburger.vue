@@ -8,14 +8,12 @@
       </div>
     </div>
     <div v-if="authorized">
-      <div v-on:click="toggleMenu()">
+      <div class="dropdown">
         <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
-      </div>
-      <div v-if="showMenu">
-        <div v-for="menuItem in menu" :key="menuItem.index" :menuItem="menuItem">
-          <div class="menu-card -shadow">
+        <div class="dropdown-content">
+          <div v-for="menuItem in menu" :key="menuItem.index" :menuItem="menuItem">
             <div
-              class="float-left"
+              class="item"
               style="cursor:pointer"
               @click="setNewSelectedOption(menuItem)"
             >{{ menuItem.value }}</div>
@@ -28,14 +26,13 @@
 
 <script>
 import { mapState } from 'vuex'
-import { authorMixin } from '@/mixins/AuthorMixin.js'
+
 export default {
   computed: mapState(['user']),
-  mixins: [authorMixin],
+
   data() {
     return {
       authorized: true,
-      showMenu: false,
       menu: [
         {
           index: 0,
@@ -86,19 +83,6 @@ export default {
     goBack() {
       window.history.back()
     },
-    toggleMenu() {
-      console.log('tried to toggle this')
-      console.log(this.menu)
-      console.log('did you see menu?')
-
-      if (this.showMenu) {
-        this.showMenu = false
-        console.log('toggle off')
-      } else {
-        console.log('toggle on')
-        this.showMenu = true
-      }
-    },
     setNewSelectedOption(selectedOption) {
       this.showMenu = false
       this.$router.push({
@@ -116,4 +100,61 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+/*//https://www.w3schools.com/howto/howto_css_dropdown.asp*/
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: red;
+
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  color:white;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content .item:hover {
+  background-color: green;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+</style>
