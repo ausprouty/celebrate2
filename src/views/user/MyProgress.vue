@@ -29,9 +29,9 @@
             <td class="objective">
               <p class="objective">{{ this.objective }}</p>
               <ul class="motto">
-                <li class="motto">Connect with Jesus today.</li>
-                <li class="motto">Impact the nation tomorrow.</li>
-                <li class="motto">Change the world for eternity</li>
+                <li class="motto">Encounter Jesus today.</li>
+                <li class="motto">Impact Australia tomorrow.</li>
+                <li class="motto">Reach the nations for eternity.</li>
               </ul>
             </td>
           </tr>
@@ -47,8 +47,8 @@
                 class="shadow-card -shadow"
                 v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
               >
-                <div class="container">
-                  <div class="icon">
+                <div class="container"  @click="showDefinition(item)">
+                  <div class="icon" >
                     <img
                       v-bind:src="
                         appDir.icons + item.celebration_set + '/' + item.image
@@ -59,11 +59,11 @@
                   <div
                     :id="item.id + 'R'"
                     class="item_name"
-                    @click="showDefinition(item)"
+                   
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >
-                    {{ item.name }}
-                    <span :id="item.id" class="definition"></span>
+                  >{{ item.name }}</div>
+                  <div :id="item.id" class="collapsed">
+                    <ItemEntryDetails :item="item"></ItemEntryDetails>
                   </div>
                 </div>
                 <hr />
@@ -102,12 +102,14 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBarAdmin.vue'
+import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    ItemEntryDetails
   },
 
   props: ['uid', 'tid', 'year', 'month', 'page'],
@@ -118,7 +120,7 @@ export default {
       items: [],
       progress: [],
       highlight: true,
-      picture: null,
+      picture: 'IMG_6282.JPG',
       objective: null,
       time: null
     }
@@ -129,49 +131,14 @@ export default {
     }
   },
   methods: {
+    // see https://www.w3schools.com/howto/howto_js_collapsible.asp
     showDefinition(item) {
-      var present = document.getElementById(item.id).innerHTML
-
-      if (present == '') {
-        var message = '<br>' + item.paraphrase + '<br>'
-        if (item.uid == this.$route.params.uid) {
-          var link =
-            '<br> <a href= "/user/' +
-            this.$route.params.uid +
-            '/item/' +
-            item.id +
-            '"> Update Item </a><br>'
-          var table_start = '<table class = "progress_table">'
-          var past =
-            '<tr> <td class="row_label"> Last month</td><td class="row_value">' +
-            item.previous_entry +
-            '</td></tr>'
-          var calculated = null
-          if (item.cumulative == 'Y') {
-            calculated =
-              '<tr> <td class="row_label">Total for year</td><td class="row_value">' +
-              item.calculated_entry +
-              '</td></tr>'
-          } else {
-            calculated =
-              '<tr> <td class="row_label">Average for year </td><td class="row_value">' +
-              item.calculated_entry +
-              '</td></tr>'
-          }
-          var goal = null
-          if (item.goal_numbers) {
-            goal =
-              '<tr> <td class="row_label"> Goal</td><td class="row_value">' +
-              item.goal_numbers +
-              '</td></tr>'
-          }
-          var table_end = '</table>'
-          var complete =
-            message + table_start + past + calculated + goal + table_end + link
-        }
-        document.getElementById(item.id).innerHTML = complete
+      console.log('hit button')
+      var content = document.getElementById(item.id)
+      if (content.style.display === 'block') {
+        content.style.display = 'none'
       } else {
-        document.getElementById(item.id).innerHTML = null
+        content.style.display = 'block'
       }
     },
     evaluateSelect(quantity) {
@@ -303,20 +270,14 @@ div.left {
 div.right {
   float: right;
 }
-.goal {
-  color: green;
-  line-height: 18px;
+.collapsed {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+
 }
-table.progress_table {
-  width: 100%;
-}
-td.row_label {
-  width: 80%;
-}
-td.row_value {
-  width: 20%;
-  text-align: right;
-}
+
 td.item {
   width: 80%;
 }
@@ -324,10 +285,7 @@ td.item {
   color: black;
   font-weight: bold;
 }
-.definition {
-  color: red;
-  font-size: 14px;
-}
+
 
 td.goals {
   width: 20%;

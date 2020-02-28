@@ -90,6 +90,7 @@ export default {
   },
   async getImagePage(params) {
     var contentForm = this.toAuthorizedFormData(params)
+    console.log (params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getImagePage&action=getImagePage',
       contentForm
@@ -169,6 +170,8 @@ export default {
     return response
   },
   async login(params) {
+    console.log ('login')
+    console.log (params)
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
       'AuthorApi.php?action=login',
