@@ -8,10 +8,23 @@
       </p>
     </div>
     <div v-if="this.authorized" class="white">
-      <p>
+      <div style="width:100%">
         <img v-bind:src="appDir.members + this.user.image" class="member" />
-        {{ this.time }}
-      </p>
+      </div>
+      <div>
+        <table class="time">
+          <tr>
+            <td class="left" @click="previousMonth()"> 
+             < Previous Month
+            </td>
+            <td class="center">{{ this.time }}</td>
+            <td class="right" @click="nextMonth()">
+             Next Month >
+            </td>
+          </tr>
+        </table>
+      </div>
+
       <div class="center">
         <table class="heading">
           <tr>
@@ -37,7 +50,7 @@
           </tr>
         </table>
 
-        <h2>What has the Holy Spirit transformed?</h2>
+        <h2>Who has the Holy Spirit transformed?</h2>
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
@@ -84,7 +97,7 @@
                 <BaseTextarea
                   label="Praise or Prayer Request"
                   type="textarea"
-                   @click="showPrayer(item)"
+                  @click="showPrayer(item)"
                   v-model="item.prayer"
                   class="field paragraph"
                 />
@@ -170,7 +183,30 @@ export default {
         content.style.display = 'block'
       }
     },
-
+    nextMonth() {
+      this.saveForm()
+      var next = this.$route.params.month + 1
+      if (next > 12) {
+        this.$route.params.month = 1
+        var year = this.$route.params.year + 1
+        this.$route.params.year = year
+      } else {
+        this.$route.params.month = next
+      }
+      this.loadForm()
+    },
+    previousMonth() {
+      this.saveForm()
+      var prev = this.$route.params.month - 1
+      if (prev < 1) {
+        this.$route.params.month = 12
+        var year = this.$route.params.year - 1
+        this.$route.params.year = year
+      } else {
+        this.$route.params.month = prev
+      }
+      this.loadForm()
+    },
     evaluateSelect(quantity) {
       if (quantity > 0) {
         return true
@@ -201,6 +237,18 @@ export default {
       if (this.authorized) {
         try {
           var params = {}
+          var d = new Date()
+          if (typeof this.$route.params.year == 'undefined') {
+            this.$route.params.year = d.getFullYear()
+          }
+          if (typeof this.$route.params.month == 'undefined') {
+            //this will actually give you the previous month since it starts the array at 0
+            this.$route.params.month = d.getMonth()
+          }
+          if (typeof this.$route.params.page == 'undefined') {
+            this.$route.params.page = 0
+          }
+          console.log(this.$route.params)
           params['route'] = JSON.stringify(this.$route.params)
           this.picture = await AuthorService.getImagePage(params)
           this.items = await AuthorService.getProgressPageEntry(params)
@@ -229,6 +277,48 @@ export default {
 .center {
   text-align: center;
 }
+table.time {
+  display: block;
+  background-color: white;
+  padding: 10px;
+  width: 97%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+tr.time {
+  width: 100%;
+}
+td.left {
+  background-color: purple;
+  color: white;
+  padding-left: 10px;
+  font-size: 10px;
+  text-align: left;
+  width: 20%;
+}
+td.right {
+  width: 20%;
+  color: white;
+  font-size: 10px;
+  text-align: right;
+  background-color: purple;
+  padding-right: 10px;
+}
+a.left,
+a.right {
+  color: white;
+  text-decoration: none;
+}
+td.center {
+  width: 60%;
+  text-align: center;
+  font-weight: 900;
+}
+div.inline {
+  display: inline;
+  text-align: center;
+}
+
 table.heading {
   display: block;
   background-color: rgb(243, 243, 148);

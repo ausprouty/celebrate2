@@ -145,7 +145,7 @@ export default {
 
 /* Change color of dropdown links on hover */
 .dropdown-content .item:hover {
-  background-color: green;
+  background-color:darkblue;
 }
 
 /* Show the dropdown menu on hover */
