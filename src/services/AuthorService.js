@@ -98,7 +98,16 @@ export default {
     let response = res.data.content
     return response
   },
-
+  
+  async getPrayersTeam(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getPrayersTeam&action=getPrayersTeam',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async getProgress(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -153,16 +162,11 @@ export default {
   async getUser(params) {
     console.log (params)
     var contentForm = this.toAuthorizedFormData(params)
-   
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getUser&action=getUser',
       contentForm
     )
-   // alert('hi bob') error may be in data
-  
     let response = res.data.content
- 
-    console.log(response)
     return response
   },
   async getUsers(params) {

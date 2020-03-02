@@ -59,7 +59,7 @@ body {
 #app {
   box-sizing: border-box;
   width: 90%;
-
+  max-width: 600px;
   padding: 0px 0px 0px 0px;
   margin: 0 auto;
 }
@@ -291,7 +291,7 @@ textarea {
   width: 100%;
   padding: 0 10px;
 }
-[type='number']{
+[type='number'] {
   width: 80%;
   margin-left: 10px;
 }

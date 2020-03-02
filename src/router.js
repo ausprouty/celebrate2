@@ -10,6 +10,7 @@ import MyItem from './views/user/MyItem.vue'
 import MyPrayers from './views/user/MyPrayers.vue'
 import MyProfile from './views/user/MyProfile.vue'
 import MyProgress from './views/user/MyProgress.vue'
+import MySettingsToday from './views/user/MySettingsToday.vue'
 import MyToday from './views/user/MyToday.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import Register from './views/team/Register.vue'
@@ -81,6 +82,12 @@ export default new Router({
       path: '/user/today/:uid/:tid/',
       name: 'myToday',
       component: MyToday,
+      props: true
+    },
+    {
+      path: '/user/today/settings/:uid/:tid/',
+      name: 'mySettingsToday',
+      component: MySettingsToday,
       props: true
     },
     {

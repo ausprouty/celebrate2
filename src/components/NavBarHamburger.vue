@@ -44,7 +44,7 @@ export default {
           index: 1,
           value: "Let's Pray",
           show: true,
-          link: 'myPrayer'
+          link: 'myPrayers'
         },
         {
           index: 2,

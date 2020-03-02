@@ -8,10 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized" class="white">
-      <p>
-        <img v-bind:src="appDir.members + this.user.image" class="member" />
-        {{ this.time }}
-      </p>
+     
       <div class="center">
         <table class="heading">
           <tr>
@@ -27,80 +24,21 @@
               />
             </td>
             <td class="objective">
-              <p class="objective">{{ this.objective }}</p>
-              <ul class="motto">
-                <li class="motto">Encounter Jesus today.</li>
-                <li class="motto">Impact Australia tomorrow.</li>
-                <li class="motto">Reach the nations for eternity.</li>
-              </ul>
+              <p class="objective">Prayer</p>
+              <p class="verse">
+                "Ask and it will be given to you; seek and you will find; knock
+                and the door will be opened to you. For everyone who asks
+                receives; the one who seeks finds; and to the one who knocks,
+                the door will be opened."
+              </p>
             </td>
           </tr>
         </table>
 
-        <h2>What has the Holy Spirit transformed?</h2>
+        <h2>What does the Holy Spirit want you to pray today?</h2>
       </div>
       <div class="subheading">
-        <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
-            <div class="app-link">
-              <div
-                class="shadow-card -shadow"
-                v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
-              >
-                <div class="container" @click="showDefinition(item)">
-                  <div class="icon">
-                    <img
-                      v-bind:src="
-                        appDir.icons + item.celebration_set + '/' + item.image
-                      "
-                      class="icon"
-                    />
-                  </div>
-                  <div
-                    :id="item.id + 'R'"
-                    class="item_name"
-                    v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >{{ item.name }}</div>
-                  <div :id="item.id" class="collapsed">
-                    <ItemEntryProgress :item="item"></ItemEntryProgress>
-                  </div>
-                </div>
-                <hr />
-                <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
-                </div>
-                <div v-if="item.details">
-                  <BaseTextarea
-                    v-bind:label="item.details"
-                    @click="showDetails(item)"
-                    v-model="item.comment"
-                    type="textarea"
-                    class="field paragraph"
-                  />
-                  <div :id="item.id + 'Details'" class="collapsed">
-                    <ItemEntryDetails :item="item"></ItemEntryDetails>
-                  </div>
-                </div>
-                <BaseTextarea
-                  label="Praise or Prayer Request"
-                  type="textarea"
-                   @click="showPrayer(item)"
-                  v-model="item.prayer"
-                  class="field paragraph"
-                />
-                <div :id="item.id + 'Prayer'" class="collapsed">
-                  <ItemEntryPrayer :item="item"></ItemEntryPrayer>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-        <div v-if="this.$route.params.page > 0" class="left">
-          <button class="button green left" @click="previousForm"><</button>
-        </div>
-        <div v-if="this.$route.params.page < 5" class="right">
-          <button class="button green right" @click="nextForm">></button>
-        </div>
+        <PrayerList v-for="item in items" :key="item.pid" :item="item" />
       </div>
     </div>
   </div>
@@ -108,19 +46,16 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
+import PrayerList from '@/components/PrayerList.vue'
 import NavBar from '@/components/NavBarHamburger.vue'
-import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
-import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
-import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
+
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    ItemEntryProgress,
-    ItemEntryDetails,
-    ItemEntryPrayer
+    PrayerList
   },
 
   props: ['uid', 'tid', 'year', 'month', 'page'],
@@ -201,10 +136,22 @@ export default {
       if (this.authorized) {
         try {
           var params = {}
+          var d = new Date()
+          if (typeof this.$route.params.year == 'undefined') {
+            this.$route.params.year = d.getFullYear()
+          }
+          if (typeof this.$route.params.month == 'undefined') {
+            //this will actually give you the previous month since it starts the array at 0
+            this.$route.params.month = d.getMonth()
+          }
+          if (typeof this.$route.params.page == 'undefined') {
+            this.$route.params.page = 0
+          }
           params['route'] = JSON.stringify(this.$route.params)
           this.picture = await AuthorService.getImagePage(params)
-          this.items = await AuthorService.getProgressPageEntry(params)
-          this.objective = this.items[0]['objective']
+          this.items = await AuthorService.getPrayersTeam(params)
+          console.log(this.items)
+
           this.time =
             this.months[this.$route.params.month] +
             ',  ' +
