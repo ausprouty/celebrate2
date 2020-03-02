@@ -136,6 +136,18 @@ export default {
     let response = res.data.content
     return response
   },
+  async getSettingsToday(params) {
+    console.log ('params')
+    console.log (params)
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getSettingsToday&action=getSettingsToday',
+      contentForm
+    )
+    console.log (res)
+    let response = res.data.content
+    return response
+  },
 
   async getStandardItems(params) {
     var contentForm = this.toAuthorizedFormData(params)
@@ -220,6 +232,15 @@ export default {
     //if (typeof res.data.content != undefined ){
     //  response = res.data.content
    // }
+    return response
+  },
+  async updateSettingsToday(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateSettingsToday&action=updateSettingsToday',
+      contentForm
+    )
+    let response = res.data.content
     return response
   },
 

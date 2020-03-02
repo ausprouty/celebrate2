@@ -35,7 +35,7 @@
               <span :id="item.id" class="definition"></span>
             </td>
             <td :id="item.id + 'Often'" class="often">
-              <input class="often" type="checkbox" v-model="item.often" />
+              <input class="often" type="checkbox" v-model="item.quick" />
             </td>
           </tr>
         </table>
@@ -126,15 +126,10 @@ export default {
         var params = {}
         var plan = []
         var now = {}
-        var clean = 0
         var l = this.items.length
         for (var i = 0; i < l; i++) {
           now.id = this.items[i]['id']
-          now.number = 0
-          clean = parseInt(this.items[i]['number'], 10)
-          if (typeof clean == 'number') {
-            now.number = clean
-          }
+          now.quick = this.items[i]['quick']
           plan.push(now)
           now = {}
         }
@@ -142,6 +137,7 @@ export default {
         params['uid'] = this.user.uid
         params['tid'] = this.user.team
         params['year'] = new Date().getFullYear()
+        console.log (params)
         var res = await AuthorService.updateSettingsToday(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
@@ -158,10 +154,11 @@ export default {
         var params = []
         var route = {}
         route.uid = this.$route.params.uid
-        route.tid = this.user.team
-        route.year = new Date().getFullYear()
+        route.tid = this.$route.params.tid
+        route.year  = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.getGoals(params)
+        this.items = await AuthorService.getSettingsToday(params)
+        console.log (this.items)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
