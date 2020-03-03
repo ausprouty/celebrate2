@@ -136,6 +136,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async getProgressToday(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getProgressToday&action=getProgressToday',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async getSettingsToday(params) {
     console.log ('params')
     console.log (params)
@@ -234,6 +243,15 @@ export default {
    // }
     return response
   },
+  async updateProgressToday(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateProgressToday&action=updateProgressToday',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async updateSettingsToday(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -243,15 +261,20 @@ export default {
     let response = res.data.content
     return response
   },
+  async updateUserProfile(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateUserProfile&action=updateUserProfile',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   toAuthorizedFormData(params) {
-   
     params.my_uid = store.state.user.uid
-    
     params.token = store.state.user.token
     console.log (params.token)
-  
-
     var form_data = new FormData()
     for (var key in params) {
       form_data.append(key, params[key])

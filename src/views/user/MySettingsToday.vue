@@ -137,7 +137,7 @@ export default {
         params['uid'] = this.user.uid
         params['tid'] = this.user.team
         params['year'] = new Date().getFullYear()
-        console.log (params)
+        console.log(params)
         var res = await AuthorService.updateSettingsToday(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
@@ -148,17 +148,21 @@ export default {
     }
   },
   async created() {
-    this.authorized = this.authorize('write', this.uid)
+    this.authorized = this.authorize(
+      'write',
+      this.$route.params.uid,
+      this.$route.params.tid
+    )
     if (this.authorized) {
       try {
         var params = []
         var route = {}
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid
-        route.year  = new Date().getFullYear()
+        route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.getSettingsToday(params)
-        console.log (this.items)
+        console.log(this.items)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

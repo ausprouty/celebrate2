@@ -8,44 +8,69 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>When do you want to throw a party?</h2>
-      <p>Pick two or more of these and enter a goal.</p>
-      <form @submit.prevent="saveForm">
-        <table class="goals">
-          <tr>
-            <th>Icon</th>
-            <th>Item</th>
-            <th>Goal</th>
-          </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
-            <td class="icon">
-              <img
-                v-bind:src="
-                  appDir.icons + item.celebration_set + '/' + item.image
-                "
-                class="icon"
-              />
-            </td>
-            <td
-              :id="item.id + 'R'"
-              class="item"
-              @click="showDefinition(item)"
-              v-bind:class="{ selected: evaluateSelect(item.number) }"
-            >
-              {{ item.name }}
-              <span :id="item.id" class="definition"></span>
-            </td>
-            <td :id="item.id + 'R'" class="goal">
-              <input class="goal" type="text" v-model="item.number" />
-            </td>
-          </tr>
-        </table>
+      <h2>What did the Holy Spirit enable you to do today?</h2>
+      <div class="subheading">
+        <form @submit.prevent="saveForm">
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+            <div class="app-link">
+              <div
+                class="shadow-card -shadow"
+                v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
+              >
+                <div class="container" @click="showDefinition(item)">
+                  <div class="icon">
+                    <img
+                      v-bind:src="
+                        appDir.icons + item.celebration_set + '/' + item.image
+                      "
+                      class="icon"
+                    />
+                  </div>
+                  <div
+                    :id="item.id + 'R'"
+                    class="item_name"
+                    v-bind:class="{ selected: evaluateSelect(item.number) }"
+                  >{{ item.name }}</div>
+                  <div :id="item.id" class="collapsed">
+                    <ItemEntryProgress :item="item"></ItemEntryProgress>
+                  </div>
+                </div>
+                <hr />
+                <div class="entry">
+                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
+                </div>
+                <div v-if="item.entry > 0">
+                  <div v-if="item.details">
+                    <BaseTextarea
+                      v-bind:label="item.details"
+                      @click="showDetails(item)"
+                      v-model="item.comment"
+                      type="textarea"
+                      class="field paragraph"
+                    />
+                    <div :id="item.id + 'Details'" class="collapsed">
+                      <ItemEntryDetails :item="item"></ItemEntryDetails>
+                    </div>
+                  </div>
+                  <BaseTextarea
+                    label="Praise or Prayer Request"
+                    type="textarea"
+                    @click="showPrayer(item)"
+                    v-model="item.prayer"
+                    class="field paragraph"
+                  />
+                  <div :id="item.id + 'Prayer'" class="collapsed">
+                    <ItemEntryPrayer :item="item"></ItemEntryPrayer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <br />
-
-        <button class="button green" @click="saveForm">Update</button>
-      </form>
-      <button class="button red" @click="addItem">Add Personal Item</button>
+          <button class="button green" @click="saveForm">Update</button>
+        </form>
+      </div>
+      <button class="button red" @click="addItem">Add Item</button>
     </div>
   </div>
 </template>
@@ -143,7 +168,7 @@ export default {
         params['uid'] = this.user.uid
         params['tid'] = this.user.team
         params['year'] = new Date().getFullYear()
-        var res = await AuthorService.updateGoals(params)
+        var res = await AuthorService.updateProgressToday(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
@@ -153,7 +178,11 @@ export default {
     }
   },
   async created() {
-    this.authorized = this.authorize('write', this.uid)
+    this.authorized = this.authorize(
+      'write',
+      this.$route.params.uid,
+      this.$route.params.tid
+    )
     if (this.authorized) {
       try {
         var params = []
@@ -161,8 +190,9 @@ export default {
         route.uid = this.$route.params.uid
         route.tid = this.user.team
         route.year = new Date().getFullYear()
+        route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.getGoals(params)
+        this.items = await AuthorService.getProgressToday(params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
@@ -172,51 +202,141 @@ export default {
 </script>
 
 <style scoped>
-table.goals {
-  width: 100%;
-  border-collapse: collapse;
+white {
   background-color: white;
 }
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #ddd;
-}
-td,
-th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-th {
-  padding-top: 12px;
-  padding-bottom: 12px;
+.center {
   text-align: center;
-  background-color: #4caf50;
+}
+table.time {
+  display: block;
+  background-color: white;
+  padding: 10px;
+  width: 97%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+tr.time {
+  width: 100%;
+}
+td.left {
+  background-color: purple;
   color: white;
+  padding-left: 10px;
+  font-size: 10px;
+  text-align: left;
+  width: 20%;
 }
-.goal {
-  color: green;
-  line-height: 18px;
+td.right {
+  width: 20%;
+  color: white;
+  font-size: 10px;
+  text-align: right;
+  background-color: purple;
+  padding-right: 10px;
 }
+a.left,
+a.right {
+  color: white;
+  text-decoration: none;
+}
+td.center {
+  width: 60%;
+  text-align: center;
+  font-weight: 900;
+}
+div.inline {
+  display: inline;
+  text-align: center;
+}
+
+table.heading {
+  display: block;
+  background-color: rgb(243, 243, 148);
+  padding: 10px;
+  width: 97%;
+  margin: auto;
+}
+td.picture {
+  width: 50%;
+}
+td.objective {
+  width: 45%;
+}
+div.subheading {
+  display: block;
+}
+img.picture {
+  width: 100%;
+}
+div.icon {
+  display: inline;
+}
+img.icon {
+  width: 48px;
+  padding-right: 10px;
+}
+
+div.shadow-card {
+  display: block;
+}
+.shadow-card {
+  background-color: #d2bcbc;
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  transition: all 0.2s linear;
+  width: 100%;
+}
+.important {
+  background-color: rgb(243, 243, 148);
+}
+
+div.item_name {
+  display: inline;
+}
+
+p.objective {
+  padding-left: 10px;
+  color: black;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: -5px;
+  margin-bottom: 0px;
+}
+ul.motto {
+  margin-top: 0px;
+  padding-inline-start: 20px;
+}
+li.motto {
+  color: black;
+  padding-left: 0px;
+  font-size: 12px;
+  font-style: italic;
+}
+div.left {
+  display: inline;
+}
+div.right {
+  float: right;
+}
+.collapsed {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
 td.item {
   width: 80%;
 }
-.item {
-  color: blue;
-}
-.definition {
-  color: red;
-  font-size: 14px;
+.item_name {
+  color: black;
+  font-weight: bold;
 }
 
 td.goals {
   width: 20%;
-}
-.selected {
-  background-color: yellow;
 }
 </style>

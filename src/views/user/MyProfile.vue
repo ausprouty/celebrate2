@@ -110,8 +110,8 @@ export default {
     member: {
       firstname: { required },
       lastname: { required },
-      scope: { required },
-      username: { required },
+
+      username: {},
       password: {}
     }
   },
@@ -121,38 +121,13 @@ export default {
         var params = this.member
         console.log('Save Form')
         console.log(this.member)
-        console.log(this.$v.member.scope.$model)
-        // for some strange reason it shows up as an array sometimes and other times as a string
-        if (Array.isArray(this.$v.member.scope.$model)) {
-          var length = this.$v.member.scope.$model.length
-          var scope_formatted = ''
-          var temp = ''
-          for (var i = 0; i < length; i++) {
-            temp = scope_formatted + this.$v.member.scope.$model[i].code
-            scope_formatted = temp
-          }
-          temp = scope_formatted.replace(/\|\|/g, '|')
-          params.scope = temp
-        } else {
-          params.scope = this.$v.member.scope.$model
-        }
         params.member_uid = this.member.uid
         params.authorizer = this.user.uid
         console.log('params for SaveForm')
         console.log(params)
         let res = null
-        res = await AuthorService.updateUser(params)
-        console.log('res from Author Service')
-        console.log(res)
-        if (res.data.error) {
-          this.registered = false
-          this.error_message = res.data.message
-        } else {
-          this.registered = true
-          this.$router.push({
-            name: 'farm'
-          })
-        }
+        await AuthorService.updateUserProfile(params)
+        this.show()
       } catch (error) {
         console.log('Update There was an error ', error) //
       }
@@ -181,30 +156,33 @@ export default {
       } catch (error) {
         console.log('Delete There was an error ', error) //
       }
+    },
+    async show() {
+      this.authorized = this.authorize(
+        'write',
+        this.$route.params.uid,
+        this.$route.params.tid
+      )
+      if (this.authorized) {
+        try {
+          console.log ('you are authorized')
+          var params = {}
+          params.uid = this.$route.params.uid
+          this.member = await AuthorService.getUser(params)
+          this.member.password = null
+          if (this.member.image) {
+            this.member_image = '/images/members/' + this.member.image
+          }
+
+          console.log(this.member)
+        } catch (error) {
+          console.log('There was an error in MyProfile.vue:', error) // Logs out the error
+        }
+      }
     }
   },
   async created() {
-    //this.authorized = this.authorize('register', 'global')
-    this.authorized = true
-    if (this.authorized) {
-      try {
-        var params = {}
-        params.uid = this.$route.params.uid
-        
-        this.member = await AuthorService.getUser(params)
-       
-        console.log ('this.member')
-        console.log (this.member)
-        this.member.password = null
-        if (this.member.image) {
-          this.member_image = '/images/members/' + this.member.image
-        }
-
-        console.log(this.member)
-      } catch (error) {
-        console.log('There was an error in User.vue:', error) // Logs out the error
-      }
-    }
+    this.show()
   }
 }
 </script>

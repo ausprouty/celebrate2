@@ -14,13 +14,9 @@
       <div>
         <table class="time">
           <tr>
-            <td class="left" @click="previousMonth()"> 
-             < Previous Month
-            </td>
+            <td class="left" @click="previousMonth()">< Previous Month</td>
             <td class="center">{{ this.time }}</td>
-            <td class="right" @click="nextMonth()">
-             Next Month >
-            </td>
+            <td class="right" @click="nextMonth()">Next Month ></td>
           </tr>
         </table>
       </div>
@@ -233,7 +229,11 @@ export default {
       console.log('finished save')
     },
     async loadForm() {
-      this.authorized = this.authorize('write', this.uid)
+      this.authorized = this.authorize(
+        'write',
+        this.$route.params.uid,
+        this.$route.params.tid
+      )
       if (this.authorized) {
         try {
           var params = {}

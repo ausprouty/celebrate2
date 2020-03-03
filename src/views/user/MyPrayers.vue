@@ -8,7 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized" class="white">
-     
       <div class="center">
         <table class="heading">
           <tr>
@@ -132,7 +131,11 @@ export default {
       console.log('finished save')
     },
     async loadForm() {
-      this.authorized = this.authorize('write', this.uid)
+      this.authorized = this.authorize(
+        'write',
+        this.$route.params.uid,
+        this.$route.params.tid
+      )
       if (this.authorized) {
         try {
           var params = {}

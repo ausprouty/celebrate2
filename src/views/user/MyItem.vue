@@ -140,8 +140,11 @@ export default {
   },
 
   async created() {
-    //this.authorized = this.authorize('write', this.uid)
-    this.authorized = true
+     this.authorized = this.authorize(
+      'write',
+      this.$route.params.uid,
+      this.$route.params.tid
+    )
     if (this.authorized) {
       try {
         var params = {}

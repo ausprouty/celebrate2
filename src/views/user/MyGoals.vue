@@ -144,8 +144,8 @@ export default {
           now = {}
         }
         params['goals'] = JSON.stringify(plan)
-        params['uid'] = this.user.uid
-        params['tid'] = this.user.team
+        params['uid'] = this.$route.params.uid
+        params['tid'] = this.$route.params.tid
         params['year'] = new Date().getFullYear()
         var res = await AuthorService.updateGoals(params)
       } catch (error) {
@@ -157,7 +157,11 @@ export default {
     }
   },
   async created() {
-    this.authorized = this.authorize('write', this.uid)
+    this.authorized = this.authorize(
+      'write',
+      this.$route.params.uid,
+      this.$route.params.tid
+    )
     if (this.authorized) {
       try {
         var params = []
@@ -166,7 +170,7 @@ export default {
           this.member_image = '/images/members/' + this.user.image
         }
         route.uid = this.$route.params.uid
-        route.tid = this.user.team
+        route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.getGoals(params)
