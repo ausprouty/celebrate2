@@ -18,7 +18,7 @@ export const authorMixin = {
         this.$router.push({ name: 'login' })
       }
       // is this your record?
-      if (this.user.uid == uid && this.user.tid == tid ){
+      if (this.user.uid == uid && this.user.team == tid ){
         console.log ('this is your record')
         return true
       }

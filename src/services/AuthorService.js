@@ -63,8 +63,8 @@ export default {
       'AuthorApi.php?page=getGoals&action=getGoals',
       contentForm
     )
-    console.log ('from getGoals')
-    console.log (res)
+    console.log('from getGoals')
+    console.log(res)
     let response = res.data.content
     return response
   },
@@ -74,8 +74,8 @@ export default {
       'AuthorApi.php?page=getGoalsPage&action=getGoalsPage',
       contentForm
     )
-    console.log ('from getGoals')
-    console.log (res)
+    console.log('from getGoals')
+    console.log(res)
     let response = res.data.content
     return response
   },
@@ -90,7 +90,7 @@ export default {
   },
   async getImagePage(params) {
     var contentForm = this.toAuthorizedFormData(params)
-    console.log (params)
+    console.log(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getImagePage&action=getImagePage',
       contentForm
@@ -98,11 +98,20 @@ export default {
     let response = res.data.content
     return response
   },
-  
+
   async getPrayersTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getPrayersTeam&action=getPrayersTeam',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async getPrayerUpdate(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getPrayerUpdate&action=getPrayerUpdate',
       contentForm
     )
     let response = res.data.content
@@ -126,8 +135,8 @@ export default {
     let response = res.data.content
     return response
   },
- 
-  async  getProgressPageEntry(params) {
+
+  async getProgressPageEntry(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getProgressPageEntry&action=getProgressPageEntry',
@@ -146,14 +155,14 @@ export default {
     return response
   },
   async getSettingsToday(params) {
-    console.log ('params')
-    console.log (params)
+    console.log('params')
+    console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getSettingsToday&action=getSettingsToday',
       contentForm
     )
-    console.log (res)
+    console.log(res)
     let response = res.data.content
     return response
   },
@@ -169,8 +178,8 @@ export default {
     return response
   },
   async getTeam(params) {
-    console.log ('get team parameters')
-    console.log (params)
+    console.log('get team parameters')
+    console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getTeam&action=getTeam',
@@ -181,7 +190,7 @@ export default {
   },
 
   async getUser(params) {
-    console.log (params)
+    console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getUser&action=getUser',
@@ -192,7 +201,7 @@ export default {
   },
   async getUsers(params) {
     var contentForm = this.toAuthorizedFormData(params)
-   
+
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getUsers&action=getUsers',
       contentForm
@@ -201,8 +210,8 @@ export default {
     return response
   },
   async login(params) {
-    console.log ('login')
-    console.log (params)
+    console.log('login')
+    console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
       'AuthorApi.php?action=login',
@@ -231,7 +240,7 @@ export default {
     let response = res.data.content
     return response
   },
-  async  updateProgressPageEntry(params) {
+  async updateProgressPageEntry(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=updateProgressPageEntry&action=updateProgressPageEntry',
@@ -240,7 +249,7 @@ export default {
     var response = null
     //if (typeof res.data.content != undefined ){
     //  response = res.data.content
-   // }
+    // }
     return response
   },
   async updateProgressToday(params) {
@@ -274,7 +283,7 @@ export default {
   toAuthorizedFormData(params) {
     params.my_uid = store.state.user.uid
     params.token = store.state.user.token
-    console.log (params.token)
+    console.log(params.token)
     var form_data = new FormData()
     for (var key in params) {
       form_data.append(key, params[key])

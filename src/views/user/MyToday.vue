@@ -13,11 +13,8 @@
         <form @submit.prevent="saveForm">
           <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
             <div class="app-link">
-              <div
-                class="shadow-card -shadow"
-                v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
-              >
-                <div class="container" @click="showDefinition(item)">
+              <div class="shadow-card -shadow">
+                <div class="wrapper">
                   <div class="icon">
                     <img
                       v-bind:src="
@@ -26,19 +23,16 @@
                       class="icon"
                     />
                   </div>
-                  <div
-                    :id="item.id + 'R'"
-                    class="item_name"
-                    v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >{{ item.name }}</div>
-                  <div :id="item.id" class="collapsed">
-                    <ItemEntryProgress :item="item"></ItemEntryProgress>
+                  <div class="entry">
+                    <BaseInput
+                      v-bind:label="item.name + ': '"
+                      v-model="item.entry"
+                      type="number"
+                      class="field"
+                    />
                   </div>
                 </div>
-                <hr />
-                <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
-                </div>
+                <!-- End of wrapper-->
                 <div v-if="item.entry > 0">
                   <div v-if="item.details">
                     <BaseTextarea
@@ -48,9 +42,6 @@
                       type="textarea"
                       class="field paragraph"
                     />
-                    <div :id="item.id + 'Details'" class="collapsed">
-                      <ItemEntryDetails :item="item"></ItemEntryDetails>
-                    </div>
                   </div>
                   <BaseTextarea
                     label="Praise or Prayer Request"
@@ -59,31 +50,35 @@
                     v-model="item.prayer"
                     class="field paragraph"
                   />
-                  <div :id="item.id + 'Prayer'" class="collapsed">
-                    <ItemEntryPrayer :item="item"></ItemEntryPrayer>
+                  <div v-if="item.entered">
+                    <TodayEntered :item="item"></TodayEntered>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- End of applink-->
           </div>
-
+          <!-- End of for loop-->
           <button class="button green" @click="saveForm">Update</button>
         </form>
       </div>
-      <button class="button red" @click="addItem">Add Item</button>
+      <!-- End of Subheading-->
     </div>
+    <!-- End of Authorized-->
   </div>
 </template>
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
+import TodayEntered from '@/components/TodayEntered.vue'
 import NavBar from '@/components/NavBarHamburger.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    TodayEntered
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),
@@ -100,6 +95,9 @@ export default {
     }
   },
   methods: {
+    showDetails() {
+      alert('I should show some details now')
+    },
     showDefinition(item) {
       var present = document.getElementById(item.id).innerHTML
 
@@ -126,27 +124,7 @@ export default {
       }
       return false
     },
-    async addItem() {
-      await this.saveForm()
-      this.$router.push({
-        name: 'myItem',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
-        }
-      })
-    },
-    async updateItem(id) {
-      await this.saveForm()
-      this.$router.push({
-        name: 'myItem',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid,
-          id: id
-        }
-      })
-    },
+
     async saveForm() {
       try {
         var params = {}
@@ -164,10 +142,12 @@ export default {
           plan.push(now)
           now = {}
         }
-        params['goals'] = JSON.stringify(plan)
-        params['uid'] = this.user.uid
-        params['tid'] = this.user.team
-        params['year'] = new Date().getFullYear()
+        params['items'] = JSON.stringify(plan)
+        var route = this.$route.params
+        route.year = new Date().getFullYear()
+        route.month = new Date().getMonth() + 1
+        params['route'] = JSON.stringify(route)
+        console.log(params)
         var res = await AuthorService.updateProgressToday(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
@@ -193,6 +173,7 @@ export default {
         route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.getProgressToday(params)
+        console.log(this.items)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
@@ -205,8 +186,20 @@ export default {
 white {
   background-color: white;
 }
+
 .center {
   text-align: center;
+}
+div.wrapper {
+  display: block;
+  width: 100%;
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+div.icon {
+  float: left; /* add this */
+}
+div.entry {
+  overflow: hidden; /* if you don't want #second to wrap below #first */
 }
 table.time {
   display: block;
@@ -247,6 +240,7 @@ td.center {
 }
 div.inline {
   display: inline;
+  float: left;
   text-align: center;
 }
 
@@ -257,12 +251,7 @@ table.heading {
   width: 97%;
   margin: auto;
 }
-td.picture {
-  width: 50%;
-}
-td.objective {
-  width: 45%;
-}
+
 div.subheading {
   display: block;
 }

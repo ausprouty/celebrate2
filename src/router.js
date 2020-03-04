@@ -8,6 +8,7 @@ import Logout from './views/user/Logout.vue'
 import MyGoals from './views/user/MyGoals.vue'
 import MyItem from './views/user/MyItem.vue'
 import MyPrayers from './views/user/MyPrayers.vue'
+import MyPrayerUpdate from './views/user/MyPrayerUpdate.vue'
 import MyProfile from './views/user/MyProfile.vue'
 import MyProgress from './views/user/MyProgress.vue'
 import MySettingsToday from './views/user/MySettingsToday.vue'
@@ -67,15 +68,21 @@ export default new Router({
       props: true
     },
     {
-      path: '/user/progress/:uid/:tid/:year?/:month?/:page?',
-      name: 'myProgress',
-      component: MyProgress,
+      path: '/user/prayer/:uid/:tid/:pid',
+      name: 'myPrayerUpdate',
+      component: MyPrayerUpdate,
       props: true
     },
     {
       path: '/user/prayers/:uid/:tid/:year?/:month?',
       name: 'myPrayers',
       component: MyPrayers,
+      props: true
+    },
+    {
+      path: '/user/progress/:uid/:tid/:year?/:month?/:page?',
+      name: 'myProgress',
+      component: MyProgress,
       props: true
     },
     {

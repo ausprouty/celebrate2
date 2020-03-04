@@ -6,6 +6,7 @@
       <div class="prayer">
         <span class="card-name">{{ item.prayer }}</span>
         <span class="card-date">({{ item.month }}/{{ item.year }})</span>
+        <div v-if="(item.uid = this.user.uid)" class="edit" @click="editPrayer(item)">(Edit)</div>
       </div>
     </div>
   </div>
@@ -23,15 +24,15 @@ export default {
       image: 'blank.png'
     }
   },
-  computed: mapState(['appDir']),
+  computed: mapState(['appDir', 'user']),
   methods: {
-    showPage: function(user) {
-      console.log('user')
-      console.log(user)
+    editPrayer(item) {
       this.$router.push({
-        name: 'user',
+        name: 'myPrayerUpdate',
         params: {
-          uid: this.user.uid
+          uid: this.user.uid,
+          tid: this.user.team,
+          pid: item.pid
         }
       })
     }
@@ -42,9 +43,7 @@ export default {
 }
 </script>
 <style scoped>
-<style scoped >
-
- div.break {
+<style scoped > div.break {
   display: inline;
 }
 
@@ -57,20 +56,24 @@ export default {
   transition: all 0.2s linear;
   width: 95%;
 }
+div.edit {
+  text-align: right;
+  color: 555555;
+}
 div.prayer {
   float: right;
   font-size: 18px;
   vertical-align: top;
   width: 80%;
-  line-height:1;
+  line-height: 1;
 }
 .card-name {
-  font-weight:normal;
+  font-weight: normal;
   line-height: 20px;
 }
-.card-date{
-  padding-left:10px;
+.card-date {
+  padding-left: 10px;
   font-size: 10pt;
-  color: grey
+  color: grey;
 }
 </style>
