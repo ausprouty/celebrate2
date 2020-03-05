@@ -78,6 +78,7 @@ export default {
       window.history.back()
     },
     setNewSelectedOption(selectedOption) {
+     
       this.showMenu = false
       this.$router.push({
         name: selectedOption.link,

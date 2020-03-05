@@ -8,10 +8,10 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="this.member_image">
-        <img v-bind:src="this.member_image" class="member" />
+      <div v-if="this.team_image">
+        <img v-bind:src="this.team_image" class="team" />
       </div>
-      <h2>When do you want to throw a party?</h2>
+      <h2>When do you want our team to throw a party?</h2>
       <p>Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
         <table class="goals">
@@ -63,7 +63,7 @@ export default {
   components: {
     NavBar
   },
-  props: ['uid', 'tid'],
+  props: ['tid'],
   computed: mapState(['user', 'appDir']),
   mixins: [authorMixin],
   data() {
@@ -169,13 +169,11 @@ export default {
       try {
         var params = []
         var route = {}
-        if (this.user.image) {
-          this.member_image = '/images/members/' + this.user.image
-        }
-        route.uid = this.$route.params.uid
+        route.uid = null
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
+        this.team =  await AuthorService.getTeam(params)
         this.items = await AuthorService.getGoals(params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

@@ -171,7 +171,7 @@ export default {
           this.member = await AuthorService.getUser(params)
           this.member.password = null
           if (this.member.image) {
-            this.member_image = '/images/members/' + this.member.image
+            this.member_image = this.member.image
           }
 
           console.log(this.member)

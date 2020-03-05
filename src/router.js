@@ -108,13 +108,13 @@ export default new Router({
       props: true
     },
     {
-      path: '/team/:tid/:year?',
+      path: '/team/:tid/goals/:year?',
       name: 'teamGoals',
       component: TeamGoals,
       props: true
     },
     {
-      path: '/team/:tid/:id?',
+      path: '/team/:tid/item/:id?',
       name: 'teamItem',
       component: TeamItem,
       props: true
