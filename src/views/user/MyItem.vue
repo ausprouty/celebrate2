@@ -1,13 +1,13 @@
 <template>
   <div>
     <NavBar />
-    <div v-if="!this.authorized">
+    <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
         now.
       </p>
     </div>
-    <div v-if="this.authorized" class="white">
+    <div v-if="this.authorized">
       <h2>Enter a Personal Item</h2>
       <p>
         Is there something that YOU want to keep track of? Something you want to
@@ -166,8 +166,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-.white {
-  background-color: white;
-}
-</style>
+<style scoped></style>

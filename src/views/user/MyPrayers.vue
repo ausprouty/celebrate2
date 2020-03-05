@@ -1,13 +1,13 @@
 <template>
   <div>
     <NavBar />
-    <div v-if="!this.authorized">
+    <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
         now.
       </p>
     </div>
-    <div v-if="this.authorized" class="white">
+    <div v-if="this.authorized">
       <div class="center">
         <table class="heading">
           <tr>
@@ -182,9 +182,6 @@ export default {
 </script>
 
 <style scoped>
-.white {
-  background-color: white;
-}
 .center {
   text-align: center;
 }

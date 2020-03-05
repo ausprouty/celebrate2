@@ -3,13 +3,13 @@
     <div v-if="!authorized">
       <div id="nav">
         <router-link to="/">
-          <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
+          <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TeamTopRibbon600.png" />
         </router-link>
       </div>
     </div>
     <div v-if="authorized">
       <div class="dropdown">
-        <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TopRibbon600.png" />
+        <img class="nav-icon" alt="Home" src="/images/menu/ribbons/TeamTopRibbon600.png" />
         <div class="dropdown-content">
           <div v-for="menuItem in menu" :key="menuItem.index" :menuItem="menuItem">
             <div
@@ -138,7 +138,7 @@ export default {
 
 /* Change color of dropdown links on hover */
 .dropdown-content .item:hover {
-  background-color: darkblue;
+  background-color: darkgreen;
 }
 
 /* Show the dropdown menu on hover */

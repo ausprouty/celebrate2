@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="white">
     <NavBar />
-    <div v-if="!this.authorized">
+    <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
         now.
@@ -155,6 +155,9 @@ export default {
     async addGoal() {
       console.log('add Goal')
     }
+  },
+  beforeCreate: function() {
+    document.body.className = 'team'
   },
   async created() {
     this.authorized = this.authorize(

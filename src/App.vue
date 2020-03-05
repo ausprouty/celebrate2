@@ -55,6 +55,18 @@ body {
   line-height: 1.5;
   background-image: url('/images/background/confetti.png');
 }
+body.team{
+  background-image: url('/images/background/wiggles.png');
+}
+.white {
+  background-color: white;
+}
+div.not_authorized{
+  height:300px;
+  color:red;
+  padding:20px;
+  font-size: 24px;
+}
 
 #app {
   box-sizing: border-box;

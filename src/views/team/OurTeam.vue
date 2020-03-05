@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="white">
     <NavBar />
-    <div v-if="!this.authorized">
+    <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
         now
       </p>
     </div>
-    <div v-if="this.authorized" class="white">
+    <div v-if="this.authorized">
       <h1>{{ this.team.name }}</h1>
       <UserList v-for="user in users" :key="user.uid" :user="user" />
     </div>
@@ -48,6 +48,9 @@ export default {
       ]
     }
   },
+  beforeCreate: function() {
+    document.body.className = 'team'
+  },
   async created() {
     this.authorized = this.authorize('register', this.$route.params.tid)
     if (this.authorized) {
@@ -64,7 +67,7 @@ export default {
 }
 </script>
 <style scoped>
-.white {
-  background-color: white;
+body {
+  background-image: url('/images/background/wiggles.png');
 }
 </style>
