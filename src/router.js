@@ -108,12 +108,6 @@ export default new Router({
       props: true
     },
     {
-      path: '/user/goals/:uid/:tid/:year?',
-      name: 'myGoals',
-      component: MyGoals,
-      props: true
-    },
-    {
       path: '/team/:tid/:year?',
       name: 'teamGoals',
       component: TeamGoals,

@@ -283,7 +283,6 @@ export default {
   toAuthorizedFormData(params) {
     params.my_uid = store.state.user.uid
     params.token = store.state.user.token
-    console.log(params.token)
     var form_data = new FormData()
     for (var key in params) {
       form_data.append(key, params[key])

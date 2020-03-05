@@ -159,7 +159,7 @@ export default {
     },
     async show() {
       this.authorized = this.authorize(
-        'personal',
+        'profile',
         this.$route.params.uid,
         this.$route.params.tid
       )

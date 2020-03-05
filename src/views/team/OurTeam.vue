@@ -52,7 +52,11 @@ export default {
     document.body.className = 'team'
   },
   async created() {
-    this.authorized = this.authorize('register', this.$route.params.tid)
+    this.authorized = this.authorize(
+      'team',
+      this.$route.params.uid,
+      this.$route.params.tid
+    )
     if (this.authorized) {
       try {
         var params = {}

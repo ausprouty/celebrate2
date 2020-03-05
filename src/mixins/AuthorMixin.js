@@ -17,24 +17,29 @@ export const authorMixin = {
       if (this.user.expires < timestamp) {
         this.$router.push({ name: 'login' })
       }
-      // is this your record?
-      if (this.user.uid == uid && this.user.team == tid ){
-        console.log ('this is your record')
+      // is this your record for this team?
+      if (this.user.uid == uid && this.user.team == tid) {
+        console.log('this is your record')
+        return true
+      }
+       // is this your own profile?
+       if (reason == 'profile' && this.user.uid == uid) {
         return true
       }
       // do you have global authority?
       var scope = ''
       if (typeof this.user.scope != 'undefined') {
         scope = this.user.scope
-        console.log (scope)
+        console.log('Your scope is '. scope)
       }
       if (scope == 'global') {
-        console.log ('you have global authority')
+        console.log('you have global authority')
         return true
-      } 
+      }
+     
       // are you a team leader?
-      if (scope == 'team' && this.user.team == tid){
-        console.log ('you are team leader')
+      if (scope == 'team' && this.user.team == tid) {
+        console.log('you are team leader')
         return true
       }
       return false

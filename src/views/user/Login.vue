@@ -76,9 +76,10 @@ export default {
           response.expires = res.data.content.expires * 1000
           var date = new Date()
           response.now = date.getTime()
-          console.log('response')
+          console.log('response before go to loginUser')
           console.log(response)
           this.$store.dispatch('loginUser', [response])
+          console.log ('I am bout to go to myToday')
           this.$router.push({
             name: 'myToday',
             params: {

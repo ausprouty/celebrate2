@@ -115,7 +115,7 @@ export default {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: red;
+  background-color:blue;
 
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -138,7 +138,7 @@ export default {
 
 /* Change color of dropdown links on hover */
 .dropdown-content .item:hover {
-  background-color: darkgreen;
+  background-color: red;
 }
 
 /* Show the dropdown menu on hover */
