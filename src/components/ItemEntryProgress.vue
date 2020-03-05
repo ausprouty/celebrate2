@@ -71,9 +71,7 @@ td.row_value {
   width: 20%;
   text-align: right;
 }
-.center {
-  text-align: center;
-}
+
 .definition {
   color: red;
   font-size: 14px;

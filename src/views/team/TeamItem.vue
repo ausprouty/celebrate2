@@ -8,10 +8,11 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>Enter a Personal Item</h2>
-      <p>
-        Is there something that YOU want to keep track of? Something you want to
-        celebrate? Here is where you can customize Celebrate to meet your needs.
+      <h2 class="center">Enter a Team Item</h2>
+      <p class="center">
+        Is there something that you want our TEAM keep track of? Something you
+        want to celebrate? Here is where you can customize Celebrate to meet
+        your needs.
       </p>
       <form @submit.prevent="saveForm">
         <BaseInput
@@ -64,7 +65,7 @@ import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   computed: mapState(['user']),
-  props: ['uid', 'tid', 'id'],
+  props: ['tid', 'id'],
   components: {
     NavBar
   },
@@ -74,11 +75,12 @@ export default {
       yes_or_no: ['Y', 'N'],
       item: {
         id: null,
-        celebration_set: 'personal',
+        celebration_set: 'team',
         tid: null,
         uid: null,
         sequence: null,
         page: null,
+        objective: 'Team Goals',
         code: null,
         name: null,
         definition: null,
@@ -109,7 +111,7 @@ export default {
   methods: {
     async saveForm() {
       var params = {}
-      this.item.uid = this.$route.params.uid
+      this.item.tid = this.$route.params.tid
       params.item = JSON.stringify(this.item)
       console.log(params)
       var res = await AuthorService.updateItem(params)
@@ -126,13 +128,9 @@ export default {
       this.return()
     },
     return() {
-      console.log('check')
-    },
-    returnX() {
       this.$router.push({
-        name: 'myGoals',
+        name: 'teamGoals',
         params: {
-          uid: this.$route.params.uid,
           tid: this.$route.params.tid
         }
       })

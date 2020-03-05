@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -157,6 +157,9 @@ export default {
       console.log('add Goal')
     }
   },
+   beforeCreate: function() {
+    document.body.className = 'user'
+  },
   async created() {
     this.authorized = this.authorize(
       'personal',
@@ -187,9 +190,7 @@ white {
   background-color: white;
 }
 
-.center {
-  text-align: center;
-}
+
 div.wrapper {
   display: block;
   width: 100%;

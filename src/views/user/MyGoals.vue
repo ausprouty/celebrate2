@@ -1,5 +1,5 @@
 <template>
-  <div>
+   <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -20,12 +20,7 @@
             <th>Item</th>
             <th>Goal</th>
           </tr>
-          <tr
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="goals"
-          >
+          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
             <td class="icon">
               <img
                 v-bind:src="
@@ -115,8 +110,8 @@ export default {
       this.$router.push({
         name: 'myItem',
         params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
+          tid: this.$route.params.tid,
+          uid: this.$route.params.uid
         }
       })
     },
@@ -125,8 +120,8 @@ export default {
       this.$router.push({
         name: 'myItem',
         params: {
-          uid: this.$route.params.uid,
           tid: this.$route.params.tid,
+          uid: this.$route.params.uid,
           id: id
         }
       })
@@ -160,6 +155,8 @@ export default {
     async addGoal() {
       console.log('add Goal')
     }
+  }, beforeCreate: function() {
+    document.body.className = 'user'
   },
   async created() {
     this.authorized = this.authorize(
@@ -217,6 +214,7 @@ th {
 .goal {
   color: green;
   line-height: 18px;
+   width: 60px;
 }
 td.item {
   width: 80%;
@@ -229,9 +227,7 @@ td.item {
   font-size: 14px;
 }
 
-td.goals {
-  width: 20%;
-}
+
 .selected {
   background-color: yellow;
 }

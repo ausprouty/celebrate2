@@ -274,9 +274,7 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  text-align: center;
-}
+
 table.time {
   display: block;
   background-color: white;

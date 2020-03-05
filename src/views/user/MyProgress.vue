@@ -1,5 +1,5 @@
 <template>
-  <div>
+   <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -76,7 +76,7 @@
                 </div>
                 <hr />
                 <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
+                  <BaseInput label="Number:" v-model="item.entry" type="number" class="integer" />
                 </div>
                 <div v-if="item.details">
                   <BaseTextarea
@@ -264,6 +264,9 @@ export default {
       }
     }
   },
+   beforeCreate: function() {
+    document.body.className = 'user'
+  },
   async created() {
     this.loadForm()
   }
@@ -271,9 +274,7 @@ export default {
 </script>
 
 <style scoped>
-.center {
-  text-align: center;
-}
+
 table.time {
   display: block;
   background-color: white;

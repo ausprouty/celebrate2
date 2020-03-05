@@ -8,11 +8,11 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="this.team_image">
-        <img v-bind:src="this.team_image" class="team" />
+      <div v-if="this.team.image">
+        <img v-bind:src="this.team.image" class="team" />
       </div>
-      <h2>When do you want our team to throw a party?</h2>
-      <p>Pick two or more of these and enter a goal.</p>
+      <h2 class="center">When do you want our team to throw a party?</h2>
+      <p class="center">Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
         <table class="goals">
           <tr>
@@ -46,9 +46,9 @@
 
         <br />
 
-        <button class="button green" @click="saveForm">Update</button>
+        <button class="button green" @click="saveFormAndLeave">Update</button>
       </form>
-      <button class="button red" @click="addItem">Add Personal Item</button>
+      <button class="button red" @click="addItem">Add Team Item</button>
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       items: [],
-      member_image: null,
+      team: {},
       highlight: true
     }
   },
@@ -87,8 +87,8 @@ export default {
         if (item.uid == this.$route.params.uid) {
           var link =
             message +
-            '<br> <a href= "/user/' +
-            this.$route.params.uid +
+            '<br> <a href= "/team/' +
+            this.$route.params.tid +
             '/item/' +
             item.id +
             '"> Update Item </a>'
@@ -108,9 +108,8 @@ export default {
     async addItem() {
       await this.saveForm()
       this.$router.push({
-        name: 'myItem',
+        name: 'teamItem',
         params: {
-          uid: this.$route.params.uid,
           tid: this.$route.params.tid
         }
       })
@@ -118,9 +117,8 @@ export default {
     async updateItem(id) {
       await this.saveForm()
       this.$router.push({
-        name: 'myItem',
+        name: 'teamItem',
         params: {
-          uid: this.$route.params.uid,
           tid: this.$route.params.tid,
           id: id
         }
@@ -144,13 +142,21 @@ export default {
           now = {}
         }
         params['goals'] = JSON.stringify(plan)
-        params['uid'] = this.$route.params.uid
         params['tid'] = this.$route.params.tid
         params['year'] = new Date().getFullYear()
         var res = await AuthorService.updateGoals(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
+    },
+    async saveFormAndLeave() {
+      this.saveForm()
+      this.$router.push({
+        name: 'ourTeam',
+        params: {
+          tid: this.$route.params.tid
+        }
+      })
     },
     async addGoal() {
       console.log('add Goal')
@@ -173,8 +179,11 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        this.team =  await AuthorService.getTeam(params)
+        this.team = await AuthorService.getTeam(params)
+        console.log('this team')
+        console.log(this.team.image)
         this.items = await AuthorService.getGoals(params)
+        console.log(this.items)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
@@ -213,6 +222,7 @@ th {
 .goal {
   color: green;
   line-height: 18px;
+  width: 60px;
 }
 td.item {
   width: 80%;
@@ -225,9 +235,7 @@ td.item {
   font-size: 14px;
 }
 
-td.goals {
-  width: 20%;
-}
+
 .selected {
   background-color: yellow;
 }

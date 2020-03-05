@@ -53,18 +53,20 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  background-image: url('/images/background/confetti.png');
 }
-body.team{
+body.team {
   background-image: url('/images/background/wiggles.png');
+}
+body.user {
+  background-image: url('/images/background/confetti.png');
 }
 .white {
   background-color: white;
 }
-div.not_authorized{
-  height:300px;
-  color:red;
-  padding:20px;
+div.not_authorized {
+  height: 300px;
+  color: red;
+  padding: 20px;
   font-size: 24px;
 }
 
@@ -146,6 +148,9 @@ div.card-names {
 .card-name {
   font-weight: bold;
   line-height: 20px;
+}
+.center {
+  text-align: center;
 }
 .error {
   border: 1px solid red;

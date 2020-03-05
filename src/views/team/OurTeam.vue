@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h1>{{ this.team.name }}</h1>
+      <h1 class="center">{{ this.team.name }}</h1>
       <UserList v-for="user in users" :key="user.uid" :user="user" />
     </div>
   </div>
@@ -71,7 +71,7 @@ export default {
 }
 </script>
 <style scoped>
-body {
-  background-image: url('/images/background/wiggles.png');
+h1{
+  color:#2d9593;
 }
 </style>

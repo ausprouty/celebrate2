@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="white">
     <img src="/images/menu/black.png" />
     <h2>Login</h2>
     <form @submit.prevent="saveForm">
@@ -79,7 +79,7 @@ export default {
           console.log('response before go to loginUser')
           console.log(response)
           this.$store.dispatch('loginUser', [response])
-          console.log ('I am bout to go to myToday')
+          console.log('I am bout to go to myToday')
           this.$router.push({
             name: 'myToday',
             params: {
@@ -95,6 +95,9 @@ export default {
         console.log('Login There was an error ', error) //
       }
     }
+  },
+  beforeCreate: function() {
+    document.body.className = 'user'
   }
 }
 </script>

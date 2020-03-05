@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -110,6 +110,7 @@ export default {
     async saveForm() {
       var params = {}
       this.item.uid = this.$route.params.uid
+      this.item.tid = this.$route.params.tid
       params.item = JSON.stringify(this.item)
       console.log(params)
       var res = await AuthorService.updateItem(params)
@@ -118,17 +119,16 @@ export default {
     },
     async deleteForm() {
       var params = {}
-      params.uid = this.uid
+      params.uid = this.$route.params.uid
+      params.tid = this.$route.params.tid
       params.item = JSON.stringify(this.item)
       console.log(params)
       var res = await AuthorService.deleteItem(params)
       console.log(res)
       this.return()
     },
+    
     return() {
-      console.log('check')
-    },
-    returnX() {
       this.$router.push({
         name: 'myGoals',
         params: {
@@ -138,7 +138,9 @@ export default {
       })
     }
   },
-
+ beforeCreate: function() {
+    document.body.className = 'user'
+  },
   async created() {
     this.authorized = this.authorize(
       'personal',
@@ -148,8 +150,8 @@ export default {
     if (this.authorized) {
       try {
         var params = {}
-        params['uid'] = this.uid
-        params['tid'] = this.user.team
+        params['uid'] = this.$route.params.uid
+        params['tid'] = this.$route.params.tid
         if (typeof this.$route.params.id != 'undefined') {
           console.log('I am going to get item' + this.$route.params.id)
           params['id'] = this.$route.params.id

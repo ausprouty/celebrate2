@@ -8,65 +8,39 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>Update {{ member.firstname }} {{ member.lastname }}</h2>
-      <div v-if="this.member_image">
-        <img v-bind:src="this.member_image" class="member" />
+      <h2 v-if="team.name">Update {{ team.name }}</h2>
+      <h2 v-if="!team.name">New Team</h2>
+      <div v-if="this.team_image">
+        <img v-bind:src="this.team_image" class="team" />
       </div>
 
       <form @submit.prevent="saveForm">
         <BaseInput
-          v-model="$v.member.firstname.$model"
-          label="First Name"
+          v-model="$v.team.name.$model"
+          label="Team Name"
           type="text"
           placeholder
           class="field"
-          :class="{ error: $v.member.firstname.$error }"
-          @mousedown="$v.member.firstname.$touch()"
+          :class="{ error: $v.team.name.$error }"
+          @mousedown="$v.team.name.$touch()"
         />
-        <template v-if="$v.member.firstname.$error">
-          <p v-if="!$v.member.firstname.required" class="errorMessage">First Name is required</p>
+        <template v-if="$v.team.name.$error">
+          <p v-if="!$v.team.name.required" class="errorMessage">Team Name is required</p>
         </template>
-
+        <br/><br/>
         <BaseInput
-          v-model="$v.member.lastname.$model"
-          label="Last Name"
+          v-model="$v.team.code.$model"
+          label="Code"
           type="text"
           placeholder
           class="field"
-          :class="{ error: $v.member.lastname.$error }"
-          @mousedown="$v.member.lastname.$touch()"
+          :class="{ error: $v.team.code.$error }"
+          @mousedown="$v.team.code.$touch()"
         />
-        <template v-if="$v.member.lastname.$error">
-          <p v-if="!$v.member.lastname.required" class="errorMessage">Last Name is required</p>
+        <template v-if="$v.team.code.$error">
+          <p v-if="!$v.team.code.required" class="errorMessage">Code is required</p>
         </template>
 
-        <BaseInput
-          v-model="$v.member.username.$model"
-          label="Username"
-          type="text"
-          placeholder
-          class="field"
-          :class="{ error: $v.member.username.$error }"
-          @mousedown="$v.member.username.$touch()"
-        />
-        <template v-if="$v.member.username.$error">
-          <p v-if="!$v.member.username.required" class="errorMessage">Username is required</p>
-        </template>
-
-        <BaseInput
-          v-model="$v.member.password.$model"
-          label="Password"
-          type="password"
-          placeholder
-          class="field"
-          :class="{ error: $v.member.password.$error }"
-          @mousedown="$v.member.password.$touch()"
-        />
-        <template v-if="$v.member.password.$error">
-          <p v-if="!$v.member.password.required" class="errorMessage">Password is required</p>
-        </template>
-
-        <br />
         <br />
         <button class="button green" @click="saveForm">Update</button>
         <button class="button red" @click="deleteForm">Delete</button>
@@ -92,14 +66,13 @@ export default {
   mixins: [authorMixin],
   data() {
     return {
-      member: {
-        firstname: null,
-        lastname: null,
-        scope: null,
-        username: null,
-        password: null
+      team: {
+        tid: null,
+        name: null,
+        code: null,
+        game:null
       },
-      member_image: null,
+      team_image: null,
       submitted: false,
       wrong: null,
       registered: true
@@ -107,25 +80,16 @@ export default {
   },
   computed: mapState(['user']),
   validations: {
-    member: {
-      firstname: { required },
-      lastname: { required },
-
-      username: {},
-      password: {}
+    team: {
+      name: { required },
+      code: { required },
     }
   },
   methods: {
     async saveForm() {
       try {
-        var params = this.member
-        console.log('Save Form')
-        console.log(this.member)
-        params.member_uid = this.member.uid
+        var params = this.team
         params.authorizer = this.user.uid
-        console.log('params for SaveForm')
-        console.log(params)
-        let res = null
         await AuthorService.updateUserProfile(params)
         this.show()
       } catch (error) {
@@ -135,15 +99,9 @@ export default {
 
     async deleteForm() {
       try {
-        var params = {}
+        var params = this.team
         params.authorizer = this.user.uid
-        params.member_uid = this.member.uid
-        params.member_username = this.member.username
-        console.log('params from DeleteForm')
-        console.log(params)
-        let res = await AuthorService.deleteUser(params)
-        console.log('res from Author Service')
-        console.log(res)
+        let res = await AuthorService.deleteTeam(params)
         if (res.data.error) {
           this.registered = false
           this.error_message = res.data.message
@@ -158,25 +116,19 @@ export default {
       }
     },
     async show() {
-      this.authorized = this.authorize(
-        'team',
-        this.$route.params.uid,
-        this.$route.params.tid
-      )
+      this.authorized = this.authorize('global', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-          console.log('you are authorized')
           var params = {}
-          params.uid = this.$route.params.uid
-          this.member = await AuthorService.getUser(params)
-          this.member.password = null
-          if (this.member.image) {
-            this.member_image =  this.member.image
+          params.tid = this.$route.params.tid
+          this.team = await AuthorService.getTeam(params)
+          if (this.team.image) {
+            this.team_image = this.team.image
           }
 
-          console.log(this.member)
+          console.log(this.team)
         } catch (error) {
-          console.log('There was an error in MyProfile.vue:', error) // Logs out the error
+          console.log('There was an error in TeamProfile.vue:', error) // Logs out the error
         }
       }
     }

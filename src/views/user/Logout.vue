@@ -1,5 +1,5 @@
 <template>
-  <div>
+   <div class="white">
     <img src="/images/menu/black.png" />
     <h2>Login</h2>
     <form @submit.prevent="saveForm">
@@ -90,6 +90,9 @@ export default {
         console.log('Login There was an error ', error) //
       }
     }
-  }
+  },
+   beforeCreate: function() {
+    document.body.className = 'user'
+  },
 }
 </script>

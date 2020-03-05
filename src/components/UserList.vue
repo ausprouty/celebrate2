@@ -49,6 +49,7 @@ div.break {
 
 .shadow-card {
   background-color: #d2bcbc;
+  background-color: #bfbdee;
   cursor: pointer;
   margin-bottom: 10px;
   padding: 5px;
