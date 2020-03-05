@@ -7,11 +7,11 @@ export const authorMixin = {
   computed: mapState(['user']),
   methods: {
     authorize(reason, uid, tid) {
-      console.log (this.user)
+      // if not logged in
       if (typeof this.user.expires == 'undefined') {
         this.$router.push({ name: 'login' })
       }
-      // check if expired
+      // if login has expired (see Author.php for length; right now 1 month)
       var date = new Date()
       var timestamp = date.getTime()
       if (this.user.expires < timestamp) {

@@ -71,7 +71,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import TodayEntered from '@/components/TodayEntered.vue'
-import NavBar from '@/components/NavBarHamburger.vue'
+import NavBar from '@/components/MyNavBar.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'

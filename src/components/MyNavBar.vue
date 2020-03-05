@@ -58,17 +58,18 @@ export default {
           show: true,
           link: 'myGoals'
         },
+        
         {
           index: 4,
-          value: 'Our Team',
-          show: true,
-          link: 'ourTeam'
-        },
-        {
-          index: 5,
           value: 'My Profile',
           show: true,
           link: 'myProfile'
+        },
+        {
+          index: 5,
+          value: 'Our Team',
+          show: true,
+          link: 'ourTeam'
         },
         {
           index: 6,

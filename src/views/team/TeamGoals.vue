@@ -8,13 +8,17 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>Which of these do you celebrate often?</h2>
+      <div v-if="this.member_image">
+        <img v-bind:src="this.member_image" class="member" />
+      </div>
+      <h2>When do you want to throw a party?</h2>
+      <p>Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
         <table class="goals">
           <tr>
             <th>Icon</th>
             <th>Item</th>
-            <th>Often?</th>
+            <th>Goal</th>
           </tr>
           <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
             <td class="icon">
@@ -34,8 +38,8 @@
               {{ item.name }}
               <span :id="item.id" class="definition"></span>
             </td>
-            <td :id="item.id + 'Often'" class="often">
-              <input class="often" type="checkbox" v-model="item.quick" />
+            <td :id="item.id + 'R'" class="goal">
+              <input class="goal" type="text" v-model="item.number" />
             </td>
           </tr>
         </table>
@@ -51,7 +55,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/TeamNavBar.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -65,6 +69,7 @@ export default {
   data() {
     return {
       items: [],
+      member_image: null,
       highlight: true
     }
   },
@@ -126,19 +131,23 @@ export default {
         var params = {}
         var plan = []
         var now = {}
+        var clean = 0
         var l = this.items.length
         for (var i = 0; i < l; i++) {
           now.id = this.items[i]['id']
-          now.quick = this.items[i]['quick']
+          now.number = 0
+          clean = parseInt(this.items[i]['number'], 10)
+          if (typeof clean == 'number') {
+            now.number = clean
+          }
           plan.push(now)
           now = {}
         }
-        params['plan'] = JSON.stringify(plan)
-        params['uid'] = this.user.uid
-        params['tid'] = this.user.team
+        params['goals'] = JSON.stringify(plan)
+        params['uid'] = this.$route.params.uid
+        params['tid'] = this.$route.params.tid
         params['year'] = new Date().getFullYear()
-        console.log(params)
-        var res = await AuthorService.updateSettingsToday(params)
+        var res = await AuthorService.updateGoals(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
@@ -157,12 +166,14 @@ export default {
       try {
         var params = []
         var route = {}
+        if (this.user.image) {
+          this.member_image = '/images/members/' + this.user.image
+        }
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.getSettingsToday(params)
-        console.log(this.items)
+        this.items = await AuthorService.getGoals(params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
@@ -213,7 +224,7 @@ td.item {
   font-size: 14px;
 }
 
-td.often {
+td.goals {
   width: 20%;
 }
 .selected {

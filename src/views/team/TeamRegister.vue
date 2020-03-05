@@ -86,7 +86,7 @@
 <script>
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/NavBarHamburger.vue'
+import NavBar from '@/components/TeamNavBar.vue'
 import vSelect from 'vue-select'
 import Team from '@/views/team/OurTeam.vue'
 import { required } from 'vuelidate/lib/validators'

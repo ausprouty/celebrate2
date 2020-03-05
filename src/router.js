@@ -14,8 +14,12 @@ import MyProgress from './views/user/MyProgress.vue'
 import MySettingsToday from './views/user/MySettingsToday.vue'
 import MyToday from './views/user/MyToday.vue'
 import NotFoundComponent from './views/NotFound.vue'
-import Register from './views/team/Register.vue'
-import NavBarHamburger from './components/NavBarHamburger.vue'
+import TeamGoals from './views/team/TeamGoals.vue'
+import TeamItem from './views/team/TeamItem.vue'
+import TeamProfile from './views/team/TeamProfile.vue'
+import TeamProgress from './views/team/TeamProgress.vue'
+import TeamRegister from './views/team/TeamRegister.vue'
+import MyNavBar from './components/MyNavBar.vue'
 
 import OurTeam from './views/team/OurTeam.vue'
 import Validate from './views/Validate.vue'
@@ -34,13 +38,13 @@ export default new Router({
     {
       path: '/debug',
       name: 'debugger',
-      component: NavBarHamburger,
+      component: MyNavBar,
       props: false
     },
     {
-      path: '/farm',
+      path: '/farm/:tid?',
       name: 'farm',
-      component: Register,
+      component: TeamRegister,
       props: true
     },
     {
@@ -101,6 +105,36 @@ export default new Router({
       path: '/team/:tid',
       name: 'ourTeam',
       component: OurTeam,
+      props: true
+    },
+    {
+      path: '/user/goals/:uid/:tid/:year?',
+      name: 'myGoals',
+      component: MyGoals,
+      props: true
+    },
+    {
+      path: '/team/:tid/:year?',
+      name: 'teamGoals',
+      component: TeamGoals,
+      props: true
+    },
+    {
+      path: '/team/:tid/:id?',
+      name: 'teamItem',
+      component: TeamItem,
+      props: true
+    },
+    {
+      path: '/team/:tid/profile',
+      name: 'teamProfile',
+      component: TeamProfile,
+      props: true
+    },
+    {
+      path: '/team/:tid/:year?/:month?/:page?',
+      name: 'teamProgress',
+      component: TeamProgress,
       props: true
     },
 

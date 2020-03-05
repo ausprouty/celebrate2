@@ -46,7 +46,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import PrayerList from '@/components/PrayerList.vue'
-import NavBar from '@/components/NavBarHamburger.vue'
+import NavBar from '@/components/MyNavBar.vue'
 
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'

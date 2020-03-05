@@ -18,7 +18,7 @@
 import AuthorService from '@/services/AuthorService.js'
 import UserList from '@/components/UserList.vue'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
-import NavBar from '@/components/NavBarHamburger.vue'
+import NavBar from '@/components/TeamNavBar.vue'
 
 export default {
   props: ['tid'],
