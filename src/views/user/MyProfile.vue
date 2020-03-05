@@ -4,7 +4,7 @@
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
-        now
+        now.
       </p>
     </div>
     <div v-if="this.authorized">
@@ -159,7 +159,7 @@ export default {
     },
     async show() {
       this.authorized = this.authorize(
-        'write',
+        'personal',
         this.$route.params.uid,
         this.$route.params.tid
       )

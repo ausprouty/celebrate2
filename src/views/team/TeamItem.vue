@@ -143,7 +143,7 @@ export default {
   },
   async created() {
     this.authorized = this.authorize(
-      'write',
+      'team',
       this.$route.params.uid,
       this.$route.params.tid
     )

@@ -20,7 +20,12 @@
             <th>Item</th>
             <th>Goal</th>
           </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
+          <tr
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="goals"
+          >
             <td class="icon">
               <img
                 v-bind:src="
@@ -158,7 +163,7 @@ export default {
   },
   async created() {
     this.authorized = this.authorize(
-      'write',
+      'personal',
       this.$route.params.uid,
       this.$route.params.tid
     )

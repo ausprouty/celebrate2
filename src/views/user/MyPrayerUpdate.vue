@@ -190,7 +190,7 @@ export default {
     },
     async loadForm() {
       this.authorized = this.authorize(
-        'write',
+        'personal',
         this.$route.params.uid,
         this.$route.params.tid
       )
