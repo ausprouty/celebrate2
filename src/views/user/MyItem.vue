@@ -22,6 +22,7 @@
           :class="{ error: $v.item.name.$error }"
           @blur="$v.item.name.$touch()"
         />
+        
         <BaseTextarea
           v-model="$v.item.paraphrase.$model"
           label="Description"
@@ -50,6 +51,24 @@
             class="field"
           />
         </div>
+        <div>
+          <h3>Icon:</h3>
+          <div v-if="$v.item.image.$model">
+            <img
+              v-bind:src="
+                '/images/icons/personal/' + $v.item.image.$model.image
+              "
+              class="icon"
+            />
+            <br />
+          </div>
+          <v-select :options="images" label="title" v-model="$v.item.image.$model">
+            <template slot="option" slot-scope="option">
+              <img :src="'/images/icons/personal/' + option.image" class="icon" />
+              {{ option.title }}
+            </template>
+          </v-select>
+        </div>
       </form>
       <button class="button green" @click="saveForm">Update</button>
       <button class="button red" @click="deleteForm">Delete</button>
@@ -62,15 +81,21 @@ import NavBar from '@/components/MyNavBar.vue'
 import { required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
+import vSelect from 'vue-select'
+// see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
+import '@/assets/css/vueSelect.css'
 export default {
   computed: mapState(['user']),
   props: ['uid', 'tid', 'id'],
   components: {
-    NavBar
+    NavBar,
+    'v-select': vSelect
   },
   mixins: [authorMixin],
   data() {
     return {
+      images: [],
+      directory: null,
       yes_or_no: ['Y', 'N'],
       item: {
         id: null,
@@ -85,7 +110,11 @@ export default {
         paraphrase: null,
         details: null,
         numbers: 'Y',
-        cumulative: 'Y'
+        cumulative: 'Y',
+        image: {
+          title: 'add',
+          image: 'add_48x48.png'
+        }
       }
     }
   },
@@ -103,7 +132,8 @@ export default {
       paraphrase: { required },
       details: {},
       numbers: { required },
-      cumulative: { required }
+      cumulative: { required },
+      image: { required }
     }
   },
   methods: {
@@ -111,6 +141,7 @@ export default {
       var params = {}
       this.item.uid = this.$route.params.uid
       this.item.tid = this.$route.params.tid
+      this.item.image = this.item.image.image
       params.item = JSON.stringify(this.item)
       console.log(params)
       var res = await AuthorService.updateItem(params)
@@ -127,7 +158,7 @@ export default {
       console.log(res)
       this.return()
     },
-    
+
     return() {
       this.$router.push({
         name: 'myGoals',
@@ -138,7 +169,7 @@ export default {
       })
     }
   },
- beforeCreate: function() {
+  beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {
@@ -150,22 +181,37 @@ export default {
     if (this.authorized) {
       try {
         var params = {}
+        params['icons'] = 'personal'
+        params['icon_size'] = '48x48'
+        var res = await AuthorService.getIcons(params)
+        console.log(res)
+        this.images = res['icons']
+        this.directory = res['dir']
+        console.log(this.images)
         params['uid'] = this.$route.params.uid
         params['tid'] = this.$route.params.tid
         if (typeof this.$route.params.id != 'undefined') {
-          console.log('I am going to get item' + this.$route.params.id)
           params['id'] = this.$route.params.id
-          var res = await AuthorService.getItem(params)
-          console.log(res)
+          res = await AuthorService.getItem(params)
           if (typeof res != 'undefined') {
             this.item = res
+            var im = this.item.image
+            this.item.image = {}
+            this.item.image.image = im
+            this.item.image.title = im.replace('_48x48.png', '')
+            console.log(this.item)
           }
         }
       } catch (error) {
-        console.log('There was an error in Myitem.vue:', error) // Logs out the error
+        console.log('There was an error in MyItem.vue:', error) // Logs out the error
       }
     }
   }
 }
 </script>
-<style scoped></style>
+
+<style scoped>
+img.icon {
+  width: 48px;
+}
+</style>

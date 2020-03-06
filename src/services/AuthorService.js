@@ -79,6 +79,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async getIcons(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getIcons&action=getIcons',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async getItem(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(

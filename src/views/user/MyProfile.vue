@@ -48,9 +48,9 @@
           class="field"
         />
 
-        <p>Change Username or Password</p>
+        <p @click="changePassword()" class="change">Change Username or Password</p>
 
-        <div v-if="this.security">
+        <div v-if="this.change_password">
           <BaseInput
             v-model="$v.member.username.$model"
             label="Username"
@@ -102,7 +102,7 @@ export default {
         username: null,
         password: null
       },
-      security: false,
+      change_password: false,
       member_image: null,
       submitted: false,
       wrong: null,
@@ -162,6 +162,14 @@ export default {
         console.log('Delete There was an error ', error) //
       }
     },
+    changePassword() {
+      if (this.change_password === false) {
+        this.change_password = true
+      }
+      else{
+        this.change_password = false
+      }
+    },
     async show() {
       this.authorized = this.authorize(
         'profile',
@@ -178,7 +186,6 @@ export default {
           if (this.member.image) {
             this.member_image = '/images/members/' + this.member.image
           }
-          this.security = false
           console.log(this.member)
         } catch (error) {
           console.log('There was an error in MyProfile.vue:', error) // Logs out the error
@@ -194,3 +201,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.change{
+  color:green;
+}
+</style>

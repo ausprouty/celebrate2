@@ -89,6 +89,7 @@ export default {
             message +
             '<br> <a href= "/user/' +
             this.$route.params.uid +
+            '/' +  this.$route.params.tid +
             '/item/' +
             item.id +
             '"> Update Item </a>'
