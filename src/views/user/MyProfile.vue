@@ -1,5 +1,5 @@
 <template>
-   <div class="white">
+  <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -41,30 +41,32 @@
         </template>
 
         <BaseInput
-          v-model="$v.member.username.$model"
-          label="Username"
+          v-model="$v.member.phone.$model"
+          label="Phone"
           type="text"
           placeholder
           class="field"
-          :class="{ error: $v.member.username.$error }"
-          @mousedown="$v.member.username.$touch()"
         />
-        <template v-if="$v.member.username.$error">
-          <p v-if="!$v.member.username.required" class="errorMessage">Username is required</p>
-        </template>
 
-        <BaseInput
-          v-model="$v.member.password.$model"
-          label="Password"
-          type="password"
-          placeholder
-          class="field"
-          :class="{ error: $v.member.password.$error }"
-          @mousedown="$v.member.password.$touch()"
-        />
-        <template v-if="$v.member.password.$error">
-          <p v-if="!$v.member.password.required" class="errorMessage">Password is required</p>
-        </template>
+        <p>Change Username or Password</p>
+
+        <div v-if="this.security">
+          <BaseInput
+            v-model="$v.member.username.$model"
+            label="Username"
+            type="text"
+            placeholder
+            class="field"
+          />
+
+          <BaseInput
+            v-model="$v.member.password.$model"
+            label="Password"
+            type="password"
+            placeholder
+            class="field"
+          />
+        </div>
 
         <br />
         <br />
@@ -95,10 +97,12 @@ export default {
       member: {
         firstname: null,
         lastname: null,
+        phone: null,
         scope: null,
         username: null,
         password: null
       },
+      security: false,
       member_image: null,
       submitted: false,
       wrong: null,
@@ -110,6 +114,7 @@ export default {
     member: {
       firstname: { required },
       lastname: { required },
+      phone: {},
 
       username: {},
       password: {}
@@ -171,9 +176,9 @@ export default {
           this.member = await AuthorService.getUser(params)
           this.member.password = null
           if (this.member.image) {
-            this.member_image = this.member.image
+            this.member_image = '/images/members/' + this.member.image
           }
-
+          this.security = false
           console.log(this.member)
         } catch (error) {
           console.log('There was an error in MyProfile.vue:', error) // Logs out the error
@@ -181,7 +186,7 @@ export default {
       }
     }
   },
-   beforeCreate: function() {
+  beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {

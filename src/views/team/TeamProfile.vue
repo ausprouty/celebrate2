@@ -8,8 +8,8 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2 v-if="team.name">Update {{ team.name }}</h2>
-      <h2 v-if="!team.name">New Team</h2>
+      <h2 v-if="team.name" class="center">Update {{ team.name }}</h2>
+      <h2 v-if="!team.name" class="center">New Team</h2>
       <div v-if="this.team_image">
         <img v-bind:src="this.team_image" class="team" />
       </div>
@@ -90,7 +90,8 @@ export default {
       try {
         var params = this.team
         params.authorizer = this.user.uid
-        await AuthorService.updateUserProfile(params)
+        console.log (params)
+        await AuthorService.updateTeamProfile(params)
         this.show()
       } catch (error) {
         console.log('Update There was an error ', error) //
@@ -141,3 +142,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+h2{
+  color:#2d9593;
+}
+
+</style>

@@ -65,21 +65,14 @@ export default {
         this.$store.dispatch('loginUser', [response])
         params.username = this.username
         params.password = this.password
-        console.log('params in Save Form;')
-        console.log(params)
         let res = await AuthorService.login(params)
-        console.log('res from Author Service')
-        console.log(res)
         if (res.data.content) {
           response = res.data.content
           response.token = res.data.token
           response.expires = res.data.content.expires * 1000
           var date = new Date()
           response.now = date.getTime()
-          console.log('response before go to loginUser')
-          console.log(response)
           this.$store.dispatch('loginUser', [response])
-          console.log('I am bout to go to myToday')
           this.$router.push({
             name: 'myToday',
             params: {
@@ -98,6 +91,19 @@ export default {
   },
   beforeCreate: function() {
     document.body.className = 'user'
+  },
+  async created() {
+    if (typeof this.user.expires != 'undefined') {
+      if (this.user.expires > this.user.now) {
+        this.$router.push({
+          name: 'myToday',
+          params: {
+            uid: this.user.uid,
+            tid: this.user.team
+          }
+        })
+      }
+    }
   }
 }
 </script>

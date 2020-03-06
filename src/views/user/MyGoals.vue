@@ -169,7 +169,7 @@ export default {
         var params = []
         var route = {}
         if (this.user.image) {
-          this.member_image = this.user.image
+          this.member_image = '/images/members/' + this.user.image
         }
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid
