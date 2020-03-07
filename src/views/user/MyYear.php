@@ -8,6 +8,19 @@
       </p>
     </div>
     <div v-if="this.authorized">
+      <div style="width:100%">
+        <img v-bind:src="appDir.members + this.user.image" class="member" />
+      </div>
+      <div>
+        <table class="time">
+          <tr>
+            <td class="left" @click="previousMonth()">< Previous Month</td>
+            <td class="center">{{ this.time }}</td>
+            <td class="right" @click="nextMonth()">Next Month ></td>
+          </tr>
+        </table>
+      </div>
+
       <div class="center">
         <table class="heading">
           <tr>
@@ -23,21 +36,80 @@
               />
             </td>
             <td class="objective">
-              <p class="objective">Prayer</p>
-              <p class="verse">
-                "Ask and it will be given to you; seek and you will find; knock
-                and the door will be opened to you. For everyone who asks
-                receives; the one who seeks finds; and to the one who knocks,
-                the door will be opened."
-              </p>
+              <p class="objective">{{ this.objective }}</p>
+              <ul class="motto">
+                <li class="motto">Encounter Jesus today.</li>
+                <li class="motto">Impact Australia tomorrow.</li>
+                <li class="motto">Reach the nations for eternity.</li>
+              </ul>
             </td>
           </tr>
         </table>
 
-        <h2>What does the Holy Spirit want you to pray today?</h2>
+        <h2>Who has the Holy Spirit transformed?</h2>
       </div>
       <div class="subheading">
-        <PrayerList v-for="item in items" :key="item.pid" :item="item" />
+        <form @submit.prevent="saveForm">
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+            <div class="app-link">
+              <div
+                class="shadow-card -shadow"
+                v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
+              >
+                <div class="container" @click="showDefinition(item)">
+                  <div class="icon">
+                    <img
+                      v-bind:src="
+                        appDir.icons + item.celebration_set + '/' + item.image
+                      "
+                      class="icon"
+                    />
+                  </div>
+                  <div
+                    :id="item.id + 'R'"
+                    class="item_name"
+                    v-bind:class="{ selected: evaluateSelect(item.number) }"
+                  >{{ item.name }}</div>
+                  <div :id="item.id" class="collapsed">
+                    <ItemEntryProgress :item="item"></ItemEntryProgress>
+                  </div>
+                </div>
+                <hr />
+                <div class="entry">
+                  <BaseInput label="Number:" v-model="item.entry" type="number" class="integer" />
+                </div>
+                <div v-if="item.details">
+                  <BaseTextarea
+                    v-bind:label="item.details"
+                    @click="showDetails(item)"
+                    v-model="item.comment"
+                    type="textarea"
+                    class="field paragraph"
+                  />
+                  <div :id="item.id + 'Details'" class="collapsed">
+                    <ItemEntryDetails :item="item"></ItemEntryDetails>
+                  </div>
+                </div>
+                <BaseTextarea
+                  label="Praise or Prayer Request"
+                  type="textarea"
+                  @click="showPrayer(item)"
+                  v-model="item.prayer"
+                  class="field paragraph"
+                />
+                <div :id="item.id + 'Prayer'" class="collapsed">
+                  <ItemEntryPrayer :item="item"></ItemEntryPrayer>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div v-if="this.$route.params.page > 0" class="left">
+          <button class="button green left" @click="previousForm"><</button>
+        </div>
+        <div v-if="this.$route.params.page < 5" class="right">
+          <button class="button green right" @click="nextForm">></button>
+        </div>
       </div>
     </div>
   </div>
@@ -45,16 +117,19 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import PrayerList from '@/components/PrayerList.vue'
 import NavBar from '@/components/MyNavBar.vue'
-
+import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
+import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
+import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    PrayerList
+    ItemEntryProgress,
+    ItemEntryDetails,
+    ItemEntryPrayer
   },
 
   props: ['uid', 'tid', 'year', 'month', 'page'],
@@ -76,16 +151,6 @@ export default {
     }
   },
   methods: {
-    showPage: function(user) {
-      console.log('user')
-      console.log(user)
-      this.$router.push({
-        name: 'user',
-        params: {
-          uid: this.user.uid
-        }
-      })
-    },
     // see https://www.w3schools.com/howto/howto_js_collapsible.asp
     showDefinition(item) {
       console.log('hit button')
@@ -114,7 +179,30 @@ export default {
         content.style.display = 'block'
       }
     },
-
+    nextMonth() {
+      this.saveForm()
+      var next = this.$route.params.month + 1
+      if (next > 12) {
+        this.$route.params.month = 1
+        var year = this.$route.params.year + 1
+        this.$route.params.year = year
+      } else {
+        this.$route.params.month = next
+      }
+      this.loadForm()
+    },
+    previousMonth() {
+      this.saveForm()
+      var prev = this.$route.params.month - 1
+      if (prev < 1) {
+        this.$route.params.month = 12
+        var year = this.$route.params.year - 1
+        this.$route.params.year = year
+      } else {
+        this.$route.params.month = prev
+      }
+      this.loadForm()
+    },
     evaluateSelect(quantity) {
       if (quantity > 0) {
         return true
@@ -160,15 +248,16 @@ export default {
           if (typeof this.$route.params.page == 'undefined') {
             this.$route.params.page = 0
           }
+          console.log(this.$route.params)
           params['route'] = JSON.stringify(this.$route.params)
           this.picture = await AuthorService.getImagePage(params)
-          this.items = await AuthorService.getPrayersTeam(params)
-          console.log(this.items)
-
+          this.items = await AuthorService.getProgressPageEntry(params)
+          this.objective = this.items[0]['objective']
           this.time =
             this.months[this.$route.params.month] +
             ',  ' +
             this.$route.params.year
+          console.log(this.items)
         } catch (error) {
           console.log('There was an error in myMonth.vue:', error) // Logs out the error
         }
@@ -185,6 +274,48 @@ export default {
 </script>
 
 <style scoped>
+table.time {
+  display: block;
+  background-color: white;
+  padding: 10px;
+  width: 97%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+tr.time {
+  width: 100%;
+}
+td.left {
+  background-color: purple;
+  color: white;
+  padding-left: 10px;
+  font-size: 10px;
+  text-align: left;
+  width: 20%;
+}
+td.right {
+  width: 20%;
+  color: white;
+  font-size: 10px;
+  text-align: right;
+  background-color: purple;
+  padding-right: 10px;
+}
+a.left,
+a.right {
+  color: white;
+  text-decoration: none;
+}
+td.center {
+  width: 60%;
+  text-align: center;
+  font-weight: 900;
+}
+div.inline {
+  display: inline;
+  text-align: center;
+}
+
 table.heading {
   display: block;
   background-color: rgb(243, 243, 148);

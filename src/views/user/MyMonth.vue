@@ -1,5 +1,5 @@
 <template>
-   <div class="white">
+  <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -259,12 +259,12 @@ export default {
             this.$route.params.year
           console.log(this.items)
         } catch (error) {
-          console.log('There was an error in MyProgress.vue:', error) // Logs out the error
+          console.log('There was an error in myMonth.vue:', error) // Logs out the error
         }
       }
     }
   },
-   beforeCreate: function() {
+  beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {
@@ -274,7 +274,6 @@ export default {
 </script>
 
 <style scoped>
-
 table.time {
   display: block;
   background-color: white;

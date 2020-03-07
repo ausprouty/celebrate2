@@ -259,7 +259,7 @@ export default {
             this.$route.params.year
           console.log(this.items)
         } catch (error) {
-          console.log('There was an error in MyProgress.vue:', error) // Logs out the error
+          console.log('There was an error in myMonth.vue:', error) // Logs out the error
         }
       }
     }
@@ -274,8 +274,8 @@ export default {
 </script>
 
 <style scoped>
-h2{
-  color:#2d9593;
+h2 {
+  color: #2d9593;
 }
 
 table.time {

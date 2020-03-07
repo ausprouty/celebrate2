@@ -50,7 +50,7 @@ export default {
           index: 2,
           value: 'My Progress',
           show: false,
-          link: 'myProgress'
+          link: 'myMonth'
         },
         {
           index: 3,
@@ -58,7 +58,7 @@ export default {
           show: true,
           link: 'myGoals'
         },
-        
+
         {
           index: 4,
           value: 'My Profile',
@@ -133,7 +133,7 @@ export default {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 10px;
-  color:white;
+  color: white;
 }
 
 /* Links inside the dropdown */
@@ -146,7 +146,7 @@ export default {
 
 /* Change color of dropdown links on hover */
 .dropdown-content .item:hover {
-  background-color:darkblue;
+  background-color: darkblue;
 }
 
 /* Show the dropdown menu on hover */

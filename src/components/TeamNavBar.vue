@@ -13,6 +13,7 @@
         <div class="dropdown-content">
           <div v-for="menuItem in menu" :key="menuItem.index" :menuItem="menuItem">
             <div
+              v-if="showItem(menuItem.show, leader)"
               class="item"
               style="cursor:pointer"
               @click="setNewSelectedOption(menuItem)"
@@ -26,13 +27,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
   computed: mapState(['user']),
-
+  mixins: [authorMixin],
   data() {
     return {
-      authorized: true,
+      authorized: false,
       menu: [
         {
           index: 0,
@@ -43,7 +45,7 @@ export default {
         {
           index: 1,
           value: 'Team Goals',
-          show: true,
+          show: false,
           link: 'teamGoals'
         },
         {
@@ -62,7 +64,7 @@ export default {
           index: 5,
           value: 'Return',
           show: true,
-          link: 'myProfile'
+          link: 'myToday'
         },
         {
           index: 6,
@@ -77,19 +79,30 @@ export default {
     goBack() {
       window.history.back()
     },
+    showItem(show, leader) {
+      if (show || leader) {
+        return true
+      }
+      return false
+    },
     setNewSelectedOption(selectedOption) {
-     
       this.showMenu = false
       this.$router.push({
         name: selectedOption.link,
         params: {
-          tid: this.user.team
+          tid: this.user.team,
+          uid: this.user.uid
         }
       })
     }
   },
   created() {
-    this.authorized = true
+    this.authorized = this.authorize(
+      'team-member',
+      null,
+      this.$route.params.tid
+    )
+    this.leader = this.authorize('team', null, this.$route.params.tid)
   }
 }
 </script>
@@ -116,7 +129,7 @@ export default {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color:blue;
+  background-color: blue;
 
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);

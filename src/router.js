@@ -10,7 +10,7 @@ import MyItem from './views/user/MyItem.vue'
 import MyPrayers from './views/user/MyPrayers.vue'
 import MyPrayerUpdate from './views/user/MyPrayerUpdate.vue'
 import MyProfile from './views/user/MyProfile.vue'
-import MyProgress from './views/user/MyProgress.vue'
+import MyMonth from './views/user/MyMonth.vue'
 import MySettingsToday from './views/user/MySettingsToday.vue'
 import MyToday from './views/user/MyToday.vue'
 import NotFoundComponent from './views/NotFound.vue'
@@ -84,9 +84,9 @@ export default new Router({
       props: true
     },
     {
-      path: '/user/progress/:uid/:tid/:year?/:month?/:page?',
-      name: 'myProgress',
-      component: MyProgress,
+      path: '/user/month/:uid/:tid/:year?/:month?/:page?',
+      name: 'myMonth',
+      component: MyMonth,
       props: true
     },
     {

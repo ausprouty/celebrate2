@@ -34,7 +34,7 @@ import { mapState } from 'vuex'
 
 export default {
   computed: mapState(['user']),
- 
+
   data() {
     return {
       authorized: true,
@@ -56,7 +56,7 @@ export default {
           index: 2,
           value: 'My Progress',
           show: false,
-          link: 'myProgress'
+          link: 'myMonth'
         },
         {
           index: 3,
