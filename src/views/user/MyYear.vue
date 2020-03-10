@@ -11,16 +11,6 @@
       <div style="width:100%">
         <img v-bind:src="appDir.members + this.user.image" class="member" />
       </div>
-       <form @submit.prevent="saveForm">
-        Select:
-        <v-select
-          multiple
-          :reduce="display => display.code"
-          :options="this.scope_options"
-          label="display"
-          v-model="scope"
-        ></v-select>
-        </form>
 
       <div>
         <h1 class="center">{{ this.item_details.name }}</h1>
@@ -60,6 +50,20 @@
           >{{ this.res.this_year }}</span>
         </div>
       </div>
+      <form @submit.prevent="saveForm">
+        Show:
+        <v-select :options="scope" label="name" @input="updateData" v-model="selected">
+          <template slot="option" slot-scope="option">
+            <img
+              :src="
+                '/images/icons/' + option.celebration_set + '/' + option.image
+              "
+              class="icon"
+            />
+            {{ option.name }}
+          </template>
+        </v-select>
+      </form>
     </div>
   </div>
 </template>
@@ -76,7 +80,7 @@ export default {
   components: {
     NavBar,
     Chartist,
-     'v-select': vSelect
+    'v-select': vSelect
   },
 
   props: ['uid', 'tid', 'year', 'item'],
@@ -87,21 +91,19 @@ export default {
       item_details: {},
       series: [],
       res: [],
+      scope_options: [],
+      scope: [],
+      selected: {},
       canvasId: 'traffic-chart'
     }
   },
   methods: {
-    // see https://www.w3schools.com/howto/howto_js_collapsible.asp
-    showDefinition(item) {
-      console.log('hit button')
-      var content = document.getElementById(item.id)
-      if (content.style.display === 'block') {
-        content.style.display = 'none'
-      } else {
-        content.style.display = 'block'
-      }
+    updateData() {
+      console.log('this.selected')
+      console.log(this.selected)
+      this.$route.params.item = this.selected.id
+      this.loadForm()
     },
-
     async loadForm() {
       this.authorized = this.authorize(
         'personal',
@@ -112,14 +114,11 @@ export default {
         try {
           var params = []
           params.route = JSON.stringify(this.$route.params)
-          this.scope = await AuthorService.getItemsPerson(params)
+          this.scope = await AuthorService.getItemsMember(params)
 
           this.res = await AuthorService.getProgressPersonForYear(params)
           var temp = JSON.parse(this.res.item)
           this.item_details = temp[0]
-          console.log('this.res')
-          console.log(this.res)
-          console.log(this.item_details)
 
           this.series = this.res.progress
           var chart = new Chartist.Line(
@@ -223,6 +222,9 @@ td.row_value {
   width: 20%;
   text-align: right;
   color: white;
+}
+img.icon {
+  width: 48px;
 }
 
 .definition {

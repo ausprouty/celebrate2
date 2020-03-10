@@ -107,6 +107,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async getItemsMember(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getItemsMember&action=getItemsMember',
+      contentForm
+    )
+    let response = JSON.parse(res.data.content)
+    return response
+  },
 
   async getPrayersTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
