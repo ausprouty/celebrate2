@@ -48,7 +48,7 @@ export default {
         },
         {
           index: 2,
-          value: 'My Progress',
+          value: 'My Month',
           show: false,
           link: 'myMonth'
         },
@@ -58,21 +58,27 @@ export default {
           show: true,
           link: 'myGoals'
         },
-
         {
           index: 4,
+          value: 'My Year',
+          show: false,
+          link: 'myYear'
+        },
+
+        {
+          index: 5,
           value: 'My Profile',
           show: true,
           link: 'myProfile'
         },
         {
-          index: 5,
+          index: 6,
           value: 'Our Team',
           show: true,
           link: 'ourTeam'
         },
         {
-          index: 6,
+          index: 7,
           value: 'Logout',
           show: false,
           link: 'logout'

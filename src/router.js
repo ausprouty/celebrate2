@@ -12,6 +12,7 @@ import MyPrayerUpdate from './views/user/MyPrayerUpdate.vue'
 import MyProfile from './views/user/MyProfile.vue'
 import MyMonth from './views/user/MyMonth.vue'
 import MySettingsToday from './views/user/MySettingsToday.vue'
+import MyYear from './views/user/MyYear.vue'
 import MyToday from './views/user/MyToday.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import TeamGoals from './views/team/TeamGoals.vue'
@@ -99,6 +100,12 @@ export default new Router({
       path: '/user/today/settings/:uid/:tid/',
       name: 'mySettingsToday',
       component: MySettingsToday,
+      props: true
+    },
+    {
+      path: '/user/year/:uid/:tid/:item?/:year?',
+      name: 'myYear',
+      component: MyYear,
       props: true
     },
     {

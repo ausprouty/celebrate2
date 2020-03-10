@@ -154,6 +154,18 @@ export default {
     let response = res.data.content
     return response
   },
+
+  async getProgressPersonForYear(params) {
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getProgressPersonForYear&action=getProgressPersonForYear',
+      contentForm
+    )
+    console.log(res)
+    let response = res.data.content
+    return response
+  },
   async getProgressToday(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -226,6 +238,15 @@ export default {
       'AuthorApi.php?action=login',
       contentForm
     )
+    return response
+  },
+  async seedProgress(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=seedProgress&action=seedProgress',
+      contentForm
+    )
+    let response = res.data.content
     return response
   },
   async updateGoals(params) {
