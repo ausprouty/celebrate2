@@ -38,39 +38,40 @@ export default {
       menu: [
         {
           index: 0,
-          value: 'Team Progress',
-          show: true,
-          link: 'teamProgress'
-        },
-        {
-          index: 1,
-          value: 'Team Goals',
-          show: false,
-          link: 'teamGoals'
-        },
-        {
-          index: 2,
-          value: 'Team Profile',
-          show: false,
-          link: 'teamProfile'
-        },
-        {
-          index: 4,
           value: 'Our Team',
           show: true,
           link: 'ourTeam'
         },
         {
-          index: 5,
-          value: 'Return',
+          index: 1,
+          value: 'Monthly Progress',
           show: true,
-          link: 'myToday'
+          link: 'teamProgress'
         },
         {
-          index: 6,
-          value: 'Logout',
+          index: 2,
+          value: 'Yearly Progress',
+          show: true,
+          link: 'teamYear'
+        },
+        {
+          index: 3,
+          value: 'Team Goals',
           show: false,
-          link: 'logout'
+          link: 'teamGoals'
+        },
+        {
+          index: 4,
+          value: 'Team Profile',
+          show: false,
+          link: 'teamProfile'
+        },
+
+        {
+          index: 5,
+          value: 'My Today',
+          show: true,
+          link: 'myToday'
         }
       ]
     }

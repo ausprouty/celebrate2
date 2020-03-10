@@ -116,6 +116,15 @@ export default {
     let response = JSON.parse(res.data.content)
     return response
   },
+  async getItemsTeam(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getItemsTeam&action=getItemsTeam',
+      contentForm
+    )
+    let response = JSON.parse(res.data.content)
+    return response
+  },
 
   async getPrayersTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
@@ -169,6 +178,17 @@ export default {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getProgressPersonForYear&action=getProgressPersonForYear',
+      contentForm
+    )
+    console.log(res)
+    let response = res.data.content
+    return response
+  },
+  async getProgressTeamForYear(params) {
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getProgressTeamForYear&action=getProgressTeamForYear',
       contentForm
     )
     console.log(res)
