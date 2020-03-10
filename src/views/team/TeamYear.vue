@@ -8,8 +8,8 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-      <div style="width:100%">
-        TEam Picture
+       <div v-if="this.team.image" class="center confetti">
+        <img v-bind:src="this.team.image" class="team-small" />
       </div>
 
       <div>
@@ -45,14 +45,17 @@
           Key:
           <span class="last_year">{{ this.res.last_year }}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span
-            class="this_year"
-          >{{ this.res.this_year }}</span>
+          <span class="this_year">{{ this.res.this_year }}</span>
         </div>
       </div>
       <form @submit.prevent="saveForm">
         Show:
-        <v-select :options="scope" label="name" @input="updateData" v-model="selected">
+        <v-select
+          :options="scope"
+          label="name"
+          @input="updateData"
+          v-model="selected"
+        >
           <template slot="option" slot-scope="option">
             <img
               :src="
@@ -83,13 +86,14 @@ export default {
     'v-select': vSelect
   },
 
-  props: ['uid', 'tid', 'year', 'item'],
+  props: ['tid', 'year', 'item'],
   computed: mapState(['user', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {
       item_details: {},
       series: [],
+      team:[],
       res: [],
       scope_options: [],
       scope: [],
@@ -105,17 +109,13 @@ export default {
       this.loadForm()
     },
     async loadForm() {
-      this.authorized = this.authorize(
-        'personal',
-        this.$route.params.uid,
-        this.$route.params.tid
-      )
+      this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
           var params = []
           params.route = JSON.stringify(this.$route.params)
           this.scope = await AuthorService.getItemsTeam(params)
-
+          this.team = await AuthorService.getTeam(params)
           this.res = await AuthorService.getProgressTeamForYear(params)
           var temp = JSON.parse(this.res.item)
           this.item_details = temp[0]
@@ -227,6 +227,10 @@ img.icon {
   width: 48px;
 }
 
+
+.team-small{
+  width:50%;
+}
 .definition {
   color: red;
   font-size: 14px;

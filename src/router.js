@@ -21,7 +21,7 @@ import TeamMonth from './views/team/TeamMonth.vue'
 import TeamProfile from './views/team/TeamProfile.vue'
 
 import TeamRegister from './views/team/TeamRegister.vue'
-import TeamYear from './views/my/TeamYear.vue'
+import TeamYear from './views/team/TeamYear.vue'
 import MyNavBar from './components/MyNavBar.vue'
 
 import OurTeam from './views/team/OurTeam.vue'
@@ -69,7 +69,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/:uid/:tid/item/:id?',
+      path: '/my/item/:uid/:tid/:id?',
       name: 'myItem',
       component: MyItem,
       props: true
@@ -117,31 +117,31 @@ export default new Router({
       props: true
     },
     {
-      path: '/team/:tid/goals/:year?',
+      path: '/team/goals/:tid/:year?',
       name: 'teamGoals',
       component: TeamGoals,
       props: true
     },
     {
-      path: '/team/:tid/item/:id?',
+      path: '/team/item/:tid/:id?',
       name: 'teamItem',
       component: TeamItem,
       props: true
     },
     {
-      path: '/team/:tid/profile',
+      path: '/team/profile/:tid',
       name: 'teamProfile',
       component: TeamProfile,
       props: true
     },
     {
-      path: '/team/:tid/:year?/:month?/:page?',
+      path: '/team/month/:tid/:year?/:month?/:page?',
       name: 'teamMonth',
       component: TeamMonth,
       props: true
     },
     {
-      path: '/my/year/:uid/:tid/:item?/:year?',
+      path: '/team/year/:uid/:tid/:item?/:year?',
       name: 'teamYear',
       component: TeamYear,
       props: true

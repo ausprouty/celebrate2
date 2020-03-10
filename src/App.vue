@@ -57,6 +57,7 @@ body {
 body.team {
   background-image: url('/images/background/wiggles.png');
 }
+div.confetti,
 body.user {
   background-image: url('/images/background/confetti.png');
 }

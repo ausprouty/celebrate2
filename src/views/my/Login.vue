@@ -82,7 +82,9 @@ export default {
           })
         } else {
           this.wrong = true
-          console.log('wrong')
+          console.log(
+            'It seems you have forgotten your password.  Please conrtact Bob Prouty'
+          )
         }
       } catch (error) {
         console.log('Login There was an error ', error) //
