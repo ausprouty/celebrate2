@@ -30,7 +30,7 @@ export const authorMixin = {
       var scope = ''
       if (typeof this.user.scope != 'undefined') {
         scope = this.user.scope
-        console.log('Your scope is '+ scope)
+        console.log('Your scope is ' + scope)
       }
       if (scope == 'global') {
         console.log('you have global authority')
@@ -45,6 +45,15 @@ export const authorMixin = {
       // are you a team member?{
       if (reason == 'team-member' && this.user.team == tid) {
         console.log('you are team member')
+        return true
+      }
+      // is this something your team leader can modify?{
+      if (
+        reason == 'personal-or-teamleader' &&
+        this.user.team == tid &&
+        this.user.scope == 'team'
+      ) {
+        console.log('you are team leader')
         return true
       }
 

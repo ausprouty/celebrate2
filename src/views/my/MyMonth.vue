@@ -9,7 +9,7 @@
     </div>
     <div v-if="this.authorized">
       <div style="width:100%">
-        <img v-bind:src="appDir.members + this.user.image" class="member" />
+        <img v-bind:src="appDir.members + this.member.image" class="member" />
       </div>
       <div>
         <table class="time">
@@ -145,7 +145,8 @@ export default {
       highlight: true,
       picture: 'IMG_6282.JPG',
       objective: null,
-      time: null
+      time: null,
+      member:{}
     }
   },
   validations: {
@@ -246,7 +247,7 @@ export default {
     },
     async loadForm() {
       this.authorized = this.authorize(
-        'personal',
+        'personal-or-teamleader',
         this.$route.params.uid,
         this.$route.params.tid
       )
@@ -264,8 +265,11 @@ export default {
           if (typeof this.$route.params.page == 'undefined') {
             this.$route.params.page = 0
           }
-          console.log(this.$route.params)
+          
           params['route'] = JSON.stringify(this.$route.params)
+          params['uid'] = this.$route.params.uid
+          console.log(params)
+          this.member = await AuthorService.getUser(params)
           this.picture = await AuthorService.getImagePage(params)
           this.items = await AuthorService.getProgressPageEntry(params)
           this.objective = this.items[0]['objective']

@@ -7,7 +7,7 @@
         now.
       </p>
     </div>
-    <div v-if="this.authorized" class="chart-area">
+    <div v-if="this.authorized" >
       <div class="app-link">
         <div
           class="shadow-card -shadow"
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <h1>Needs progress for these months:</h1>
+      <h1 v-if="missingMonths(this.missing)">Needs progress for these months:</h1>
       <div v-for="missed in missing">
         <p class="months" @click="openProgress(missed)">{{ months[missed] }}</p>
       </div>
@@ -58,12 +58,18 @@ export default {
       }
       return true
     },
+    missingMonths(missing) {
+      if (missing.length == 0) {
+        return false
+      }
+      return true
+    },
     openProgress(month) {
       this.$router.push({
         name: 'myMonth',
         params: {
           uid: this.$route.params.uid,
-          tid: this.$route.params.uid,
+          tid: this.$route.params.tid,
           year: this.$route.params.year,
           month: month
         }
@@ -105,6 +111,7 @@ export default {
 }
 </script>
 <style scoped>
+
 img.icon {
   width: 48px;
 }
@@ -134,5 +141,6 @@ div.card-names {
 }
 .months {
   font-size: 18pt;
+  padding-left: 20px;
 }
 </style>
