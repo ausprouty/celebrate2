@@ -78,6 +78,14 @@
                 <div class="entry">
                   <BaseInput label="Number:" v-model="item.entry" type="number" class="integer" />
                 </div>
+                <div v-if="checkToday(item.id)" class="today">
+                  <p>From Daily Entry:</p>
+                  <div
+                    v-for="(today, todayid) in today[item.id]"
+                    :key="todayid"
+                    :item="today"
+                  >{{ today.comment }} - {{ today.entry }}</div>
+                </div>
                 <div v-if="item.details">
                   <BaseTextarea
                     v-bind:label="item.details"
@@ -146,7 +154,8 @@ export default {
       picture: 'IMG_6282.JPG',
       objective: null,
       time: null,
-      member:{}
+      member: {},
+      today: []
     }
   },
   validations: {
@@ -155,6 +164,19 @@ export default {
     }
   },
   methods: {
+    checkToday(index) {
+      if (typeof this.today[index] != 'undefined') {
+        var len = this.today[index].length
+        if (len != 0) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        return false
+      }
+    },
+
     // see https://www.w3schools.com/howto/howto_js_collapsible.asp
     showDefinition(item) {
       console.log('hit button')
@@ -265,13 +287,16 @@ export default {
           if (typeof this.$route.params.page == 'undefined') {
             this.$route.params.page = 0
           }
-          
+
           params['route'] = JSON.stringify(this.$route.params)
           params['uid'] = this.$route.params.uid
           console.log(params)
           this.member = await AuthorService.getUser(params)
           this.picture = await AuthorService.getImagePage(params)
           this.items = await AuthorService.getProgressPageEntry(params)
+          params['items'] = JSON.stringify(this.items)
+          this.today = await AuthorService.getTodayForProgressPageEntry(params)
+          console.log(this.today)
           this.objective = this.items[0]['objective']
           this.time =
             this.months[this.$route.params.month] +
@@ -361,6 +386,11 @@ div.icon {
 img.icon {
   width: 48px;
   padding-right: 10px;
+}
+div.today {
+  background-color: red;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 div.shadow-card {

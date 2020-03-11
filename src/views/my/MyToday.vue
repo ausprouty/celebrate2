@@ -60,6 +60,7 @@
           </div>
           <!-- End of for loop-->
           <button class="button green" @click="saveForm">Update</button>
+          <button class="button grey right" @click="updateSettings">Settings</button>
         </form>
       </div>
       <!-- End of Subheading-->
@@ -96,7 +97,10 @@ export default {
   },
   methods: {
     showDetails() {
-      alert('I should show some details now')
+      console.log('what do I show')
+    },
+    showPrayer() {
+      console.log('what prayer do I show')
     },
     showDefinition(item) {
       var present = document.getElementById(item.id).innerHTML
@@ -124,31 +128,54 @@ export default {
       }
       return false
     },
+    async updateSettings() {
+      this.saveForm()
+      this.$router.push({
+        name: 'myTodaySettings',
+        params: {
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid
+        }
+      })
+    },
 
     async saveForm() {
       try {
         var params = {}
-        var plan = []
+        var today = []
         var now = {}
         var clean = 0
         var l = this.items.length
         for (var i = 0; i < l; i++) {
           now.id = this.items[i]['id']
-          now.number = 0
-          clean = parseInt(this.items[i]['number'], 10)
+          now.comment = this.items[i]['comment']
+          now.prayer = this.items[i]['prayer']
+          now.entry = 0
+          clean = parseInt(this.items[i]['entry'], 10)
           if (typeof clean == 'number') {
-            now.number = clean
+            now.entry = clean
           }
-          plan.push(now)
+          today.push(now)
           now = {}
         }
-        params['items'] = JSON.stringify(plan)
+        params['items'] = JSON.stringify(today)
         var route = this.$route.params
         route.year = new Date().getFullYear()
         route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
         console.log(params)
+        var l = this.items.length
+        for (var i = 0; i < l; i++) {
+          this.items[i]['entry'] = 0
+          if (typeof this.items[i]['details'] != undefined) {
+            this.items[i]['comment'] = null
+          }
+          if (typeof this.items[i]['prayer'] != undefined) {
+            this.items[i]['prayer'] = null
+          }
+        }
         var res = await AuthorService.updateProgressToday(params)
+        this.items = await AuthorService.getProgressToday(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
@@ -157,7 +184,7 @@ export default {
       console.log('add Goal')
     }
   },
-   beforeCreate: function() {
+  beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {
@@ -189,7 +216,6 @@ export default {
 white {
   background-color: white;
 }
-
 
 div.wrapper {
   display: block;

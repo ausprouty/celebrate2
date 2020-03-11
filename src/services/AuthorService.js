@@ -258,7 +258,17 @@ export default {
     let response = res.data.content
     return response
   },
- 
+  
+  async getTodayForProgressPageEntry(params) {
+   
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getTodayForProgressPageEntry&action=getTodayForProgressPageEntry',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   async getUser(params) {
     console.log(params)

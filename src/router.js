@@ -101,7 +101,7 @@ export default new Router({
     },
     {
       path: '/my/today/settings/:uid/:tid/',
-      name: 'mySettingsToday',
+      name: 'myTodaySettings',
       component: MySettingsToday,
       props: true
     },

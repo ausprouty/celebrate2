@@ -7,10 +7,11 @@
         now.
       </p>
     </div>
-    <div v-if="this.authorized" >
+    <div v-if="this.authorized">
       <div class="app-link">
         <div
           class="shadow-card -shadow"
+          @click="editMember()"
           v-bind:class="{
             not_current: this.evaluateCurrent(this.member.current)
           }"
@@ -64,6 +65,15 @@ export default {
       }
       return true
     },
+    editMember() {
+      this.$router.push({
+        name: 'myToday',
+        params: {
+          uid: this.member.uid,
+          tid: this.member.team
+        }
+      })
+    },
     openProgress(month) {
       this.$router.push({
         name: 'myMonth',
@@ -111,7 +121,6 @@ export default {
 }
 </script>
 <style scoped>
-
 img.icon {
   width: 48px;
 }

@@ -134,11 +134,17 @@ export default {
           now = {}
         }
         params['plan'] = JSON.stringify(plan)
-        params['uid'] = this.user.uid
-        params['tid'] = this.user.team
+        params['uid'] = this.$route.params.uid
+        params['tid'] = this.$route.params.tid
         params['year'] = new Date().getFullYear()
-        console.log(params)
         var res = await AuthorService.updateSettingsToday(params)
+        this.$router.push({
+          name: 'myToday',
+          params: {
+            uid: this.$route.params.uid,
+            tid: this.$route.params.tid
+          }
+        })
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
@@ -147,7 +153,7 @@ export default {
       console.log('add Goal')
     }
   },
-   beforeCreate: function() {
+  beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {

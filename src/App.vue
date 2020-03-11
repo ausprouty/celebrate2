@@ -253,8 +253,14 @@ button {
 .button.red {
   background-color: red;
 }
+.button.yellow {
+  background-color: yellow;
+}
 .button.grey {
   background-color: grey;
+}
+.button.right {
+  margin-left: 60px;
 }
 img.member {
   height: 60px;
