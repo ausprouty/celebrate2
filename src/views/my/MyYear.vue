@@ -50,20 +50,22 @@
           >{{ this.res.this_year }}</span>
         </div>
       </div>
-      <form @submit.prevent="saveForm">
-        Show:
-        <v-select :options="scope" label="name" @input="updateData" v-model="selected">
-          <template slot="option" slot-scope="option">
-            <img
-              :src="
-                '/images/icons/' + option.celebration_set + '/' + option.image
-              "
-              class="icon"
-            />
-            {{ option.name }}
-          </template>
-        </v-select>
-      </form>
+      <div class="select">
+        <form @submit.prevent="saveForm">
+          Show:
+          <v-select :options="scope" label="name" @input="updateData" v-model="selected">
+            <template slot="option" slot-scope="option">
+              <img
+                :src="
+                  '/images/icons/' + option.celebration_set + '/' + option.image
+                "
+                class="icon"
+              />
+              {{ option.name }}
+            </template>
+          </v-select>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -195,6 +197,9 @@ div.chart-area {
 }
 div.traffic-chart {
   height: 300px;
+}
+div.select {
+  padding-bottom: 90px;
 }
 .last_year {
   color: #d70206;

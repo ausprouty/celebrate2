@@ -46,7 +46,7 @@ export default {
           index: 1,
           value: 'Monthly Progress',
           show: true,
-          link: 'teamProgress'
+          link: 'teamMonth'
         },
         {
           index: 2,

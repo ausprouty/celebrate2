@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-       <div v-if="this.team.image" class="center confetti">
+      <div v-if="this.team.image" class="center confetti">
         <img v-bind:src="this.team.image" class="team-small" />
       </div>
 
@@ -45,28 +45,27 @@
           Key:
           <span class="last_year">{{ this.res.last_year }}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span class="this_year">{{ this.res.this_year }}</span>
+          <span
+            class="this_year"
+          >{{ this.res.this_year }}</span>
         </div>
       </div>
-      <form @submit.prevent="saveForm">
-        Show:
-        <v-select
-          :options="scope"
-          label="name"
-          @input="updateData"
-          v-model="selected"
-        >
-          <template slot="option" slot-scope="option">
-            <img
-              :src="
-                '/images/icons/' + option.celebration_set + '/' + option.image
-              "
-              class="icon"
-            />
-            {{ option.name }}
-          </template>
-        </v-select>
-      </form>
+      <div class="select">
+        <form @submit.prevent="saveForm">
+          Show:
+          <v-select :options="scope" label="name" @input="updateData" v-model="selected">
+            <template slot="option" slot-scope="option">
+              <img
+                :src="
+                  '/images/icons/' + option.celebration_set + '/' + option.image
+                "
+                class="icon"
+              />
+              {{ option.name }}
+            </template>
+          </v-select>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -93,7 +92,7 @@ export default {
     return {
       item_details: {},
       series: [],
-      team:[],
+      team: [],
       res: [],
       scope_options: [],
       scope: [],
@@ -227,9 +226,12 @@ img.icon {
   width: 48px;
 }
 
+div.select {
+  padding-bottom: 90px;
+}
 
-.team-small{
-  width:50%;
+.team-small {
+  width: 50%;
 }
 .definition {
   color: red;

@@ -110,6 +110,9 @@
         <div v-if="this.$route.params.page < 5" class="right">
           <button class="button green right" @click="nextForm">></button>
         </div>
+         <div v-if="this.$route.params.page == 5" class="right">
+          <button class="button green right" @click="finishForm">Finished</button>
+        </div>
       </div>
     </div>
   </div>
@@ -219,6 +222,18 @@ export default {
       var next = parseInt(this.$route.params.page, 10) + 1
       this.$route.params.page = next
       this.loadForm()
+    },
+    async finishForm() {
+      this.saveForm()
+      var params = []
+      params['route'] = JSON.stringify(this.$route.params)
+      await AuthorService.updateReportedTeam(params)
+      this.$router.push({
+        name: 'ourTeam',
+        params: {
+          tid: this.$route.params.tid
+        }
+      })
     },
 
     async saveForm() {

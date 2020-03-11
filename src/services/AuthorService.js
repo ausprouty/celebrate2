@@ -99,7 +99,6 @@ export default {
   },
   async getImagePage(params) {
     var contentForm = this.toAuthorizedFormData(params)
-    console.log(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getImagePage&action=getImagePage',
       contentForm
@@ -315,6 +314,24 @@ export default {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=updateProgressToday&action=updateProgressToday',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async updateReportedPerson(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateReportedPerson&action=updateReportedPerson',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async updateReportedTeam(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateReportedTeam&action=updateReportedTeam',
       contentForm
     )
     let response = res.data.content

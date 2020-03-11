@@ -87,7 +87,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/month/:uid/:tid/:year?/:month?/:page?',
+      path: '/my/month/:uid/:tid/:page?/:year?/:month?/',
       name: 'myMonth',
       component: MyMonth,
       props: true
@@ -135,7 +135,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/team/month/:tid/:year?/:month?/:page?',
+      path: '/team/month/:tid/:page?/:year?/:month?',
       name: 'teamMonth',
       component: TeamMonth,
       props: true
