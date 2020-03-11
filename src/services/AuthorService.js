@@ -124,6 +124,15 @@ export default {
     let response = JSON.parse(res.data.content)
     return response
   },
+  async getMemberReportsCurrent(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getMemberReportsCurrent&action=getMemberReportsCurrent',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
   async getPrayersTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
@@ -237,6 +246,7 @@ export default {
     let response = res.data.content
     return response
   },
+  
   async getTeamMembersReported(params) {
     console.log('get team parameters')
     console.log(params)

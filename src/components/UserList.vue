@@ -34,9 +34,10 @@ export default {
       console.log('user')
       console.log(user)
       this.$router.push({
-        name: 'user',
+        name: 'teamMemberReports',
         params: {
-          uid: this.user.uid
+          uid: this.user.uid,
+          tid: this.$route.params.tid
         }
       })
     }

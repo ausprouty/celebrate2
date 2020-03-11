@@ -18,6 +18,7 @@ import NotFoundComponent from './views/NotFound.vue'
 import TeamGoals from './views/team/TeamGoals.vue'
 import TeamItem from './views/team/TeamItem.vue'
 import TeamMonth from './views/team/TeamMonth.vue'
+import TeamMemberReports from './views/team/TeamMemberReports.vue'
 import TeamProfile from './views/team/TeamProfile.vue'
 
 import TeamRegister from './views/team/TeamRegister.vue'
@@ -126,6 +127,12 @@ export default new Router({
       path: '/team/item/:tid/:id?',
       name: 'teamItem',
       component: TeamItem,
+      props: true
+    },
+    {
+      path: '/team/current/:tid/:uid',
+      name: 'teamMemberReports',
+      component: TeamMemberReports,
       props: true
     },
     {
