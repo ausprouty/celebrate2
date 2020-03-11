@@ -1,6 +1,6 @@
 <template>
   <div class="app-link" v-on:click="showPage(user)">
-    <div class="shadow-card -shadow">
+    <div class="shadow-card -shadow" v-bind:class="{ not_current: this.evaluateCurrent(user.current) }">
       <img v-bind:src="appDir.members + this.image" class="member" />
 
       <div class="card-names">
@@ -24,6 +24,12 @@ export default {
   },
   computed: mapState(['appDir']),
   methods: {
+    evaluateCurrent(current) {
+      if (current == 'Y') {
+        return false
+      }
+      return true
+    },
     showPage: function(user) {
       console.log('user')
       console.log(user)
@@ -41,9 +47,7 @@ export default {
 }
 </script>
 <style scoped>
-<style scoped > 
-
-div.break {
+<style scoped > div.break {
   display: inline;
 }
 
@@ -57,6 +61,9 @@ div.break {
   transition: all 0.2s linear;
   width: 95%;
 }
+.not_current {
+  background-color:#dee597
+}
 div.card-names {
   float: right;
   font-size: 18px;
@@ -68,5 +75,4 @@ div.card-names {
   font-weight: bold;
   line-height: 20px;
 }
-
 </style>

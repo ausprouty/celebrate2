@@ -237,6 +237,18 @@ export default {
     let response = res.data.content
     return response
   },
+  async getTeamMembersReported(params) {
+    console.log('get team parameters')
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getTeamMembersReported&action=getTeamMembersReported',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+ 
 
   async getUser(params) {
     console.log(params)
