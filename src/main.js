@@ -5,7 +5,8 @@ import store from './store/store'
 import Vuelidate from 'vuelidate'
 
 import upperFirst from 'lodash/upperFirst'
-import camelCase from 'lodash/camelCase'
+import camelCase from 'lodash.camelcase'
+
 import VueSidebarMenu from 'vue-sidebar-menu'
 
 Vue.use(VueSidebarMenu)

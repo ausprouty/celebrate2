@@ -290,7 +290,6 @@ export default {
 
           params['route'] = JSON.stringify(this.$route.params)
           params['uid'] = this.$route.params.uid
-          console.log(params)
           this.member = await AuthorService.getUser(params)
           this.picture = await AuthorService.getImagePage(params)
           this.items = await AuthorService.getProgressPageEntry(params)

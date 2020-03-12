@@ -9,7 +9,7 @@
     </div>
     <div v-if="this.authorized" class="chart-area">
       <div style="width:100%">
-        <img v-bind:src="appDir.members + this.user.image" class="member" />
+        <img v-bind:src="appDir.members + this.member.image" class="member" />
       </div>
 
       <div>
@@ -115,6 +115,8 @@ export default {
       if (this.authorized) {
         try {
           var params = []
+          params['uid'] = this.$route.params.uid
+          this.member = await AuthorService.getUser(params)
           params.route = JSON.stringify(this.$route.params)
           this.scope = await AuthorService.getItemsMember(params)
 

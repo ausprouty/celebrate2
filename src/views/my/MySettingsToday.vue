@@ -8,6 +8,9 @@
       </p>
     </div>
     <div v-if="this.authorized">
+      <div style="width:100%">
+        <img v-bind:src="appDir.members + this.member.image" class="member" />
+      </div>
       <h2>Which of these do you celebrate often?</h2>
       <form @submit.prevent="saveForm">
         <table class="goals">
@@ -65,6 +68,7 @@ export default {
   data() {
     return {
       items: [],
+      member:{},
       highlight: true
     }
   },
@@ -137,7 +141,9 @@ export default {
         params['uid'] = this.$route.params.uid
         params['tid'] = this.$route.params.tid
         params['year'] = new Date().getFullYear()
+        console.log (params)
         var res = await AuthorService.updateSettingsToday(params)
+          alert ('check this')
         this.$router.push({
           name: 'myToday',
           params: {
@@ -172,6 +178,8 @@ export default {
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.getSettingsToday(params)
         console.log(this.items)
+        params['uid'] = this.$route.params.uid
+        this.member = await AuthorService.getUser(params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

@@ -169,8 +169,10 @@ export default {
       try {
         var params = []
         var route = {}
-        if (this.user.image) {
-          this.member_image = '/images/members/' + this.user.image
+        params['uid'] = this.$route.params.uid
+        this.member = await AuthorService.getUser(params)
+        if (this.member.image) {
+          this.member_image = '/images/members/' + this.member.image
         }
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid

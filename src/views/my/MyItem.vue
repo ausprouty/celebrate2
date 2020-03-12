@@ -7,7 +7,9 @@
         now.
       </p>
     </div>
-    <div v-if="this.authorized">
+    <div v-if="this.authorized"><div style="width:100%">
+        <img v-bind:src="appDir.members + this.member.image" class="member" />
+      </div>
       <h2>Enter a Personal Item</h2>
       <p>
         Is there something that YOU want to keep track of? Something you want to

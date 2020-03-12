@@ -95,8 +95,8 @@ export default {
       this.$router.push({
         name: selectedOption.link,
         params: {
-          uid: this.user.uid,
-          tid: this.user.team
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid
         }
       })
     }

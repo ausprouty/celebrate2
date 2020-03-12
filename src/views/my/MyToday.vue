@@ -8,6 +8,9 @@
       </p>
     </div>
     <div v-if="this.authorized">
+      <div style="width:100%">
+        <img v-bind:src="appDir.members + this.member.image" class="member" />
+      </div>
       <h2>What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
@@ -87,6 +90,7 @@ export default {
   data() {
     return {
       items: [],
+      member:{},
       highlight: true
     }
   },
@@ -130,6 +134,7 @@ export default {
     },
     async updateSettings() {
       this.saveForm()
+    
       this.$router.push({
         name: 'myTodaySettings',
         params: {
@@ -203,7 +208,9 @@ export default {
         route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.getProgressToday(params)
-        console.log(this.items)
+        params['uid'] = this.$route.params.uid
+        this.member = await AuthorService.getUser(params)
+        console.log(this.member)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
