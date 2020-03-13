@@ -14,7 +14,12 @@
       <h2>What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+          <div
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="progress"
+          >
             <div class="app-link">
               <div class="shadow-card -shadow">
                 <div class="wrapper">
@@ -63,7 +68,9 @@
           </div>
           <!-- End of for loop-->
           <button class="button green" @click="saveForm">Update</button>
-          <button class="button grey right" @click="updateSettings">Settings</button>
+          <button class="button grey right" @click="updateSettings">
+            Settings
+          </button>
         </form>
       </div>
       <!-- End of Subheading-->
@@ -90,8 +97,9 @@ export default {
   data() {
     return {
       items: [],
-      member:{},
-      highlight: true
+      member: {},
+      highlight: true,
+      saved: false
     }
   },
   validations: {
@@ -134,7 +142,7 @@ export default {
     },
     async updateSettings() {
       this.saveForm()
-    
+
       this.$router.push({
         name: 'myTodaySettings',
         params: {
@@ -146,41 +154,44 @@ export default {
 
     async saveForm() {
       try {
-        var params = {}
-        var today = []
-        var now = {}
-        var clean = 0
-        var l = this.items.length
-        for (var i = 0; i < l; i++) {
-          now.id = this.items[i]['id']
-          now.comment = this.items[i]['comment']
-          now.prayer = this.items[i]['prayer']
-          now.entry = 0
-          clean = parseInt(this.items[i]['entry'], 10)
-          if (typeof clean == 'number') {
-            now.entry = clean
+        if (!this.saved) {
+          this.saved = true
+          var params = {}
+          var today = []
+          var now = {}
+          var clean = 0
+          var l = this.items.length
+          for (var i = 0; i < l; i++) {
+            now.id = this.items[i]['id']
+            now.comment = this.items[i]['comment']
+            now.prayer = this.items[i]['prayer']
+            now.entry = 0
+            clean = parseInt(this.items[i]['entry'], 10)
+            if (typeof clean == 'number') {
+              now.entry = clean
+            }
+            today.push(now)
+            now = {}
           }
-          today.push(now)
-          now = {}
+          params['items'] = JSON.stringify(today)
+          var route = this.$route.params
+          route.year = new Date().getFullYear()
+          route.month = new Date().getMonth() + 1
+          params['route'] = JSON.stringify(route)
+          console.log(params)
+          var l = this.items.length
+          for (var i = 0; i < l; i++) {
+            this.items[i]['entry'] = 0
+            if (typeof this.items[i]['details'] != undefined) {
+              this.items[i]['comment'] = null
+            }
+            if (typeof this.items[i]['prayer'] != undefined) {
+              this.items[i]['prayer'] = null
+            }
+          }
+          var res = await AuthorService.updateProgressToday(params)
+          this.items = await AuthorService.getProgressToday(params)
         }
-        params['items'] = JSON.stringify(today)
-        var route = this.$route.params
-        route.year = new Date().getFullYear()
-        route.month = new Date().getMonth() + 1
-        params['route'] = JSON.stringify(route)
-        console.log(params)
-        var l = this.items.length
-        for (var i = 0; i < l; i++) {
-          this.items[i]['entry'] = 0
-          if (typeof this.items[i]['details'] != undefined) {
-            this.items[i]['comment'] = null
-          }
-          if (typeof this.items[i]['prayer'] != undefined) {
-            this.items[i]['prayer'] = null
-          }
-        }
-        var res = await AuthorService.updateProgressToday(params)
-        this.items = await AuthorService.getProgressToday(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }

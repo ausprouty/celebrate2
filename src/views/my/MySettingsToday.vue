@@ -19,7 +19,12 @@
             <th>Item</th>
             <th>Often?</th>
           </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
+          <tr
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="goals"
+          >
             <td class="icon">
               <img
                 v-bind:src="
@@ -68,8 +73,9 @@ export default {
   data() {
     return {
       items: [],
-      member:{},
-      highlight: true
+      member: {},
+      highlight: true,
+      saved: false
     }
   },
   validations: {
@@ -127,30 +133,38 @@ export default {
     },
     async saveForm() {
       try {
-        var params = {}
-        var plan = []
-        var now = {}
-        var l = this.items.length
-        for (var i = 0; i < l; i++) {
-          now.id = this.items[i]['id']
-          now.quick = this.items[i]['quick']
-          plan.push(now)
-          now = {}
-        }
-        params['plan'] = JSON.stringify(plan)
-        params['uid'] = this.$route.params.uid
-        params['tid'] = this.$route.params.tid
-        params['year'] = new Date().getFullYear()
-        console.log (params)
-        var res = await AuthorService.updateSettingsToday(params)
-          alert ('check this')
-        this.$router.push({
-          name: 'myToday',
-          params: {
-            uid: this.$route.params.uid,
-            tid: this.$route.params.tid
+        if (!this.saved) {
+          this.saved = true
+          var params = {}
+          var plan = []
+          var now = {}
+          var l = this.items.length
+          for (var i = 0; i < l; i++) {
+            now.id = this.items[i]['id']
+            if (this.items[i]['quick']) {
+              now.quick = 'Y'
+            } else {
+              now.quick = 'N'
+            }
+            plan.push(now)
+            now = {}
           }
-        })
+          params['plan'] = JSON.stringify(plan)
+          params['uid'] = this.$route.params.uid
+          params['tid'] = this.$route.params.tid
+          params['year'] = new Date().getFullYear()
+          console.log(params)
+          var res = await AuthorService.updateSettingsToday(params)
+          this.$router.push({
+            name: 'myToday',
+            params: {
+              uid: this.$route.params.uid,
+              tid: this.$route.params.tid
+            }
+          })
+        } else {
+          console.log('second press')
+        }
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
