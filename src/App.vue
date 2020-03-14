@@ -247,7 +247,7 @@ button {
   font-weight: bold;
   border-radius: 6px;
   text-align: center;
-  padding: 0 40px;
+  padding: 0 10px;
   height: 36px;
 }
 .button.red {
@@ -260,7 +260,7 @@ button {
   background-color: grey;
 }
 .button.right {
-  margin-left: 60px;
+  margin-left: 40px;
 }
 img.member {
   height: 60px;
