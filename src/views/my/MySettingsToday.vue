@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%">
+      <div style="width:100%" v-if="this.member.image">
         <img v-bind:src="appDir.members + this.member.image" class="member" />
       </div>
       <h2>Which of these do you celebrate often?</h2>

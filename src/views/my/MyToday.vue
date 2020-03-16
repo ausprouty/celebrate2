@@ -8,18 +8,13 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%">
+      <div style="width:100%"  v-if="this.member.image">
         <img v-bind:src="appDir.members + this.member.image" class="member" />
       </div>
       <h2>What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="progress"
-          >
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
             <div class="app-link">
               <div class="shadow-card -shadow">
                 <div class="wrapper">
@@ -68,9 +63,7 @@
           </div>
           <!-- End of for loop-->
           <button class="button green" @click="saveForm">Update</button>
-          <button class="button grey right" @click="updateSettings">
-            Settings
-          </button>
+          <button class="button grey right" @click="updateSettings">Settings</button>
         </form>
       </div>
       <!-- End of Subheading-->
@@ -179,8 +172,8 @@ export default {
           route.month = new Date().getMonth() + 1
           params['route'] = JSON.stringify(route)
           console.log(params)
-          var l = this.items.length
-          for (var i = 0; i < l; i++) {
+          l = this.items.length
+          for (i = 0; i < l; i++) {
             this.items[i]['entry'] = 0
             if (typeof this.items[i]['details'] != undefined) {
               this.items[i]['comment'] = null
@@ -190,6 +183,7 @@ export default {
             }
           }
           var res = await AuthorService.updateProgressToday(params)
+
           this.items = await AuthorService.getProgressToday(params)
         }
       } catch (error) {

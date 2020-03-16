@@ -2,7 +2,7 @@
   <div>
     <p>Already Entered:</p>
     <div v-for="(today, todayid) in this.item.entered" :key="todayid" :item="today" class="prayer">
-     {{ today.comment }} </br>
+     {{today.when}}:  {{ today.comment }} </br>
     </div>
   </div>
 </template>
@@ -11,7 +11,8 @@
 export default {
   props: {
     item: Object
-  }
+  },
+ 
 }
 </script>
 

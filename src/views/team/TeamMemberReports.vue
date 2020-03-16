@@ -16,8 +16,9 @@
             not_current: this.evaluateCurrent(this.member.current)
           }"
         >
-          <img v-bind:src="appDir.members + this.member.image" class="member" />
-
+          <div v-if="this.member.image">
+            <img v-bind:src="appDir.members + this.member.image" class="member" />
+          </div>
           <div class="card-names">
             <span class="card-name">{{ this.member.firstname }} {{ this.member.lastname }}</span>
           </div>

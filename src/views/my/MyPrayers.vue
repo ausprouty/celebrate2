@@ -149,17 +149,7 @@ export default {
       if (this.authorized) {
         try {
           var params = {}
-          var d = new Date()
-          if (typeof this.$route.params.year == 'undefined') {
-            this.$route.params.year = d.getFullYear()
-          }
-          if (typeof this.$route.params.month == 'undefined') {
-            //this will actually give you the previous month since it starts the array at 0
-            this.$route.params.month = d.getMonth()
-          }
-          if (typeof this.$route.params.page == 'undefined') {
-            this.$route.params.page = 0
-          }
+
           params['route'] = JSON.stringify(this.$route.params)
           this.picture = await AuthorService.getImagePage(params)
           this.items = await AuthorService.getPrayersTeam(params)
@@ -177,6 +167,17 @@ export default {
   },
   beforeCreate: function() {
     document.body.className = 'user'
+    var d = new Date()
+    if (typeof this.$route.params.year == 'undefined') {
+      this.$route.params.year = d.getFullYear()
+    }
+    if (typeof this.$route.params.month == 'undefined') {
+      //this will actually give you the previous month since it starts the array at 0
+      this.$route.params.month = d.getMonth()
+    }
+    if (typeof this.$route.params.page == 'undefined') {
+      this.$route.params.page = 0
+    }
   },
   async created() {
     this.loadForm()

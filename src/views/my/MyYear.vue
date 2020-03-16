@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-      <div style="width:100%">
+      <div style="width:100%" v-if="this.member.image">
         <img v-bind:src="appDir.members + this.member.image" class="member" />
       </div>
 
