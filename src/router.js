@@ -14,6 +14,7 @@ import MyMonth from './views/my/MyMonth.vue'
 import MySettingsToday from './views/my/MySettingsToday.vue'
 import MyYear from './views/my/MyYear.vue'
 import MyToday from './views/my/MyToday.vue'
+import MyTodayUpdate from './views/my/MyTodayUpdate.vue'
 import NotFoundComponent from './views/NotFound.vue'
 import TeamGoals from './views/team/TeamGoals.vue'
 import TeamItem from './views/team/TeamItem.vue'
@@ -99,6 +100,14 @@ export default new Router({
       component: MyToday,
       props: true
     },
+    {
+      path: '/my/today/update/:uid/:tid/:todayid',
+      name: 'myTodayUpdate',
+      component: MyTodayUpdate,
+      props: true
+    },
+  
+
     {
       path: '/my/today/settings/:uid/:tid/',
       name: 'myTodaySettings',

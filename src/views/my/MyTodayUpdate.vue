@@ -51,7 +51,7 @@
                 <div v-if="item.details">
                   <BaseTextarea
                     v-bind:label="item.details"
-                    @click="showDetails(item)"
+                    @click="showDetails(item.id)"
                     v-model="item.comment"
                     type="textarea"
                     class="field paragraph"
@@ -98,7 +98,7 @@ export default {
     ItemEntryPrayer
   },
 
-  props: ['uid', 'tid', 'pid'],
+  props: ['uid', 'tid', 'todayid'],
   computed: mapState(['user', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
@@ -157,12 +157,12 @@ export default {
       var params = {}
       params['route'] = JSON.stringify(this.$route.params)
       params['items'] = JSON.stringify(this.items)
-      await AuthorService.updateProgressPageEntry(params)
+      await AuthorService.updateTodayEntry(params)
       this.$router.push({
         name: 'myPrayers',
         params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
+          uid: this.user.uid,
+          tid: this.user.team,
         }
       })
     },
@@ -176,12 +176,12 @@ export default {
         try {
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
-          this.items = await AuthorService.getPrayerUpdate(params)
+          this.items = await AuthorService.getToday(params)
           this.objective = this.items[0]['objective']
           this.time = this.months[this.items[0] ['month']] + ',  ' + this.items[0]['year']
           console.log(this.items)
         } catch (error) {
-          console.log('There was an error in myMonth.vue:', error) // Logs out the error
+          console.log('There was an error in myTodayUpdate.vue:', error) // Logs out the error
         }
       }
     }

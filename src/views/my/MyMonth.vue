@@ -83,8 +83,10 @@
                   <div
                     v-for="(today, todayid) in today[item.id]"
                     :key="todayid"
+                    @click="editToday(today.todayid)"
                     :item="today"
-                  >{{ today.comment }} - {{ today.entry }}</div>
+                  >{{ today.when }}: {{ today.entry }} {{ today.comment }}</div>
+                  <p class="total">Total: {{ subtotalToday(item.id) }}</p>
                 </div>
                 <div v-if="item.details">
                   <BaseTextarea
@@ -155,7 +157,8 @@ export default {
       objective: null,
       time: null,
       member: {},
-      today: []
+      today: [],
+      subtotal: []
     }
   },
   validations: {
@@ -176,7 +179,25 @@ export default {
         return false
       }
     },
-
+    subtotalToday(id) {
+      var subtotal = 0
+      var answer = this.today[id]
+      var len = answer.length
+      for (var i = 0; i < len; i++) {
+        subtotal = subtotal + parseInt(answer[i].entry)
+      }
+      return subtotal
+    },
+    editToday(item) {
+      this.$router.push({
+        name: 'myTodayUpdate',
+        params: {
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid,
+          todayid: item
+        }
+      })
+    },
     // see https://www.w3schools.com/howto/howto_js_collapsible.asp
     showDefinition(item) {
       console.log('hit button')
@@ -275,19 +296,11 @@ export default {
       )
       if (this.authorized) {
         try {
+          this.time =
+            this.months[this.$route.params.month] +
+            ',  ' +
+            this.$route.params.year
           var params = {}
-          var d = new Date()
-          if (typeof this.$route.params.year == 'undefined') {
-            this.$route.params.year = d.getFullYear()
-          }
-          if (typeof this.$route.params.month == 'undefined') {
-            //this will actually give you the previous month since it starts the array at 0
-            this.$route.params.month = d.getMonth()
-          }
-          if (typeof this.$route.params.page == 'undefined') {
-            this.$route.params.page = 0
-          }
-
           params['route'] = JSON.stringify(this.$route.params)
           params['uid'] = this.$route.params.uid
           this.member = await AuthorService.getUser(params)
@@ -295,13 +308,7 @@ export default {
           this.items = await AuthorService.getProgressPageEntry(params)
           params['items'] = JSON.stringify(this.items)
           this.today = await AuthorService.getTodayForProgressPageEntry(params)
-          console.log(this.today)
           this.objective = this.items[0]['objective']
-          this.time =
-            this.months[this.$route.params.month] +
-            ',  ' +
-            this.$route.params.year
-          console.log(this.items)
         } catch (error) {
           console.log('There was an error in myMonth.vue:', error) // Logs out the error
         }
@@ -310,6 +317,17 @@ export default {
   },
   beforeCreate: function() {
     document.body.className = 'user'
+    var d = new Date()
+    if (typeof this.$route.params.year == 'undefined') {
+      this.$route.params.year = d.getFullYear()
+    }
+    if (typeof this.$route.params.month == 'undefined') {
+      //this will actually give you the previous month since it starts the array at 0
+      this.$route.params.month = d.getMonth()
+    }
+    if (typeof this.$route.params.page == 'undefined') {
+      this.$route.params.page = 0
+    }
   },
   async created() {
     this.loadForm()
