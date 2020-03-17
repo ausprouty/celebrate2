@@ -83,13 +83,13 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/prayers/:uid/:tid/:year?/:month?',
+      path: '/my/prayers/:uid/:tid/:month?/:year?',
       name: 'myPrayers',
       component: MyPrayers,
       props: true
     },
     {
-      path: '/my/month/:uid/:tid/:page?/:year?/:month?/',
+      path: '/my/month/:uid/:tid/:page?/:month?/:year?',
       name: 'myMonth',
       component: MyMonth,
       props: true
@@ -101,7 +101,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/today/update/:uid/:tid/:todayid',
+      path: '/my/today/update/:uid/:tid/:todayid/:page?/:month?/:year?',
       name: 'myTodayUpdate',
       component: MyTodayUpdate,
       props: true
@@ -151,7 +151,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/team/month/:tid/:page?/:year?/:month?',
+      path: '/team/month/:tid/:page?/:month?/:year?',
       name: 'teamMonth',
       component: TeamMonth,
       props: true

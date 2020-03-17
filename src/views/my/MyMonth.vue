@@ -194,7 +194,10 @@ export default {
         params: {
           uid: this.$route.params.uid,
           tid: this.$route.params.tid,
-          todayid: item
+          todayid: item,
+          page: this.$route.params.page,
+          month: this.$route.params.month,
+          year: this.$route.params.year
         }
       })
     },

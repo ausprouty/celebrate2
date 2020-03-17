@@ -8,74 +8,56 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%">
-        <img v-bind:src="appDir.members + this.user.image" class="member" />  {{ this.time }}
+      <div style="width:100%"  v-if="this.user.image">
+        <img v-bind:src="appDir.members + this.user.image" class="member" />
+        {{ this.time }}
       </div>
-     
 
       <div class="center">
-       
-
-        <h2>Update Prayer</h2>
+        <h2>Update Today Entry</h2>
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
-            <div class="app-link">
-              <div
-                class="shadow-card -shadow"
-                v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
-              >
-                <div class="container" @click="showDefinition(item)">
-                  <div class="icon">
-                    <img
-                      v-bind:src="
-                        appDir.icons + item.celebration_set + '/' + item.image
-                      "
-                      class="icon"
-                    />
-                  </div>
-                  <div
-                    :id="item.id + 'R'"
-                    class="item_name"
-                    v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >{{ item.name }}</div>
-                  <div :id="item.id" class="collapsed">
-                    <ItemEntryProgress :item="item"></ItemEntryProgress>
-                  </div>
-                </div>
-                <hr />
-                <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
-                </div>
-                <div v-if="item.details">
-                  <BaseTextarea
-                    v-bind:label="item.details"
-                    @click="showDetails(item.id)"
-                    v-model="item.comment"
-                    type="textarea"
-                    class="field paragraph"
+          <div class="app-link">
+            <div class="shadow-card -shadow">
+              <div class="container" @click="showDefinition(item)">
+                <div class="icon">
+                  <img
+                    v-bind:src="
+                      appDir.icons + item.celebration_set + '/' + item.image
+                    "
+                    class="icon"
                   />
-                  <div :id="item.id + 'Details'" class="collapsed">
-                    <ItemEntryDetails :item="item"></ItemEntryDetails>
-                  </div>
-                </div>
-                <BaseTextarea
-                  label="Praise or Prayer Request"
-                  type="textarea"
-                  @click="showPrayer(item)"
-                  v-model="item.prayer"
-                  class="field paragraph"
-                />
-                <div :id="item.id + 'Prayer'" class="collapsed">
-                  <ItemEntryPrayer :item="item"></ItemEntryPrayer>
                 </div>
               </div>
+              <div class="entry">
+                <BaseInput
+                  v-bind:label="item.name + ': '"
+                  v-model="today.entry"
+                  type="number"
+                  class="field"
+                />
+              </div>
+
+              <BaseTextarea
+                label="Comment"
+                v-model="today.comment"
+                type="textarea"
+                class="field paragraph"
+              />
+
+              <BaseTextarea
+                label="Praise or Prayer Request"
+                type="textarea"
+                v-model="today.prayer"
+                class="field paragraph"
+              />
             </div>
           </div>
         </form>
-
         <button class="button green" @click="saveForm">Update</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="button grey" @click="deleteForm">Delete</button>
       </div>
     </div>
   </div>
@@ -84,85 +66,68 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
-import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
-import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
-import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
 import { mapState } from 'vuex'
-import { integer } from 'vuelidate/lib/validators'
+
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar,
-    ItemEntryProgress,
-    ItemEntryDetails,
-    ItemEntryPrayer
+    NavBar
   },
 
-  props: ['uid', 'tid', 'todayid'],
+  props: ['uid', 'tid', 'todayid', 'month', 'year'],
   computed: mapState(['user', 'appDir', 'months']),
   mixins: [authorMixin],
   data() {
     return {
-      items: [],
-      progress: [],
-      highlight: true,
+      item: {},
+      today: {},
       picture: 'IMG_6282.JPG',
       objective: null,
       time: null
     }
   },
-  validations: {
-    item: {
-      numbers: { integer }
-    }
-  },
+
   methods: {
     // see https://www.w3schools.com/howto/howto_js_collapsible.asp
-    showDefinition(item) {
+    showDefinition(today) {
       console.log('hit button')
-      var content = document.getElementById(item.id)
+      var content = document.getElementById(today.id)
       if (content.style.display === 'block') {
         content.style.display = 'none'
       } else {
         content.style.display = 'block'
       }
-    },
-    showDetails(item) {
-      console.log('hit Show Details button')
-      var content = document.getElementById(item.id + 'Details')
-      if (content.style.display === 'block') {
-        content.style.display = 'none'
-      } else {
-        content.style.display = 'block'
-      }
-    },
-    showPrayer(item) {
-      console.log('hit Show Prayerbutton')
-      var content = document.getElementById(item.id + 'Prayer')
-      if (content.style.display === 'block') {
-        content.style.display = 'none'
-      } else {
-        content.style.display = 'block'
-      }
-    },
-
-    evaluateSelect(quantity) {
-      if (quantity > 0) {
-        return true
-      }
-      return false
     },
 
     async saveForm() {
       var params = {}
-      params['route'] = JSON.stringify(this.$route.params)
-      params['items'] = JSON.stringify(this.items)
+      params['today'] = JSON.stringify(this.today)
+      console.log(params)
       await AuthorService.updateTodayEntry(params)
       this.$router.push({
-        name: 'myPrayers',
+        name: 'myMonth',
         params: {
-          uid: this.user.uid,
-          tid: this.user.team,
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid,
+          page: this.$route.params.page,
+          month: this.$route.params.month,
+          year: this.$route.params.year
+        }
+      })
+    },
+    async deleteForm() {
+      var params = {}
+      params['id'] = this.$route.params.todayid
+      alert ( params['id'])
+      await AuthorService.deleteTodayEntry(params)
+      this.$router.push({
+        name: 'myMonth',
+        params: {
+          uid: this.$route.params.uid,
+          tid: this.$route.params.tid,
+          page: this.$route.params.page,
+          month: this.$route.params.month,
+          year: this.$route.params.year
         }
       })
     },
@@ -176,10 +141,13 @@ export default {
         try {
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
-          this.items = await AuthorService.getToday(params)
-          this.objective = this.items[0]['objective']
-          this.time = this.months[this.items[0] ['month']] + ',  ' + this.items[0]['year']
-          console.log(this.items)
+          this.today = await AuthorService.getTodayEntry(params)
+          console.log(this.today)
+          params['id'] = this.today.item
+          this.item = await AuthorService.getItem(params)
+          console.log(this.item)
+          this.time = this.months[this.today.month] + ',  ' + this.today.year
+          console.log(this.item)
         } catch (error) {
           console.log('There was an error in myTodayUpdate.vue:', error) // Logs out the error
         }

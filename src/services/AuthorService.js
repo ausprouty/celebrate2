@@ -38,6 +38,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async deleteTodayEntry(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=deleteTodayEntry&action=deleteTodayEntry',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async deleteUser(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
@@ -246,7 +255,7 @@ export default {
     let response = res.data.content
     return response
   },
-  
+
   async getTeamMembersReported(params) {
     console.log('get team parameters')
     console.log(params)
@@ -258,9 +267,17 @@ export default {
     let response = res.data.content
     return response
   },
-  
+  async getTodayEntry(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getTodayEntry&action=getTodayEntry',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+
   async getTodayForProgressPageEntry(params) {
-   
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getTodayForProgressPageEntry&action=getTodayForProgressPageEntry',
@@ -271,7 +288,6 @@ export default {
   },
 
   async getUser(params) {
-    console.log(params)
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getUser&action=getUser',
@@ -373,6 +389,16 @@ export default {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=updateSettingsToday&action=updateSettingsToday',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+
+  async updateTodayEntry(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateTodayEntry&action=updateTodayEntry',
       contentForm
     )
     let response = res.data.content
