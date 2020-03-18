@@ -11,8 +11,16 @@
       <div v-if="this.member_image">
         <img v-bind:src="this.member_image" class="member" />
       </div>
-      <h2>Who are you discipling?</h2>
-      <p>People I have met with in the past three months</p>
+    <h2>Who are you discipling?</h2>
+    <p>People I have met with in the past three months</p>
+    <div v-for="(item, id) in items" :key="id" :item="item">
+      <div v-if="discipleshipItem(item.id)">
+        <p>
+          <span class="item_name">{{ item.name }} :</span>
+          {{ item.paraphrase }}
+        </p>
+      </div>
+    </div>
       <form @submit.prevent="saveForm">
         <table class="goals">
           <tr>
@@ -26,18 +34,18 @@
             :disciple="disciple"
             class="disciples"
           >
-            <td class="icon">
-              <input class="group" type="text" v-model="disciple.group_name.$model" />
+            <td class="group">
+              <input class="group" type="text" v-model="disciple.group_name" />
             </td>
-            <td>
-              <input class="firstname" type="text" v-model="disciple.firstname.$model" />
+            <td class="firstname">
+              <input class="firstname" type="text" v-model="disciple.firstname" />
             </td>
             <td class="progress">
-              <BaseSelect 
-                options= "progress_options" 
-                v-model="disciple.progress.$model"
+              <BaseSelect
+                options="progress_options"
+                v-model="disciple.progress"
                 class="field"
-             />
+              />
             </td>
           </tr>
           <tr
@@ -46,19 +54,16 @@
             :new_disciple="new_disciple"
             class="disciples"
           >
-            <td class="icon">
-              <input class="group" type="text" v-model="new_disciple.group_name.$model" />
+            <td class="group">
+              <input class="group" type="text" v-model="new_disciple.group_name" />
             </td>
-            <td>
-              <input class="firstname" type="text" v-model="new_disciple.firstname.$model" />
+            <td class="firstname">
+              <input class="firstname" type="text" v-model="new_disciple.firstname" />
             </td>
             <td class="progress">
-              <BaseSelect 
-                label= ""
-                options= this.progress_options
-                v-model="new_disciple.progress.$model"
-                class="field"
-              />
+              <v-select :options="progress_options" label="name" v-model="new_disciple.progress">
+                <template slot="option" slot-scope="option" class="option_name">{{ option.name }}</template>
+              </v-select>
             </td>
           </tr>
         </table>
@@ -74,12 +79,15 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+import vSelect from 'vue-select'
+import '@/assets/css/vueSelect.css'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    'v-select': vSelect
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),
@@ -88,6 +96,7 @@ export default {
     return {
       disciples: [],
       member: {},
+      items: {},
       new_disciples: [
         {
           discipleid: '1',
@@ -139,15 +148,35 @@ export default {
         group_name: ''
       },
       member_image: null,
-      options: ['Engaged', 'Training', 'Multiplying', 'Delete', '']
-    }
-  },
-  validations: {
-    disciples: {
-      numbers: { integer }
+      options: ['Engaged', 'Training', 'Multiplying', 'Delete', ''],
+      progress_options: [
+        {
+          name: 'Engaged',
+          value: 'Engaged'
+        },
+        {
+          name: 'Training',
+          value: 'Training'
+        },
+        {
+          name: 'Multiplying',
+          value: 'Multiplying'
+        },
+        {
+          name: 'Delete',
+          value: 'Delete'
+        }
+      ]
     }
   },
   methods: {
+    discipleshipItem(id) {
+      if (id > 7 && id < 11) {
+        return true
+      } else {
+        return false
+      }
+    },
     async saveForm() {
       try {
         var params = {}
@@ -173,8 +202,7 @@ export default {
     if (this.authorized) {
       try {
         var params = []
-        this.progress_options = this.options
-        console.log (this.progress_options)
+        console.log(this.progress_options)
         var route = {}
         params['uid'] = this.$route.params.uid
         this.member = await AuthorService.getUser(params)
@@ -187,6 +215,8 @@ export default {
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
         this.disciples = await AuthorService.getDisciples(params)
+        this.items = await AuthorService.getItemsStandard(params)
+
         console.log(this.disciples)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
@@ -223,23 +253,17 @@ th {
   background-color: #4caf50;
   color: white;
 }
-.goal {
-  color: green;
-  line-height: 18px;
-  width: 60px;
-}
-td.disciple {
-  width: 80%;
-}
-.disciple {
-  color: blue;
-}
-.definition {
-  color: red;
-  font-size: 14px;
-}
 
-.selected {
-  background-color: yellow;
+td.group {
+  width: 20%;
+}
+td.first_name {
+  width: 50%;
+}
+td.progress {
+  width: 30%;
+}
+.item_name {
+  font-weight: 900;
 }
 </style>
