@@ -6,6 +6,7 @@ import Debug from './views/admin/Debug.vue'
 import Login from './views/my/Login.vue'
 import Logout from './views/my/Logout.vue'
 import MyGoals from './views/my/MyGoals.vue'
+import MyDisciples from './views/my/MyDisciples.vue'
 import MyItem from './views/my/MyItem.vue'
 import MyPrayers from './views/my/MyPrayers.vue'
 import MyPrayerUpdate from './views/my/MyPrayerUpdate.vue'
@@ -62,6 +63,12 @@ export default new Router({
       path: '/my/:uid',
       name: 'myProfile',
       component: MyProfile,
+      props: true
+    },
+    {
+      path: '/my/disciples/:uid/:tid/:year?',
+      name: 'myDisciples',
+      component: MyDisciples,
       props: true
     },
     {

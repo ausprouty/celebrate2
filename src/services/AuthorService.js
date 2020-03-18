@@ -57,12 +57,14 @@ export default {
     //  console.log(response)
     return response
   },
-  async getMembers(params) {
+  async getDisciples(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=getMembers&action=getMembers',
+      'AuthorApi.php?page=getDisciples&action=getDisciples',
       contentForm
     )
+    console.log('from getDisciples')
+    console.log(res)
     let response = res.data.content
     return response
   },
@@ -131,6 +133,15 @@ export default {
       contentForm
     )
     let response = JSON.parse(res.data.content)
+    return response
+  },
+  async getMembers(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getMembers&action=getMembers',
+      contentForm
+    )
+    let response = res.data.content
     return response
   },
   async getMemberReportsCurrent(params) {
@@ -322,6 +333,17 @@ export default {
       'AuthorApi.php?page=seedProgress&action=seedProgress',
       contentForm
     )
+    let response = res.data.content
+    return response
+  },
+  async updateDisciples(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateDisiples&action=updateDisciples',
+      contentForm
+    )
+    console.log('from getGoals')
+    console.log(res)
     let response = res.data.content
     return response
   },

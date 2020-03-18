@@ -48,39 +48,45 @@ export default {
         },
         {
           index: 2,
-          value: 'My Month',
-          show: false,
-          link: 'myMonth'
+          value: 'My Disciples',
+          show: true,
+          link: 'myDisciples'
         },
         {
           index: 3,
+          value: 'My Month',
+          show: true,
+          link: 'myMonth'
+        },
+        {
+          index: 4,
           value: 'My Goals',
           show: true,
           link: 'myGoals'
         },
         {
-          index: 4,
+          index: 5,
           value: 'My Year',
-          show: false,
+          show: true,
           link: 'myYear'
         },
 
         {
-          index: 5,
+          index: 6,
           value: 'My Profile',
           show: true,
           link: 'myProfile'
         },
         {
-          index: 6,
+          index: 7,
           value: 'Our Team',
           show: true,
           link: 'ourTeam'
         },
         {
-          index: 7,
+          index: 8,
           value: 'Logout',
-          show: false,
+          show: true,
           link: 'logout'
         }
       ]

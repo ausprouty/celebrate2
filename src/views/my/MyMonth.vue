@@ -408,7 +408,7 @@ img.icon {
   padding-right: 10px;
 }
 div.today {
-  background-color: red;
+  background-color:#bdf4a4;
   padding-top: 10px;
   padding-bottom: 10px;
 }
