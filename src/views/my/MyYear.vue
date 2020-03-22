@@ -8,9 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-      <div style="width:100%" v-if="this.member.image">
-        <img v-bind:src="appDir.members + this.member.image" class="member" />
-      </div>
+       <BackImage :image="appDir.members + this.member.image"></BackImage>
 
       <div>
         <h1 class="center">{{ this.item_details.name }}</h1>
@@ -73,6 +71,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+
 import Chartist from 'chartist'
 import vSelect from 'vue-select'
 import { mapState } from 'vuex'

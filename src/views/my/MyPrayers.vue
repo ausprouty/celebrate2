@@ -8,6 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
+       <BackImage :image="appDir.members + this.member.image"></BackImage>
       <div class="center">
         <table class="heading">
           <tr>
@@ -47,6 +48,7 @@
 import AuthorService from '@/services/AuthorService.js'
 import PrayerList from '@/components/PrayerList.vue'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
@@ -54,6 +56,7 @@ import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
+    BackImage,
     PrayerList
   },
 

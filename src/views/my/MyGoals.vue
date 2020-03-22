@@ -8,9 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="this.member_image">
-        <img v-bind:src="this.member_image" class="member" />
-      </div>
+       <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>When do you want to throw a party?</h2>
       <p>Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
@@ -56,12 +54,13 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,BackImage
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),

@@ -8,9 +8,8 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-if="this.member_image">
-        <img v-bind:src="this.member_image" class="member" />
-      </div>
+       <BackImage :image="appDir.members + this.member.image"></BackImage>
+      
       <h2>Who are you discipling?</h2>
       <div class="definitions">
         <p>People I have met with in the past three months</p>
@@ -87,11 +86,13 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    BackImage
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),

@@ -8,9 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%" v-if="this.member.image">
-        <img v-bind:src="appDir.members + this.member.image" class="member" />
-      </div>
+       <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>Enter a Personal Item</h2>
       <p>
         Is there something that YOU want to keep track of? Something you want to
@@ -81,6 +79,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 import { required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -92,6 +91,7 @@ export default {
   props: ['uid', 'tid', 'id'],
   components: {
     NavBar,
+    BackImage,
     'v-select': vSelect
   },
   mixins: [authorMixin],

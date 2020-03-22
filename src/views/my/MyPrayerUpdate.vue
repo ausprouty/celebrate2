@@ -8,11 +8,9 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%">
-        <img v-bind:src="appDir.members + this.user.image" class="member" />
-        {{ this.time }}
-      </div>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
 
+      {{ this.time }}
       <div class="center">
         <h2>Update Prayer</h2>
       </div>
@@ -82,6 +80,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
 import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
 import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
@@ -91,6 +90,7 @@ import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
+    BackImage,
     ItemEntryProgress,
     ItemEntryDetails,
     ItemEntryPrayer

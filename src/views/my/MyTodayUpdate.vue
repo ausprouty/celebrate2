@@ -8,11 +8,9 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%"  v-if="this.user.image">
-        <img v-bind:src="appDir.members + this.user.image" class="member" />
-        {{ this.time }}
-      </div>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
 
+      {{ this.time }}
       <div class="center">
         <h2>Update Today Entry</h2>
       </div>
@@ -57,7 +55,11 @@
         </form>
         <button class="button green" id="update" @click="saveForm">Update</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button grey" id= "delete" @click="deleteForm">Delete</button>
+        <button
+          class="button grey"
+          id="delete"
+          @click="deleteForm"
+        >Delete</button>
       </div>
     </div>
   </div>
@@ -66,12 +68,14 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar
+    NavBar,
+    BackImage
   },
 
   props: ['uid', 'tid', 'todayid', 'month', 'year'],
@@ -100,8 +104,8 @@ export default {
     },
 
     async saveForm() {
-       this.disableButton('update')
-        this.disableButton('delete')
+      this.disableButton('update')
+      this.disableButton('delete')
       var params = {}
       params['today'] = JSON.stringify(this.today)
       console.log(params)
@@ -120,7 +124,7 @@ export default {
     async deleteForm() {
       var params = {}
       params['id'] = this.$route.params.todayid
-      alert ( params['id'])
+      alert(params['id'])
       await AuthorService.deleteTodayEntry(params)
       this.$router.push({
         name: 'myMonth',

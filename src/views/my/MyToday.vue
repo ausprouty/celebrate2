@@ -8,9 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div style="width:100%"  v-if="this.member.image">
-        <img v-bind:src="appDir.members + this.member.image" class="member" />
-      </div>
+       <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
@@ -76,13 +74,15 @@
 import AuthorService from '@/services/AuthorService.js'
 import TodayEntered from '@/components/TodayEntered.vue'
 import NavBar from '@/components/MyNavBar.vue'
+import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    TodayEntered
+    TodayEntered,
+    BackImage
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),

@@ -9,9 +9,7 @@
     </div>
     <div v-if="this.authorized">
       <h2>Update {{ member.firstname }} {{ member.lastname }}</h2>
-      <div v-if="this.member_image">
-        <img v-bind:src="this.member_image" class="member" />
-      </div>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
 
       <form @submit.prevent="saveForm">
         <BaseInput
@@ -70,8 +68,8 @@
 
         <br />
         <br />
-        <button class="button green" id = "update" click="saveForm">Update</button>
-        <button class="button red" id = "delete" @click="deleteForm">Delete</button>
+        <button class="button green" id="update" click="saveForm">Update</button>
+        <button class="button red" id="delete" @click="deleteForm">Delete</button>
       </form>
     </div>
   </div>
@@ -81,14 +79,14 @@
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
-
+import BackImage from '@/components/BackImage.vue'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
-
 import { required } from 'vuelidate/lib/validators'
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    BackImage
   },
   props: ['uid'],
   mixins: [authorMixin],
@@ -123,8 +121,8 @@ export default {
   methods: {
     async saveForm() {
       try {
-         this.disableButton('update')
-          this.disableButton('delete')
+        this.disableButton('update')
+        this.disableButton('delete')
         var params = this.member
         console.log('Save Form')
         console.log(this.member)
@@ -167,8 +165,7 @@ export default {
     changePassword() {
       if (this.change_password === false) {
         this.change_password = true
-      }
-      else{
+      } else {
         this.change_password = false
       }
     },
@@ -204,7 +201,7 @@ export default {
 }
 </script>
 <style scoped>
-.change{
-  color:green;
+.change {
+  color: green;
 }
 </style>
