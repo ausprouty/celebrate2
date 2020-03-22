@@ -58,6 +58,9 @@ export const authorMixin = {
       }
 
       return false
+    },
+    disableButton(id) {
+      document.getElementById(id).style.visibility = 'hidden'
     }
   }
 }

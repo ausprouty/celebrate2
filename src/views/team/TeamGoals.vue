@@ -46,7 +46,7 @@
 
         <br />
 
-        <button class="button green" @click="saveFormAndLeave">Update</button>
+        <button class="button green" id="update" @click="saveFormAndLeave">Update</button>
       </form>
       <button class="button red" @click="addItem">Add Team Item</button>
     </div>
@@ -126,6 +126,8 @@ export default {
     },
     async saveForm() {
       try {
+        this.disableButton('update')
+
         var params = {}
         var plan = []
         var now = {}
@@ -193,8 +195,8 @@ export default {
 </script>
 
 <style scoped>
-h1{
-  color:#2d9593;
+h1 {
+  color: #2d9593;
 }
 table.goals {
   width: 100%;
@@ -237,7 +239,6 @@ td.item {
   color: red;
   font-size: 14px;
 }
-
 
 .selected {
   background-color: yellow;

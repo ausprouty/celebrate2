@@ -25,7 +25,7 @@
           :class="{ error: $v.item.name.$error }"
           @blur="$v.item.name.$touch()"
         />
-        
+
         <BaseTextarea
           v-model="$v.item.paraphrase.$model"
           label="Description"
@@ -73,8 +73,8 @@
           </v-select>
         </div>
       </form>
-      <button class="button green" @click="saveForm">Update</button>
-      <button class="button red" @click="deleteForm">Delete</button>
+      <button class="button green" id="update" @click="saveForm">Update</button>
+      <button class="button red" id="delete" @click="deleteForm">Delete</button>
     </div>
   </div>
 </template>
@@ -141,6 +141,8 @@ export default {
   },
   methods: {
     async saveForm() {
+      this.disableButton('update')
+      this.disableButton('delete')
       var params = {}
       this.item.uid = this.$route.params.uid
       this.item.tid = this.$route.params.tid
@@ -152,6 +154,8 @@ export default {
       this.return()
     },
     async deleteForm() {
+      this.disableButton('update')
+      this.disableButton('delete')
       var params = {}
       params.uid = this.$route.params.uid
       params.tid = this.$route.params.tid

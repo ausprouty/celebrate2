@@ -77,7 +77,7 @@
 
         <br />
         <br />
-        <button class="button red" @click="saveUserForm">Register</button>
+        <button class="button red" id="update" @click="saveUserForm">Register</button>
       </form>
     </div>
   </div>
@@ -124,6 +124,8 @@ export default {
   methods: {
     async saveUserForm() {
       try {
+        this.disableButton('update')
+
         var params = {}
         params.authorizer = this.user.uid
         params.firstname = this.firstname

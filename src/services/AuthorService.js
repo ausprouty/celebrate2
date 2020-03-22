@@ -348,7 +348,7 @@ export default {
   async updateDisciples(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
-      'AuthorApi.php?page=updateDisiples&action=updateDisciples',
+      'AuthorApi.php?page=updateDisciples&action=updateDisciples',
       contentForm
     )
     console.log('from getGoals')

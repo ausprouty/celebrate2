@@ -70,8 +70,8 @@
 
         <br />
         <br />
-        <button class="button green" @click="saveForm">Update</button>
-        <button class="button red" @click="deleteForm">Delete</button>
+        <button class="button green" id = "update" click="saveForm">Update</button>
+        <button class="button red" id = "delete" @click="deleteForm">Delete</button>
       </form>
     </div>
   </div>
@@ -123,6 +123,8 @@ export default {
   methods: {
     async saveForm() {
       try {
+         this.disableButton('update')
+          this.disableButton('delete')
         var params = this.member
         console.log('Save Form')
         console.log(this.member)

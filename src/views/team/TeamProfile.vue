@@ -42,8 +42,8 @@
         </template>
 
         <br />
-        <button class="button green" @click="saveForm">Update</button>
-        <button class="button red" @click="deleteForm">Delete</button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button red" id="delete"  @click="deleteForm">Delete</button>
       </form>
     </div>
   </div>
@@ -88,6 +88,8 @@ export default {
   methods: {
     async saveForm() {
       try {
+        this.disableButton('update')
+        this.disableButton('delete')
         var params = this.team
         params.authorizer = this.user.uid
         console.log (params)
@@ -100,6 +102,8 @@ export default {
 
     async deleteForm() {
       try {
+        this.disableButton('update')
+        this.disableButton('delete')
         var params = this.team
         params.authorizer = this.user.uid
         let res = await AuthorService.deleteTeam(params)

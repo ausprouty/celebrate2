@@ -13,6 +13,14 @@
       </div>
       <h2>Who are you discipling?</h2>
       <p>People I have met with in the past three months</p>
+      <div v-for="(item, id) in items" :key="id" :item="item">
+        <div v-if="discipleshipItem(item.id)">
+          <p>
+            <span class="item_name">{{ item.name }} :</span>
+            {{ item.paraphrase }}
+          </p>
+        </div>
+      </div>
       <form @submit.prevent="saveForm">
         <table class="goals">
           <tr>
@@ -27,17 +35,15 @@
             class="disciples"
           >
             <td class="group">
-              <input class="group" type="text" v-model="disciple.group_name.$model" />
+              <input class="group" type="text" v-model="disciple.group_name" />
             </td>
             <td class="firstname">
-              <input class="firstname" type="text" v-model="disciple.firstname.$model" />
+              <input class="firstname" type="text" v-model="disciple.firstname" />
             </td>
             <td class="progress">
-              <BaseSelect
-                options="progress_options"
-                v-model="disciple.progress.$model"
-                class="field"
-              />
+              <v-select :options="progress_options" label="name" v-model="disciple.progress">
+                <template slot="option" slot-scope="option" class="option_name">{{ option.name }}</template>
+              </v-select>
             </td>
           </tr>
           <tr
@@ -47,13 +53,13 @@
             class="disciples"
           >
             <td class="group">
-              <input class="group" type="text" v-model="new_disciple.group_name.$model" />
+              <input class="group" type="text" v-model="new_disciple.group_name" />
             </td>
             <td class="firstname">
-              <input class="firstname" type="text" v-model="new_disciple.firstname.$model" />
+              <input class="firstname" type="text" v-model="new_disciple.firstname" />
             </td>
             <td class="progress">
-              <v-select :options="progress_options" v-model="new_disciple.progress.$model">
+              <v-select :options="progress_options" label="name" v-model="new_disciple.progress">
                 <template slot="option" slot-scope="option" class="option_name">{{ option.name }}</template>
               </v-select>
             </td>
@@ -61,7 +67,6 @@
         </table>
 
         <br />
-
         <button class="button green" @click="saveForm">Update</button>
       </form>
     </div>
@@ -87,7 +92,9 @@ export default {
   data() {
     return {
       disciples: [],
+      saved: false,
       member: {},
+      items: {},
       new_disciples: [
         {
           discipleid: '1',
@@ -160,20 +167,36 @@ export default {
       ]
     }
   },
-  validations: {
-    disciples: {
-      numbers: { integer }
-    }
-  },
   methods: {
+    discipleshipItem(id) {
+      if (id > 7 && id < 11) {
+        return true
+      } else {
+        return false
+      }
+    },
     async saveForm() {
       try {
-        var params = {}
-        params['disciples'] = JSON.stringify(this.disciples)
-        params['uid'] = this.$route.params.uid
-        params['tid'] = this.$route.params.tid
-        params['year'] = new Date().getFullYear()
-        var res = await AuthorService.updateDisciples(params)
+        if (!this.saved) {
+          this.saved = true
+          var params = {}
+          if (typeof this.disciples != 'undefined') {
+            params['disciples'] = JSON.stringify(this.disciples)
+          }
+          params['new_disciples'] = JSON.stringify(this.new_disciples)
+          params['uid'] = this.$route.params.uid
+          params['tid'] = this.$route.params.tid
+          params['year'] = new Date().getFullYear()
+          console.log(params)
+          var res = await AuthorService.updateDisciples(params)
+          this.$router.push({
+            name: 'myTodaySettings',
+            params: {
+              uid: this.$route.params.uid,
+              tid: this.$route.params.tid
+            }
+          })
+        }
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }
@@ -191,7 +214,6 @@ export default {
     if (this.authorized) {
       try {
         var params = []
-        this.progress_options = this.options
         console.log(this.progress_options)
         var route = {}
         params['uid'] = this.$route.params.uid
@@ -204,7 +226,10 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
+        console.log (params)
         this.disciples = await AuthorService.getDisciples(params)
+        this.items = await AuthorService.getItemsStandard(params)
+
         console.log(this.disciples)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
@@ -251,7 +276,7 @@ td.first_name {
 td.progress {
   width: 30%;
 }
-.option_name {
-  font-size: 12px;
+.item_name {
+  font-weight: 900;
 }
 </style>

@@ -50,7 +50,7 @@
 
         <br />
 
-        <button class="button green" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
       </form>
       <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
@@ -134,6 +134,7 @@ export default {
     async saveForm() {
       try {
         if (!this.saved) {
+          this.disableButton('update')
           this.saved = true
           var params = {}
           var plan = []

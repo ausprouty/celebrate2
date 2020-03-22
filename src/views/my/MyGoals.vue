@@ -1,5 +1,5 @@
 <template>
-   <div class="white">
+  <div class="white">
     <NavBar />
     <div v-if="!this.authorized" class="not_authorized">
       <p>
@@ -46,7 +46,7 @@
 
         <br />
 
-        <button class="button green" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
       </form>
       <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
@@ -89,7 +89,8 @@ export default {
             message +
             '<br> <a href= "/user/' +
             this.$route.params.uid +
-            '/' +  this.$route.params.tid +
+            '/' +
+            this.$route.params.tid +
             '/item/' +
             item.id +
             '"> Update Item </a>'
@@ -129,6 +130,7 @@ export default {
     },
     async saveForm() {
       try {
+        this.disableButton('update')
         var params = {}
         var plan = []
         var now = {}
@@ -156,7 +158,8 @@ export default {
     async addGoal() {
       console.log('add Goal')
     }
-  }, beforeCreate: function() {
+  },
+  beforeCreate: function() {
     document.body.className = 'user'
   },
   async created() {
@@ -217,7 +220,7 @@ th {
 .goal {
   color: green;
   line-height: 18px;
-   width: 60px;
+  width: 60px;
 }
 td.item {
   width: 80%;
@@ -229,7 +232,6 @@ td.item {
   color: red;
   font-size: 14px;
 }
-
 
 .selected {
   background-color: yellow;

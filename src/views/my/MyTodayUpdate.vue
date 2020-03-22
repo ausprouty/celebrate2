@@ -55,9 +55,9 @@
             </div>
           </div>
         </form>
-        <button class="button green" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button grey" @click="deleteForm">Delete</button>
+        <button class="button grey" id= "delete" @click="deleteForm">Delete</button>
       </div>
     </div>
   </div>
@@ -100,6 +100,8 @@ export default {
     },
 
     async saveForm() {
+       this.disableButton('update')
+        this.disableButton('delete')
       var params = {}
       params['today'] = JSON.stringify(this.today)
       console.log(params)

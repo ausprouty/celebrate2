@@ -62,7 +62,7 @@
             <!-- End of applink-->
           </div>
           <!-- End of for loop-->
-          <button class="button green" @click="saveForm">Update</button>
+          <button class="button green" id="update" @click="saveForm">Update</button>
           <button class="button grey right" @click="updateSettings">Settings</button>
         </form>
       </div>
@@ -148,6 +148,7 @@ export default {
     async saveForm() {
       try {
         if (!this.saved) {
+          this.disableButton('update')
           this.saved = true
           var params = {}
           var today = []

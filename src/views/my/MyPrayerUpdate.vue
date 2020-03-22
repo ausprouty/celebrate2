@@ -9,13 +9,11 @@
     </div>
     <div v-if="this.authorized">
       <div style="width:100%">
-        <img v-bind:src="appDir.members + this.user.image" class="member" />  {{ this.time }}
+        <img v-bind:src="appDir.members + this.user.image" class="member" />
+        {{ this.time }}
       </div>
-     
 
       <div class="center">
-       
-
         <h2>Update Prayer</h2>
       </div>
       <div class="subheading">
@@ -75,7 +73,7 @@
           </div>
         </form>
 
-        <button class="button green" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
       </div>
     </div>
   </div>
@@ -155,6 +153,7 @@ export default {
 
     async saveForm() {
       var params = {}
+      this.disableButton('update')
       params['route'] = JSON.stringify(this.$route.params)
       params['items'] = JSON.stringify(this.items)
       await AuthorService.updateProgressPageEntry(params)
@@ -178,7 +177,8 @@ export default {
           params['route'] = JSON.stringify(this.$route.params)
           this.items = await AuthorService.getPrayerUpdate(params)
           this.objective = this.items[0]['objective']
-          this.time = this.months[this.items[0] ['month']] + ',  ' + this.items[0]['year']
+          this.time =
+            this.months[this.items[0]['month']] + ',  ' + this.items[0]['year']
           console.log(this.items)
         } catch (error) {
           console.log('There was an error in myMonth.vue:', error) // Logs out the error
