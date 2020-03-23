@@ -1,5 +1,5 @@
 <template>
-  <div class="app-link" v-on:click="showPage(user)">
+  <div class="app-link">
     <div class="shadow-card -shadow">
       <img v-bind:src="appDir.members + item.image" class="member" />
 

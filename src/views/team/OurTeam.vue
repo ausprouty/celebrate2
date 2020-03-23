@@ -43,7 +43,7 @@ export default {
           firstname: null,
           lastname: null,
           uid: null,
-          image: null
+          image: 'blank.png'
         }
       ]
     }

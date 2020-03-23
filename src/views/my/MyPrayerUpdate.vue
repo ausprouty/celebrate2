@@ -8,9 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
-
-      {{ this.time }}
+      <BackImage :image="appDir.members + this.member.image" :time="this.time"></BackImage>
       <div class="center">
         <h2>Update Prayer</h2>
       </div>
@@ -104,7 +102,7 @@ export default {
       items: [],
       progress: [],
       highlight: true,
-       member: {
+      member: {
         firstname: null,
         lastname: null,
         phone: null,
@@ -162,6 +160,8 @@ export default {
     async saveForm() {
       var params = {}
       this.disableButton('update')
+      this.$route.params.year = this.items[0]['year']
+      this.$route.params.month = this.items[0]['month']
       params['route'] = JSON.stringify(this.$route.params)
       params['items'] = JSON.stringify(this.items)
       await AuthorService.updateProgressPageEntry(params)
@@ -184,10 +184,10 @@ export default {
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           this.items = await AuthorService.getPrayerUpdate(params)
+          this.member = await AuthorService.getUser(params)
           this.objective = this.items[0]['objective']
           this.time =
             this.months[this.items[0]['month']] + ',  ' + this.items[0]['year']
-          console.log(this.items)
         } catch (error) {
           console.log('There was an error in myMonth.vue:', error) // Logs out the error
         }
