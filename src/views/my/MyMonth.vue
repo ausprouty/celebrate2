@@ -156,7 +156,15 @@ export default {
       picture: 'IMG_6282.JPG',
       objective: null,
       time: null,
-      member: {},
+      member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       today: [],
       subtotal: []
     }

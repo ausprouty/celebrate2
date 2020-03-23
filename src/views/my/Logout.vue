@@ -1,5 +1,5 @@
 <template>
-   <div class="white">
+  <div class="white">
     <img src="/images/menu/black.png" />
     <h2>Login</h2>
     <form @submit.prevent="saveForm">
@@ -78,21 +78,25 @@ export default {
           response.now = date.getTime()
           this.$store.dispatch('loginUser', [response])
           this.$router.push({
-            name: 'user',
+            name: 'myToday',
             params: {
-              uid: response.uid
+              uid: response.uid,
+              tid: response.team
             }
           })
         } else {
           this.wrong = true
+          console.log(
+            'It seems you have forgotten your password.  Please conrtact Bob Prouty'
+          )
         }
       } catch (error) {
         console.log('Login There was an error ', error) //
       }
     }
   },
-   beforeCreate: function() {
+  beforeCreate: function() {
     document.body.className = 'user'
-  },
+  }
 }
 </script>

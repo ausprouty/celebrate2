@@ -76,12 +76,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
 import BackImage from '@/components/BackImage.vue'
-import { authorMixin } from '@/mixins/AuthorMixin.js'
+import { mapState } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
+import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
   components: {
@@ -90,6 +90,7 @@ export default {
   },
   props: ['uid'],
   mixins: [authorMixin],
+  computed: mapState(['user', 'appDir']),
   data() {
     return {
       member: {
@@ -98,7 +99,8 @@ export default {
         phone: null,
         scope: null,
         username: null,
-        password: null
+        password: null,
+        image: 'blank.png'
       },
       change_password: false,
       member_image: null,
@@ -107,7 +109,6 @@ export default {
       registered: true
     }
   },
-  computed: mapState(['user']),
   validations: {
     member: {
       firstname: { required },

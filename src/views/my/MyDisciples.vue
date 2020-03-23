@@ -101,7 +101,15 @@ export default {
     return {
       disciples: [],
       saved: false,
-      member: {},
+     member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       items: {},
       new_disciples: [
         {

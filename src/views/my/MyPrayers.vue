@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-       <BackImage :image="appDir.members + this.member.image"></BackImage>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <div class="center">
         <table class="heading">
           <tr>
@@ -66,6 +66,15 @@ export default {
   data() {
     return {
       items: [],
+       member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       progress: [],
       highlight: true,
       picture: 'IMG_6282.JPG',
@@ -152,10 +161,10 @@ export default {
       if (this.authorized) {
         try {
           var params = {}
-
           params['route'] = JSON.stringify(this.$route.params)
           this.picture = await AuthorService.getImagePage(params)
           this.items = await AuthorService.getPrayersTeam(params)
+          this.member = await AuthorService.getUser(params)
           console.log(this.items)
 
           this.time =

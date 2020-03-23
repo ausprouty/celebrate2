@@ -84,8 +84,16 @@ export default {
   data() {
     return {
       item: {},
+       member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       today: {},
-      picture: 'IMG_6282.JPG',
       objective: null,
       time: null
     }

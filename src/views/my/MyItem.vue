@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-       <BackImage :image="appDir.members + this.member.image"></BackImage>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>Enter a Personal Item</h2>
       <p>
         Is there something that YOU want to keep track of? Something you want to
@@ -118,6 +118,15 @@ export default {
           title: 'add',
           image: 'add_48x48.png'
         }
+      },
+      member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
       }
     }
   },

@@ -104,7 +104,15 @@ export default {
       items: [],
       progress: [],
       highlight: true,
-      picture: 'IMG_6282.JPG',
+       member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       objective: null,
       time: null
     }

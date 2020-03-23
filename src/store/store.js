@@ -52,26 +52,11 @@ export default new Vuex.Store({
       console.log('token')
       console.log(state.user.token)
       localStorage.setItem('user', JSON.stringify(state.user))
-    },
-    SET_USER_DATA(state, userData) {
-      state.user = userData
-      localStorage.setItem('user', JSON.stringify(userData))
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${userData.token}`
     }
   },
   actions: {
     loginUser({ commit }, [mark]) {
       commit('LOGIN_USER', [mark])
-    },
-    register({ commit }, credentials) {
-      return axios
-        .post('//localhost:3000/register', credentials)
-        .then(({ data }) => {
-          console.log('user data is', userData)
-          commit('SET_USER_DATA', data)
-        })
     }
   }
 })

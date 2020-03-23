@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-       <BackImage :image="appDir.members + this.member.image"></BackImage>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>When do you want to throw a party?</h2>
       <p>Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
@@ -60,7 +60,8 @@ import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar,BackImage
+    NavBar,
+    BackImage
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),
@@ -68,7 +69,15 @@ export default {
   data() {
     return {
       items: [],
-      member_image: null,
+      member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       highlight: true
     }
   },
@@ -80,7 +89,6 @@ export default {
   methods: {
     showDefinition(item) {
       var present = document.getElementById(item.id).innerHTML
-
       if (present == '') {
         var message = '<br>(' + item.paraphrase + ')'
         if (item.uid == this.$route.params.uid) {
@@ -171,15 +179,11 @@ export default {
       try {
         var params = []
         var route = {}
-        params['uid'] = this.$route.params.uid
-        this.member = await AuthorService.getUser(params)
-        if (this.member.image) {
-          this.member_image = '/images/members/' + this.member.image
-        }
         route.uid = this.$route.params.uid
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
+        this.member = await AuthorService.getUser(params)
         this.items = await AuthorService.getGoals(params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

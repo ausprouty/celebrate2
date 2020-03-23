@@ -90,7 +90,15 @@ export default {
   data() {
     return {
       items: [],
-      member: {},
+       member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       highlight: true,
       saved: false
     }

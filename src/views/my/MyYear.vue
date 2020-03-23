@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-       <BackImage :image="appDir.members + this.member.image"></BackImage>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
 
       <div>
         <h1 class="center">{{ this.item_details.name }}</h1>
@@ -71,7 +71,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/MyNavBar.vue'
-
+import BackImage from '@/components/BackImage.vue'
 import Chartist from 'chartist'
 import vSelect from 'vue-select'
 import { mapState } from 'vuex'
@@ -80,6 +80,7 @@ import '@/assets/css/chartist.css'
 export default {
   components: {
     NavBar,
+     BackImage,
     Chartist,
     'v-select': vSelect
   },
@@ -92,6 +93,15 @@ export default {
       item_details: {},
       series: [],
       res: [],
+      member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
+      },
       scope_options: [],
       scope: [],
       selected: {},
@@ -114,9 +124,8 @@ export default {
       if (this.authorized) {
         try {
           var params = []
-          params['uid'] = this.$route.params.uid
-          this.member = await AuthorService.getUser(params)
           params.route = JSON.stringify(this.$route.params)
+          this.member = await AuthorService.getUser(params)
           this.scope = await AuthorService.getItemsMember(params)
 
           this.res = await AuthorService.getProgressPersonForYear(params)
