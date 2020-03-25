@@ -20,9 +20,10 @@
 #offline-ready {
   color: var(--color-up);
 }
-.cache-series {
-  background-color: var(--color-up);
+.pointer {
+  cursor: pointer;
 }
+
 a.black {
   color: black;
   text-decoration: underline;
@@ -133,7 +134,6 @@ small {
 }
 .shadow-card {
   background-color: #efefef;
-  cursor: pointer;
   margin-bottom: 12px;
   padding: 10px;
   text-align: left;
@@ -249,6 +249,7 @@ button {
   text-align: center;
   padding: 0 10px;
   height: 36px;
+  cursor: pointer;
 }
 .button.red {
   background-color: red;
@@ -368,7 +369,7 @@ select::ms-expand {
   background-color: #efefef;
   margin-bottom: 12px;
   transition: all 0.2s linear;
-  cursor: pointer;
+
 }
 .app-card:hover {
   transform: scale(1.01);
@@ -392,7 +393,6 @@ div.bible {
   color: white;
   margin-bottom: 5px;
   transition: all 0.2s linear;
-  cursor: pointer;
 }
 img.app-img-header {
   width: 100%;

@@ -8,8 +8,14 @@
       </p>
     </div>
     <div v-if="this.authorized">
-       <BackImage :image="appDir.members + this.member.image"></BackImage>
-      <h2>What did the Holy Spirit enable you to do today?</h2>
+      <div v-if="showApple()" class="important center">
+        <h2 class="center">Please install this app on your Apple Device</h2>
+        <img class = "ios" src="/images/installOnIOS.png" />
+         <h2 class="center">This prompt will not be shown again</h2>
+         <br>
+      </div>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
+      <h2 class="center">What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
           <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
@@ -64,6 +70,7 @@
           <button class="button grey right" @click="updateSettings">Settings</button>
         </form>
       </div>
+      
       <!-- End of Subheading-->
     </div>
     <!-- End of Authorized-->
@@ -90,7 +97,7 @@ export default {
   data() {
     return {
       items: [],
-       member: {
+      member: {
         firstname: null,
         lastname: null,
         phone: null,
@@ -109,6 +116,18 @@ export default {
     }
   },
   methods: {
+    showApple() {
+   
+      let isApple = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
+      if (!isApple) {
+        var lastSeenPrompt = localStorage.getItem('lastSeenPrompt')
+        if (!lastSeenPrompt){
+          localStorage.setItem('lastSeenPrompt', Date.now())
+          return true
+        }
+      }
+      return false
+    },
     showDetails() {
       console.log('what do I show')
     },
@@ -329,6 +348,11 @@ div.shadow-card {
 .important {
   background-color: rgb(243, 243, 148);
 }
+.ios{
+  max-width: 600px;
+  width: 90%;
+  margin-bottom: 20px;
+}
 
 div.item_name {
   display: inline;
@@ -375,5 +399,8 @@ td.item {
 
 td.goals {
   width: 20%;
+}
+.important{
+  background-color: yellow;
 }
 </style>

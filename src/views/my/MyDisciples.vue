@@ -10,7 +10,7 @@
     <div v-if="this.authorized">
        <BackImage :image="appDir.members + this.member.image"></BackImage>
       
-      <h2>Who are you discipling?</h2>
+      <h2 class="center">Who are you discipling?</h2>
       <div class="definitions">
         <p>People I have met with in the past three months</p>
         <div v-for="(item, id) in items" :key="id" :item="item">
