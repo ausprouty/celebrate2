@@ -46,15 +46,8 @@ export default {
 <style scoped > div.break {
   display: inline;
 }
-
 .shadow-card {
-  background-color: #d2bcbc;
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: left;
-  transition: all 0.2s linear;
-  width: 95%;
+  background-color: var(--color-red-light);
 }
 div.edit {
   text-align: right;

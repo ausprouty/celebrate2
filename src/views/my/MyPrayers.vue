@@ -228,15 +228,7 @@ img.icon {
 div.shadow-card {
   display: block;
 }
-.shadow-card {
-  background-color: #d2bcbc;
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: left;
-  transition: all 0.2s linear;
-  width: 100%;
-}
+
 .important {
   background-color: rgb(243, 243, 148);
 }

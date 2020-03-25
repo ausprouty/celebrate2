@@ -52,16 +52,7 @@ export default {
   display: inline;
 }
 
-.shadow-card {
-  background-color: #d2bcbc;
-  background-color: #bfbdee;
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: left;
-  transition: all 0.2s linear;
-  width: 95%;
-}
+
 .not_current {
   background-color:#dee597
 }

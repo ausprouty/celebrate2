@@ -8,28 +8,30 @@
 
 <style>
 :root {
-  --color-black: black;
-  --color-red: red;
-  --color-blue: blue;
-  --color-background: rgb(228, 194, 131);
-  --color-version: rgb(110, 107, 241);
-  --color-back: #f0555a;
-  --color-up: #f38832;
-  --color-forward: #1ca0a6;
+  --color-black: #020101;
+  --color-black-lighter: #324f23;
+  --color-grey: #efefef;
+  --color-green: #44b340;
+  --color-green-lighter: #9bd263;
+  --color-red: #a41121;
+  --color-red-lighter: #d74787;
+  --color-red-light: #d7afc1;
+  --color-white: #ffffff;
+  --color-yellow: #e0de78;
+  --color-yellow-lighter: #edefc5;
+  
 }
-#offline-ready {
-  color: var(--color-up);
-}
+
 .pointer {
   cursor: pointer;
 }
 
 a.black {
-  color: black;
+  color: var(--color-black);
   text-decoration: underline;
 }
 .preview {
-  background-color: white;
+  background-color: var(--color-white);
 }
 .nav {
   display: flex;
@@ -63,11 +65,11 @@ body.user {
   background-image: url('/images/background/confetti.png');
 }
 .white {
-  background-color: white;
+  background-color: var(--color-white);
 }
 div.not_authorized {
   height: 300px;
-  color: red;
+  color: var(--color-red);
   padding: 20px;
   font-size: 24px;
 }
@@ -133,7 +135,7 @@ small {
   font-size: 80%;
 }
 .shadow-card {
-  background-color: #efefef;
+  background-color: var(--color-grey);
   margin-bottom: 12px;
   padding: 10px;
   text-align: left;
@@ -154,22 +156,22 @@ div.card-names {
   text-align: center;
 }
 .error {
-  border: 1px solid red;
+  border: 1px solid;
 }
 .errorMessage {
-  color: red;
+  color: var(--color-red);
 }
 .eyebrow {
   font-size: 20px;
 }
 .-text-primary {
-  color: #39b982;
+  color: var(--color-green);
 }
 .-text-base {
-  color: #000;
+  color:var(--color-black);
 }
 .-text-error {
-  color: tomato;
+  color:var(--color-);
 }
 .-text-gray {
   color: rgba(0, 0, 0, 0.5);
@@ -189,14 +191,8 @@ div.card-names {
   font-weight: 400;
   line-height: 26px;
 }
-.badge.-fill-gradient {
-  background: linear-gradient(to right, #16c0b0, #84cf6a);
-  color: #fff;
-}
-.rtl.heb-verse {
-  direction: ltr;
-  unicode-bidi: embed;
-}
+
+
 .italics {
   font-style: italic;
 }
@@ -238,12 +234,12 @@ button:-moz-focusring,
 [type='button']:-moz-focusring,
 [type='reset']:-moz-focusring,
 [type='submit']:-moz-focusring {
-  outline: 2px solid #39b982;
+  outline: 2px solid var(--color-green);
 }
 button {
   margin-bottom: 20px;
-  background-color: green;
-  color: white;
+  background-color: var(--color-green);
+  color: var(--color-white);
   font-weight: bold;
   border-radius: 6px;
   text-align: center;
@@ -252,13 +248,13 @@ button {
   cursor: pointer;
 }
 .button.red {
-  background-color: red;
+  background-color:var(--color-red);
 }
 .button.yellow {
-  background-color: yellow;
+  background-color: var(--color-yellos);
 }
 .button.grey {
-  background-color: grey;
+  background-color:var(--color-grey);;
 }
 .button.right {
   margin-left: 40px;
@@ -328,7 +324,7 @@ textarea {
 [type='number']:focus,
 [type='search']:focus,
 [type='password']:focus {
-  border-color: #39b982;
+  border-color: var(--color-green);
 }
 ::-webkit-file-upload-button {
   -webkit-appearance: button;
@@ -342,7 +338,7 @@ select {
   height: 52px;
   padding: 0 24px 0 10px;
   vertical-align: middle;
-  background: #fff
+  background: var(--color-white)
     url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
     no-repeat right 12px center;
   background-size: 8px 10px;
@@ -353,12 +349,12 @@ select {
   appearance: none;
 }
 select:focus {
-  border-color: #39b982;
+  border-color: var(--color-green);
   outline: 0;
 }
 select:focus::ms-value {
-  color: #000;
-  background: #fff;
+  color: var(--color-black);
+  background: var(--color-white);
 }
 select::ms-expand {
   opacity: 0;
@@ -366,10 +362,9 @@ select::ms-expand {
 .app-card {
   padding: 10px;
   width: 95%;
-  background-color: #efefef;
+  background-color: var(--color-grey);
   margin-bottom: 12px;
   transition: all 0.2s linear;
-
 }
 .app-card:hover {
   transform: scale(1.01);
@@ -388,7 +383,7 @@ div.bible {
   margin-left: 12px;
   padding: 10px;
   width: 50%;
-  background-color: red;
+  background-color:var(--color-red);
   text-align: left;
   color: white;
   margin-bottom: 5px;
@@ -398,7 +393,7 @@ img.app-img-header {
   width: 100%;
 }
 .app-link {
-  color: black;
+  color: var(--color-black);
 
   text-decoration: none;
   font-weight: 100;
@@ -413,9 +408,5 @@ label,
 .bold {
   font-weight: bold;
 }
-p.version {
-  text-align: center;
-  color: var(--color-version);
-  font-size: 10pt;
-}
+
 </style>
