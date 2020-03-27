@@ -5,40 +5,39 @@
     </router-link>
 
     <div class="container">
-      <div id="my_menu" class="dropdown-content">
-        <div v-for="menuItem in my_menu" :key="menuItem.index" :menuItem="menuItem">
-          <div
-            class="item"
-            style="cursor:pointer"
-            @click="setNewSelectedOption(menuItem)"
-          >{{ menuItem.value }}</div>
-        </div>
-      </div>
-      <div id="team_menu" class="dropdown-content">
-        <div v-for="menuItem in team_menu" :key="menuItem.index" :menuItem="menuItem">
-          <div
-            class="item"
-            style="cursor:pointer"
-            @click="setNewSelectedOption(menuItem)"
-          >{{ menuItem.value }}</div>
-        </div>
-      </div>
       <div class="back hand float" @click="goBack()">
         <img class="icon hand" src="/images/icons/standard/back_48x48.png" />
       </div>
-      <div class="hand pad float" @hover="showMyMenu()">
-        <img class="icon hand" src="/images/icons/standard/person_48x48.png" />
+      <div class="hand pad float" @click="showMyMenu()">
+        <img class="icon hand" src="/images/icons/personal/person_48x48.png" />
       </div>
 
       <div class="team float pad" @click="showTeamMenu()">
-        <img class="icon hand" src="/images/icons/standard/group_48x48.png" />
+        <img class="icon hand" src="/images/icons/team/group_48x48.png" />
       </div>
       <div class="my float pad">
-        <img class="member hand" v-bind:src="appDir.members + image" />
+        <img class="member" v-bind:src="appDir.members + image" />
       </div>
-      <div class="breadcrumb float pad">{{ this.breadcrumb }}</div>
+      <div class="breadcrumb float-right ">{{ this.breadcrumb }}</div>
 
-      <div class="time float pad" v-if="time">{{ time }}</div>
+    </div>
+    <div id="my_menu" class="dropdown-content-my">
+      <div v-for="menuItem in my_menu" :key="menuItem.index" :menuItem="menuItem">
+        <div
+          class="item"
+          style="cursor:pointer"
+          @click="setNewSelectedOption(menuItem)"
+        >{{ menuItem.value }}</div>
+      </div>
+    </div>
+    <div id="team_menu" class="dropdown-content-team">
+      <div v-for="menuItem in team_menu" :key="menuItem.index" :menuItem="menuItem">
+        <div
+          class="item"
+          style="cursor:pointer"
+          @click="setNewSelectedOption(menuItem)"
+        >{{ menuItem.value }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +55,8 @@ export default {
   data() {
     return {
       authorized: true,
+      show_team: false,
+      show_my: false,
       my_menu: [
         {
           index: 0,
@@ -100,12 +101,7 @@ export default {
           show: true,
           link: 'myProfile'
         },
-        {
-          index: 7,
-          value: 'Our Team',
-          show: true,
-          link: 'ourTeam'
-        },
+
         {
           index: 8,
           value: 'Logout',
@@ -143,13 +139,6 @@ export default {
           value: 'Team Profile',
           show: true,
           link: 'teamProfile'
-        },
-
-        {
-          index: 5,
-          value: 'My Today',
-          show: true,
-          link: 'myToday'
         }
       ]
     }
@@ -159,10 +148,29 @@ export default {
       window.history.back()
     },
     showMyMenu() {
-      document.getElementById('my_menu').style.display = 'block'
+      if (!this.show_my) {
+        document.getElementById('my_menu').style.display = 'block'
+        this.show_my = true
+        if (this.show_team) {
+          document.getElementById('team_menu').style.display = 'none'
+          this.show_team = false
+        }
+      } else {
+        document.getElementById('my_menu').style.display = 'none'
+        this.show_my = false
+      }
     },
     showTeamMenu() {
-      document.getElementById('team_menu').style.display = 'block'
+      if (!this.show_team) {
+        document.getElementById('team_menu').style.display = 'block'
+        this.show_team = true
+        if (this.show_my) {
+          document.getElementById('my_menu').style.display = 'none'
+          this.show_my = false
+        }
+      } else {
+        this.show_team = false
+      }
     },
     setNewSelectedOption(selectedOption) {
       this.showMenu = false
@@ -185,13 +193,16 @@ div.float {
   display: inline;
 }
 .pad {
-  padding-left: 30px;
+  padding-left: 10px;
 }
-.breadcrumb,
-.time {
-  font-weight: bold;
+.my{
+  padding-left: 40px;
+}
+div.breadcrumb{
+  color:grey;
   font-size: 12px;
-  padding-bottom: 20px;
+  float: right;
+ 
 }
 
 <style scoped>
@@ -213,12 +224,21 @@ div.float {
 }
 
 /* Dropdown Content (Hidden by Default) */
-.dropdown-content {
+.dropdown-content-my {
   display: none;
   position: absolute;
-  background-color: blue;
+  background-color: orange;
 
-  min-width: 160px;
+  min-width: 300px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown-content-team {
+  display: none;
+  position: absolute;
+  background-color: red;
+
+  min-width: 300px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }

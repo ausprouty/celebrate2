@@ -203,9 +203,7 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  color: #2d9593;
-}
+
 table.goals {
   width: 100%;
   border-collapse: collapse;

@@ -212,9 +212,7 @@ export default {
 }
 </script>
 <style scoped>
-h2 {
-  color: #2d9593;
-}
+
 img.icon {
   width: 48px;
 }

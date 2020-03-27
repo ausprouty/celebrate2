@@ -11,6 +11,7 @@
   --color-black: #020101;
   --color-black-lighter: #324f23;
   --color-grey: #efefef;
+  --color-grey-dark: #666666;
   --color-green: #44b340;
   --color-green-lighter: #9bd263;
   --color-green-lightest: #b2d292;
@@ -109,10 +110,10 @@ h5,
 h6 {
   align-items: center;
   font-family: 'Montserrat', sans-serif;
+  color: var(--color-green);
 }
 h1 {
   font-size: 18px;
-  color: green;
 }
 h2 {
   font-size: 18px;
@@ -257,10 +258,10 @@ button {
   background-color: var(--color-red);
 }
 .button.yellow {
-  background-color: var(--color-yellos);
+  background-color: var(--color-yellow);
 }
 .button.grey {
-  background-color: var(--color-grey);
+  background-color: var(--color-grey-dark);
 }
 .button.right {
   margin-left: 40px;

@@ -304,9 +304,7 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  color: #2d9593;
-}
+
 
 table.time {
   display: block;

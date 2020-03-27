@@ -249,7 +249,7 @@ th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
-  background-color: #4caf50;
+  background-color: var(--color-green);
   color: white;
 }
 .definitions {
