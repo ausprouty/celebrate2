@@ -8,8 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
-
       <h2 class="center">Who are you discipling?</h2>
       <div class="definitions">
         <p>People I have met with in the past three months</p>
@@ -39,11 +37,7 @@
               <input class="group" type="text" v-model="disciple.group_name" />
             </td>
             <td class="firstname">
-              <input
-                class="firstname"
-                type="text"
-                v-model="disciple.firstname"
-              />
+              <input class="firstname" type="text" v-model="disciple.firstname" />
             </td>
             <td class="progress">
               <select v-model="disciple.progress">
@@ -63,18 +57,10 @@
             class="disciples"
           >
             <td class="group">
-              <input
-                class="group"
-                type="text"
-                v-model="new_disciple.group_name"
-              />
+              <input class="group" type="text" v-model="new_disciple.group_name" />
             </td>
             <td class="firstname">
-              <input
-                class="firstname"
-                type="text"
-                v-model="new_disciple.firstname"
-              />
+              <input class="firstname" type="text" v-model="new_disciple.firstname" />
             </td>
             <td class="progress">
               <select v-model="new_disciple.progress">
@@ -89,9 +75,7 @@
         </table>
 
         <br />
-        <button id="update" class="button green" @click="saveForm">
-          Update
-        </button>
+        <button id="update" class="button green" @click="saveForm">Update</button>
       </form>
     </div>
   </div>
@@ -100,13 +84,12 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar,
-    BackImage
+    NavBar
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),

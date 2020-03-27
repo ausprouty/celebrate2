@@ -95,7 +95,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
 import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
 import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
@@ -105,7 +105,6 @@ import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    BackImage,
     ItemEntryProgress,
     ItemEntryDetails,
     ItemEntryPrayer
@@ -216,7 +215,6 @@ export default {
     document.body.className = 'user'
   },
   async created() {
-    
     this.loadForm()
   }
 }

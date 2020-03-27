@@ -8,8 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized" class="chart-area">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
-
       <div>
         <h1 class="center">{{ this.item_details.name }}</h1>
       </div>
@@ -71,7 +69,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import Chartist from 'chartist'
 import vSelect from 'vue-select'
 import { mapState } from 'vuex'
@@ -80,7 +78,6 @@ import '@/assets/css/chartist.css'
 export default {
   components: {
     NavBar,
-    BackImage,
     Chartist,
     'v-select': vSelect
   },
@@ -198,7 +195,6 @@ export default {
     document.body.className = 'user'
   },
   async created() {
-    
     this.loadForm()
   }
 }

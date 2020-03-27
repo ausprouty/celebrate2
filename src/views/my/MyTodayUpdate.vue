@@ -8,7 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
       {{ this.time }}
       <div class="center">
         <h2>Update Today Entry</h2>
@@ -52,13 +51,13 @@
             </div>
           </div>
         </form>
-        <button class="button green" id="update" @click="saveForm">
-          Update
-        </button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="button grey" id="delete" @click="deleteForm">
-          Delete
-        </button>
+        <button
+          class="button grey"
+          id="delete"
+          @click="deleteForm"
+        >Delete</button>
       </div>
     </div>
   </div>
@@ -67,14 +66,13 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import { mapState } from 'vuex'
 
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar,
-    BackImage
+    NavBar
   },
 
   props: ['uid', 'tid', 'todayid', 'month', 'year'],
@@ -170,7 +168,6 @@ export default {
   },
   beforeCreate: function() {
     document.body.className = 'user'
-     
   },
   async created() {
     this.loadForm()

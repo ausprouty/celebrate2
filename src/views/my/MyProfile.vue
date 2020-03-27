@@ -9,7 +9,6 @@
     </div>
     <div v-if="this.authorized">
       <h2>Update {{ member.firstname }} {{ member.lastname }}</h2>
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
 
       <form @submit.prevent="saveForm">
         <BaseInput
@@ -22,9 +21,7 @@
           @mousedown="$v.member.firstname.$touch()"
         />
         <template v-if="$v.member.firstname.$error">
-          <p v-if="!$v.member.firstname.required" class="errorMessage">
-            First Name is required
-          </p>
+          <p v-if="!$v.member.firstname.required" class="errorMessage">First Name is required</p>
         </template>
 
         <BaseInput
@@ -37,9 +34,7 @@
           @mousedown="$v.member.lastname.$touch()"
         />
         <template v-if="$v.member.lastname.$error">
-          <p v-if="!$v.member.lastname.required" class="errorMessage">
-            Last Name is required
-          </p>
+          <p v-if="!$v.member.lastname.required" class="errorMessage">Last Name is required</p>
         </template>
 
         <BaseInput
@@ -50,9 +45,7 @@
           class="field"
         />
 
-        <p @click="changePassword()" class="change">
-          Change Username or Password
-        </p>
+        <p @click="changePassword()" class="change">Change Username or Password</p>
 
         <div v-if="this.change_password">
           <BaseInput
@@ -74,12 +67,8 @@
 
         <br />
         <br />
-        <button class="button green" id="update" click="saveForm">
-          Update
-        </button>
-        <button class="button red" id="delete" @click="deleteForm">
-          Delete
-        </button>
+        <button class="button green" id="update" click="saveForm">Update</button>
+        <button class="button red" id="delete" @click="deleteForm">Delete</button>
       </form>
     </div>
   </div>
@@ -88,15 +77,14 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import { mapState } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 
 export default {
   components: {
-    NavBar,
-    BackImage
+    NavBar
   },
   props: ['uid'],
   mixins: [authorMixin],
@@ -188,7 +176,7 @@ export default {
       )
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('My Profile', 'M')
+          this.menu = await this.menuParams('My Profile', 'M')
           var params = {}
           params.uid = this.$route.params.uid
           this.member = await AuthorService.getUser(params)
@@ -207,7 +195,6 @@ export default {
     document.body.className = 'user'
   },
   async created() {
-    
     this.show()
   }
 }

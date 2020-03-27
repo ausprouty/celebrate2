@@ -8,7 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>When do you want to throw a party?</h2>
       <p>Pick two or more of these and enter a goal.</p>
       <form @submit.prevent="saveForm">
@@ -18,12 +17,7 @@
             <th>Item</th>
             <th>Goal</th>
           </tr>
-          <tr
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="goals"
-          >
+          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
             <td class="icon">
               <img
                 v-bind:src="
@@ -49,9 +43,7 @@
 
         <br />
 
-        <button class="button green" id="update" @click="saveForm">
-          Update
-        </button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
       </form>
       <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
@@ -61,14 +53,13 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar,
-    BackImage
+    NavBar
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),

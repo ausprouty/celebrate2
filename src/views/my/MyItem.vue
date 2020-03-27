@@ -8,7 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2>Enter a Personal Item</h2>
       <p>
         Is there something that YOU want to keep track of? Something you want to
@@ -63,16 +62,9 @@
             />
             <br />
           </div>
-          <v-select
-            :options="images"
-            label="title"
-            v-model="$v.item.image.$model"
-          >
+          <v-select :options="images" label="title" v-model="$v.item.image.$model">
             <template slot="option" slot-scope="option">
-              <img
-                :src="'/images/icons/personal/' + option.image"
-                class="icon"
-              />
+              <img :src="'/images/icons/personal/' + option.image" class="icon" />
               {{ option.title }}
             </template>
           </v-select>
@@ -86,7 +78,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import { required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -98,7 +90,6 @@ export default {
   props: ['uid', 'tid', 'id'],
   components: {
     NavBar,
-    BackImage,
     'v-select': vSelect
   },
   mixins: [authorMixin],

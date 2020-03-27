@@ -14,7 +14,7 @@
         <h2 class="center">This prompt will not be shown again</h2>
         <br />
       </div>
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
+
       <h2 class="center">What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
@@ -90,15 +90,14 @@
 import AuthorService from '@/services/AuthorService.js'
 import TodayEntered from '@/components/TodayEntered.vue'
 import NavBar from '@/components/NavBar.vue'
-import BackImage from '@/components/BackImage.vue'
+
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    TodayEntered,
-    BackImage
+    TodayEntered
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),
@@ -241,7 +240,7 @@ export default {
     )
     if (this.authorized) {
       try {
-         this.menu = await this.menuParams('My Today', 'M')
+        this.menu = await this.menuParams('My Today', 'M')
         var params = []
         var route = {}
         route.uid = this.$route.params.uid
