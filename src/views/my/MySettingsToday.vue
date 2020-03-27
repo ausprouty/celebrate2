@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -48,7 +48,9 @@
 
         <br />
 
-        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
       </form>
       <button class="button red" @click="addItem">Add Personal Item</button>
     </div>
@@ -57,14 +59,15 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
-    NavBar,BackImage
+    NavBar,
+    BackImage
   },
   props: ['uid', 'tid'],
   computed: mapState(['user', 'appDir']),
@@ -72,7 +75,7 @@ export default {
   data() {
     return {
       items: [],
-       member: {
+      member: {
         firstname: null,
         lastname: null,
         phone: null,
@@ -192,6 +195,7 @@ export default {
     )
     if (this.authorized) {
       try {
+         this.menu = await this.menuParams('My Settings Today', 'M')
         var params = []
         var route = {}
         route.uid = this.$route.params.uid

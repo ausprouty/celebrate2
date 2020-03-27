@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -8,13 +8,21 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image" :time="this.time"></BackImage>
+      <BackImage
+        :image="appDir.members + this.member.image"
+        :time="this.time"
+      ></BackImage>
       <div class="center">
         <h2>Update Prayer</h2>
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+          <div
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="progress"
+          >
             <div class="app-link">
               <div
                 class="shadow-card -shadow"
@@ -33,14 +41,21 @@
                     :id="item.id + 'R'"
                     class="item_name"
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >{{ item.name }}</div>
+                  >
+                    {{ item.name }}
+                  </div>
                   <div :id="item.id" class="collapsed">
                     <ItemEntryProgress :item="item"></ItemEntryProgress>
                   </div>
                 </div>
                 <hr />
                 <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
+                  <BaseInput
+                    label="Number:"
+                    v-model="item.entry"
+                    type="number"
+                    class="field"
+                  />
                 </div>
                 <div v-if="item.details">
                   <BaseTextarea
@@ -69,7 +84,9 @@
           </div>
         </form>
 
-        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
       </div>
     </div>
   </div>
@@ -77,7 +94,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
 import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
@@ -181,6 +198,7 @@ export default {
       )
       if (this.authorized) {
         try {
+          this.menu = await this.menuParams('My Prayer Update', 'M')
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           this.items = await AuthorService.getPrayerUpdate(params)
@@ -198,6 +216,7 @@ export default {
     document.body.className = 'user'
   },
   async created() {
+    
     this.loadForm()
   }
 }
@@ -272,8 +291,6 @@ img.icon {
   width: 48px;
   padding-right: 10px;
 }
-
-
 
 .important {
   background-color: rgb(243, 243, 148);

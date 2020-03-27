@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -63,9 +63,16 @@
             />
             <br />
           </div>
-          <v-select :options="images" label="title" v-model="$v.item.image.$model">
+          <v-select
+            :options="images"
+            label="title"
+            v-model="$v.item.image.$model"
+          >
             <template slot="option" slot-scope="option">
-              <img :src="'/images/icons/personal/' + option.image" class="icon" />
+              <img
+                :src="'/images/icons/personal/' + option.image"
+                class="icon"
+              />
               {{ option.title }}
             </template>
           </v-select>
@@ -78,7 +85,7 @@
 </template>
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import { required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
@@ -196,6 +203,7 @@ export default {
     )
     if (this.authorized) {
       try {
+        this.menu = await this.menuParams('My Item', 'M')
         var params = {}
         params['icons'] = 'personal'
         params['icon_size'] = '48x48'

@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -70,7 +70,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import Chartist from 'chartist'
 import vSelect from 'vue-select'
@@ -80,7 +80,7 @@ import '@/assets/css/chartist.css'
 export default {
   components: {
     NavBar,
-     BackImage,
+    BackImage,
     Chartist,
     'v-select': vSelect
   },
@@ -123,6 +123,7 @@ export default {
       )
       if (this.authorized) {
         try {
+          this.menu = await this.menuParams('My Year', 'M')
           var params = []
           params.route = JSON.stringify(this.$route.params)
           this.member = await AuthorService.getUser(params)
@@ -197,6 +198,7 @@ export default {
     document.body.className = 'user'
   },
   async created() {
+    
     this.loadForm()
   }
 }

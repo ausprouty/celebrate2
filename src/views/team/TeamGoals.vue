@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -20,7 +20,12 @@
             <th>Item</th>
             <th>Goal</th>
           </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
+          <tr
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="goals"
+          >
             <td class="icon">
               <img
                 v-bind:src="
@@ -46,7 +51,9 @@
 
         <br />
 
-        <button class="button green" id="update" @click="saveFormAndLeave">Update</button>
+        <button class="button green" id="update" @click="saveFormAndLeave">
+          Update
+        </button>
       </form>
       <button class="button red" @click="addItem">Add Team Item</button>
     </div>
@@ -55,7 +62,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/TeamNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -175,6 +182,7 @@ export default {
     )
     if (this.authorized) {
       try {
+         this.menu = await this.menuParams('Our Team Goals', 'M')
         var params = []
         var route = {}
         route.uid = null

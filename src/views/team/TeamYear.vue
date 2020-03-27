@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -45,15 +45,18 @@
           Key:
           <span class="last_year">{{ this.res.last_year }}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span
-            class="this_year"
-          >{{ this.res.this_year }}</span>
+          <span class="this_year">{{ this.res.this_year }}</span>
         </div>
       </div>
       <div class="select">
         <form @submit.prevent="saveForm">
           Show:
-          <v-select :options="scope" label="name" @input="updateData" v-model="selected">
+          <v-select
+            :options="scope"
+            label="name"
+            @input="updateData"
+            v-model="selected"
+          >
             <template slot="option" slot-scope="option">
               <img
                 :src="
@@ -72,7 +75,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import Chartist from 'chartist'
 import vSelect from 'vue-select'
 import { mapState } from 'vuex'
@@ -111,6 +114,7 @@ export default {
       this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
+          this.menu = await this.menuParams('Our Team Year', 'M')
           var params = []
           params.route = JSON.stringify(this.$route.params)
           this.scope = await AuthorService.getItemsTeam(params)

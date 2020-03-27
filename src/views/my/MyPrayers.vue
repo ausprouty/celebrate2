@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -8,7 +8,6 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <div class="center">
         <table class="heading">
           <tr>
@@ -47,16 +46,13 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import PrayerList from '@/components/PrayerList.vue'
-import NavBar from '@/components/MyNavBar.vue'
-import BackImage from '@/components/BackImage.vue'
-
+import NavBar from '@/components/NavBar.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 export default {
   components: {
     NavBar,
-    BackImage,
     PrayerList
   },
 
@@ -66,7 +62,7 @@ export default {
   data() {
     return {
       items: [],
-       member: {
+      member: {
         firstname: null,
         lastname: null,
         phone: null,
@@ -79,7 +75,9 @@ export default {
       highlight: true,
       picture: 'IMG_6282.JPG',
       objective: null,
-      time: null
+      time: null,
+      
+
     }
   },
   validations: {
@@ -160,6 +158,8 @@ export default {
       )
       if (this.authorized) {
         try {
+           this.menu = await this.menuParams('My Prayers', 'M')
+          console.log(this.menu)
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           this.picture = await AuthorService.getImagePage(params)
@@ -200,7 +200,7 @@ export default {
 <style scoped>
 table.heading {
   display: block;
-  background-color: rgb(243, 243, 148);
+  background-color: var(--color-yellow);
   padding: 10px;
   width: 97%;
   margin: auto;
@@ -230,7 +230,7 @@ div.shadow-card {
 }
 
 .important {
-  background-color: rgb(243, 243, 148);
+  background-color: var(--color-yellow);
 }
 
 div.item_name {
@@ -239,7 +239,7 @@ div.item_name {
 
 p.objective {
   padding-left: 10px;
-  color: black;
+  color: var(--color-black);
   font-weight: 700;
   font-size: 16px;
   margin-top: -5px;
@@ -250,7 +250,7 @@ ul.motto {
   padding-inline-start: 20px;
 }
 li.motto {
-  color: black;
+  color: var(--color-black);
   padding-left: 0px;
   font-size: 12px;
   font-style: italic;
@@ -272,7 +272,7 @@ td.item {
   width: 80%;
 }
 .item_name {
-  color: black;
+  color: var(--color-black);
   font-weight: bold;
 }
 

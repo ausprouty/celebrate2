@@ -6,7 +6,7 @@
       <div class="prayer">
         <span class="card-name">{{ item.prayer }}</span>
         <span class="card-date">({{ item.month }}/{{ item.year }})</span>
-        <div v-if="(item.uid = this.user.uid)" class="edit" @click="editPrayer(item)">(Edit)</div>
+        <div v-if="(item.uid = this.user.uid)" class="edit hand" @click="editPrayer(item)">(Edit)</div>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ export default {
   display: inline;
 }
 .shadow-card {
-  background-color: var(--color-red-light);
+  background-color: var(--color-green-lightest);
 }
 div.edit {
   text-align: right;

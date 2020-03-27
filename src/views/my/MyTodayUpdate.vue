@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -9,7 +9,6 @@
     </div>
     <div v-if="this.authorized">
       <BackImage :image="appDir.members + this.member.image"></BackImage>
-
       {{ this.time }}
       <div class="center">
         <h2>Update Today Entry</h2>
@@ -53,13 +52,13 @@
             </div>
           </div>
         </form>
-        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button
-          class="button grey"
-          id="delete"
-          @click="deleteForm"
-        >Delete</button>
+        <button class="button grey" id="delete" @click="deleteForm">
+          Delete
+        </button>
       </div>
     </div>
   </div>
@@ -67,7 +66,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 
@@ -84,7 +83,7 @@ export default {
   data() {
     return {
       item: {},
-       member: {
+      member: {
         firstname: null,
         lastname: null,
         phone: null,
@@ -153,6 +152,7 @@ export default {
       )
       if (this.authorized) {
         try {
+          this.menu = await this.menuParams('My Today Update', 'M')
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           this.today = await AuthorService.getTodayEntry(params)
@@ -170,6 +170,7 @@ export default {
   },
   beforeCreate: function() {
     document.body.className = 'user'
+     
   },
   async created() {
     this.loadForm()
@@ -246,8 +247,6 @@ img.icon {
   width: 48px;
   padding-right: 10px;
 }
-
-
 
 .important {
   background-color: rgb(243, 243, 148);

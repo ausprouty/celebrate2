@@ -13,13 +13,14 @@
   --color-grey: #efefef;
   --color-green: #44b340;
   --color-green-lighter: #9bd263;
+  --color-green-lightest: #b2d292;
   --color-red: #a41121;
   --color-red-lighter: #d74787;
   --color-red-light: #d7afc1;
   --color-white: #ffffff;
   --color-yellow: #e0de78;
+  --color-yellow: #edec60;
   --color-yellow-lighter: #edefc5;
-  
 }
 
 .pointer {
@@ -41,6 +42,9 @@ a.black {
 }
 img.nav-icon {
   width: 100%;
+}
+.hand {
+  cursor: pointer;
 }
 .hidden {
   visibility: hidden;
@@ -66,6 +70,9 @@ body.user {
 }
 .white {
   background-color: var(--color-white);
+}
+img.icon {
+  width: 48px;
 }
 div.not_authorized {
   height: 300px;
@@ -168,10 +175,10 @@ div.card-names {
   color: var(--color-green);
 }
 .-text-base {
-  color:var(--color-black);
+  color: var(--color-black);
 }
 .-text-error {
-  color:var(--color-);
+  color: var(--color-);
 }
 .-text-gray {
   color: rgba(0, 0, 0, 0.5);
@@ -191,7 +198,6 @@ div.card-names {
   font-weight: 400;
   line-height: 26px;
 }
-
 
 .italics {
   font-style: italic;
@@ -248,13 +254,13 @@ button {
   cursor: pointer;
 }
 .button.red {
-  background-color:var(--color-red);
+  background-color: var(--color-red);
 }
 .button.yellow {
   background-color: var(--color-yellos);
 }
 .button.grey {
-  background-color:var(--color-grey);;
+  background-color: var(--color-grey);
 }
 .button.right {
   margin-left: 40px;
@@ -383,7 +389,7 @@ div.bible {
   margin-left: 12px;
   padding: 10px;
   width: 50%;
-  background-color:var(--color-red);
+  background-color: var(--color-red);
   text-align: left;
   color: white;
   margin-bottom: 5px;
@@ -408,5 +414,4 @@ label,
 .bold {
   font-weight: bold;
 }
-
 </style>

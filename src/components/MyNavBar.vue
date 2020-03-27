@@ -114,6 +114,9 @@ export default {
 </script>
 
 <style scoped>
+.nav-icon {
+  cursor: pointer;
+}
 /*//https://www.w3schools.com/howto/howto_css_dropdown.asp*/
 
 /* Dropdown Button */

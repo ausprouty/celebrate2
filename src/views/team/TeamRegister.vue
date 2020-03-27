@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -22,7 +22,9 @@
           @blur="$v.firstname.$touch()"
         />
         <template v-if="$v.firstname.$error">
-          <p v-if="!$v.firstname.required" class="errorMessage">First name is required.</p>
+          <p v-if="!$v.firstname.required" class="errorMessage">
+            First name is required.
+          </p>
         </template>
 
         <BaseInput
@@ -35,7 +37,9 @@
           @blur="$v.firstname.$touch()"
         />
         <template v-if="$v.lastname.$error">
-          <p v-if="!$v.lastname.required" class="errorMessage">Last name is required.</p>
+          <p v-if="!$v.lastname.required" class="errorMessage">
+            Last name is required.
+          </p>
         </template>
         Scope:
         <v-select
@@ -56,7 +60,9 @@
           @blur="$v.username.$touch()"
         />
         <template v-if="$v.username.$error">
-          <p v-if="!$v.username.required" class="errorMessage">Username is required.</p>
+          <p v-if="!$v.username.required" class="errorMessage">
+            Username is required.
+          </p>
         </template>
 
         <BaseInput
@@ -69,7 +75,9 @@
           @blur="$v.password.$touch()"
         />
         <template v-if="$v.password.$error">
-          <p v-if="!$v.password.required" class="errorMessage">Password is required.</p>
+          <p v-if="!$v.password.required" class="errorMessage">
+            Password is required.
+          </p>
         </template>
         <div v-if="!this.registered">
           <p class="errorMessage">{{ this.error_message }}</p>
@@ -77,7 +85,9 @@
 
         <br />
         <br />
-        <button class="button red" id="update" @click="saveUserForm">Register</button>
+        <button class="button red" id="update" @click="saveUserForm">
+          Register
+        </button>
       </form>
     </div>
   </div>
@@ -86,7 +96,7 @@
 <script>
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/TeamNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import vSelect from 'vue-select'
 import Team from '@/views/team/OurTeam.vue'
 import { required } from 'vuelidate/lib/validators'
@@ -191,6 +201,7 @@ export default {
       this.$route.params.uid,
       this.$route.params.tid
     )
+     this.menu = await this.menuParams('Our Team Registration', 'M')
   }
 }
 </script>

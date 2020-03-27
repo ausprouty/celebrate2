@@ -1,10 +1,20 @@
 import Vue from 'vue'
+import AuthorService from '@/services/AuthorService.js'
 import Vuex from 'vuex'
 import { mapState } from 'vuex'
 Vue.use(Vuex)
 
 export const authorMixin = {
-  computed: mapState(['user']),
+  computed: mapState(['user', 'my']),
+  data() {
+    return {
+      menu: {
+        time: null,
+        image: 'blank.png',
+        breadcrumb: null
+      }
+    }
+  },
   methods: {
     authorize(reason, uid, tid) {
       // if not logged in
@@ -61,6 +71,31 @@ export const authorMixin = {
     },
     disableButton(id) {
       document.getElementById(id).style.visibility = 'hidden'
+    },
+    async menuParams(breadcrumb) {
+      var params = this.$route.params
+
+      params.image = 'blank.png'
+      params.breadcrumb = breadcrumb
+      console.log(params)
+      if (typeof this.my.uid != 'undefined') {
+        console.log('defined')
+        if (this.my.uid == this.menu.uid) {
+          console.log('not undefined')
+          params.image = this.my.picture
+        }
+      }
+      if (params.image == 'blank.png') {
+        console.log('still blank')
+        var p = {}
+        p['route'] = JSON.stringify(this.$route.params)
+        var member = await AuthorService.getUser(p)
+        this.$store.dispatch('seeingMember', [member])
+        params.image = member.image
+        params.time = 'Time'
+        console.log(params)
+      }
+      return params
     }
   }
 }

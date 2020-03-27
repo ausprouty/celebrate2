@@ -12,10 +12,7 @@
 
 <script>
 export default {
-  props: {
-    image: String,
-    time: String
-  },
+  
 
   methods: {
     goBack() {

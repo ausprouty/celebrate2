@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -55,14 +55,16 @@
           <h3>Icon:</h3>
           <div v-if="$v.item.image.$model">
             <img
-              v-bind:src="
-                '/images/icons/team/' + $v.item.image.$model.image
-              "
+              v-bind:src="'/images/icons/team/' + $v.item.image.$model.image"
               class="icon"
             />
             <br />
           </div>
-          <v-select :options="images" label="title" v-model="$v.item.image.$model">
+          <v-select
+            :options="images"
+            label="title"
+            v-model="$v.item.image.$model"
+          >
             <template slot="option" slot-scope="option">
               <img :src="'/images/icons/team/' + option.image" class="icon" />
               {{ option.title }}
@@ -70,14 +72,14 @@
           </v-select>
         </div>
       </form>
-      <button class="button green"id = "update" @click="saveForm">Update</button>
+      <button class="button green" id="update" @click="saveForm">Update</button>
       <button class="button red" id="delete" @click="deleteForm">Delete</button>
     </div>
   </div>
 </template>
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/TeamNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import { required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -138,7 +140,7 @@ export default {
   methods: {
     async saveForm() {
       this.disableButton('update')
-        this.disableButton('delete')
+      this.disableButton('delete')
       var params = {}
       this.item.tid = this.$route.params.tid
       this.item.image = this.item.image.image
@@ -150,7 +152,7 @@ export default {
     },
     async deleteForm() {
       this.disableButton('update')
-        this.disableButton('delete')
+      this.disableButton('delete')
       var params = {}
       params.uid = this.uid
       params.item = JSON.stringify(this.item)
@@ -179,6 +181,7 @@ export default {
     )
     if (this.authorized) {
       try {
+         this.menu = await this.menuParams('Our Team Items', 'M')
         var params = {}
         params['icons'] = 'team'
         params['icon_size'] = '48x48'

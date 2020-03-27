@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-if="this.authorized">
-       <BackImage :image="appDir.members + this.member.image"></BackImage>
+      <BackImage :image="appDir.members + this.member.image"></BackImage>
       <div>
         <table class="time">
           <tr>
@@ -48,7 +48,12 @@
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+          <div
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="progress"
+          >
             <div class="app-link">
               <div
                 class="shadow-card -shadow"
@@ -67,14 +72,21 @@
                     :id="item.id + 'R'"
                     class="item_name"
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >{{ item.name }}</div>
+                  >
+                    {{ item.name }}
+                  </div>
                   <div :id="item.id" class="collapsed">
                     <ItemEntryProgress :item="item"></ItemEntryProgress>
                   </div>
                 </div>
                 <hr />
                 <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="integer" />
+                  <BaseInput
+                    label="Number:"
+                    v-model="item.entry"
+                    type="number"
+                    class="integer"
+                  />
                 </div>
                 <div v-if="checkToday(item.id)" class="today">
                   <p>From Daily Entry:</p>
@@ -83,7 +95,9 @@
                     :key="todayid"
                     @click="editToday(today.todayid)"
                     :item="today"
-                  >{{ today.when }}: {{ today.entry }} {{ today.comment }}</div>
+                  >
+                    {{ today.when }}: {{ today.entry }} {{ today.comment }}
+                  </div>
                   <p class="total">Total: {{ subtotalToday(item.id) }}</p>
                 </div>
                 <div v-if="item.details">
@@ -119,7 +133,9 @@
           <button class="button green right" @click="nextForm">></button>
         </div>
         <div v-if="this.$route.params.page == 5" class="right">
-          <button class="button green right" @click="finishForm">Finished</button>
+          <button class="button green right" @click="finishForm">
+            Finished
+          </button>
         </div>
       </div>
     </div>
@@ -128,7 +144,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
 import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
@@ -307,10 +323,12 @@ export default {
       )
       if (this.authorized) {
         try {
+
           this.time =
             this.months[this.$route.params.month] +
             ',  ' +
             this.$route.params.year
+          this.menu = await this.menuParams('My Month', 'M')
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           params['uid'] = this.$route.params.uid
@@ -416,13 +434,10 @@ img.icon {
   padding-right: 10px;
 }
 div.today {
-  background-color:#bdf4a4;
+  background-color: #bdf4a4;
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
-
-
 
 .important {
   background-color: rgb(243, 243, 148);

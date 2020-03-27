@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -38,11 +38,21 @@
               <input class="group" type="text" v-model="disciple.group_name" />
             </td>
             <td class="firstname">
-              <input class="firstname" type="text" v-model="disciple.firstname" />
+              <input
+                class="firstname"
+                type="text"
+                v-model="disciple.firstname"
+              />
             </td>
             <td class="progress">
-              <v-select :options="progress_options" label="name" v-model="disciple.progress">
-                <template slot="option" slot-scope="option" class="option_name">{{ option.name }}</template>
+              <v-select
+                :options="progress_options"
+                label="name"
+                v-model="disciple.progress"
+              >
+                <template slot="option" slot-scope="option" class="option_name">{{
+                  option.name
+                }}</template>
               </v-select>
             </td>
           </tr>
@@ -53,14 +63,28 @@
             class="disciples"
           >
             <td class="group">
-              <input class="group" type="text" v-model="new_disciple.group_name" />
+              <input
+                class="group"
+                type="text"
+                v-model="new_disciple.group_name"
+              />
             </td>
             <td class="firstname">
-              <input class="firstname" type="text" v-model="new_disciple.firstname" />
+              <input
+                class="firstname"
+                type="text"
+                v-model="new_disciple.firstname"
+              />
             </td>
             <td class="progress">
-              <v-select :options="progress_options" label="name" v-model="new_disciple.progress">
-                <template slot="option" slot-scope="option" class="option_name">{{ option.name }}</template>
+              <v-select
+                :options="progress_options"
+                label="name"
+                v-model="new_disciple.progress"
+              >
+                <template slot="option" slot-scope="option" class="option_name">{{
+                  option.name
+                }}</template>
               </v-select>
             </td>
           </tr>
@@ -75,7 +99,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import vSelect from 'vue-select'
 import '@/assets/css/vueSelect.css'
 import { mapState } from 'vuex'
@@ -226,7 +250,7 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        console.log (params)
+        console.log(params)
         this.disciples = await AuthorService.getDisciples(params)
         this.items = await AuthorService.getItemsStandard(params)
 

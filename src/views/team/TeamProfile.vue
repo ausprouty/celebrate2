@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -25,9 +25,12 @@
           @mousedown="$v.team.name.$touch()"
         />
         <template v-if="$v.team.name.$error">
-          <p v-if="!$v.team.name.required" class="errorMessage">Team Name is required</p>
+          <p v-if="!$v.team.name.required" class="errorMessage">
+            Team Name is required
+          </p>
         </template>
-        <br/><br/>
+        <br />
+        <br />
         <BaseInput
           v-model="$v.team.code.$model"
           label="Code"
@@ -38,12 +41,18 @@
           @mousedown="$v.team.code.$touch()"
         />
         <template v-if="$v.team.code.$error">
-          <p v-if="!$v.team.code.required" class="errorMessage">Code is required</p>
+          <p v-if="!$v.team.code.required" class="errorMessage">
+            Code is required
+          </p>
         </template>
 
         <br />
-        <button class="button green" id="update" @click="saveForm">Update</button>
-        <button class="button red" id="delete"  @click="deleteForm">Delete</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
+        <button class="button red" id="delete" @click="deleteForm">
+          Delete
+        </button>
       </form>
     </div>
   </div>
@@ -52,7 +61,7 @@
 <script>
 import { mapState } from 'vuex'
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/TeamNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 
 import { authorMixin } from '@/mixins/AuthorMixin.js'
 
@@ -70,7 +79,7 @@ export default {
         tid: null,
         name: null,
         code: null,
-        game:null
+        game: null
       },
       team_image: null,
       submitted: false,
@@ -82,7 +91,7 @@ export default {
   validations: {
     team: {
       name: { required },
-      code: { required },
+      code: { required }
     }
   },
   methods: {
@@ -92,7 +101,7 @@ export default {
         this.disableButton('delete')
         var params = this.team
         params.authorizer = this.user.uid
-        console.log (params)
+        console.log(params)
         await AuthorService.updateTeamProfile(params)
         this.show()
       } catch (error) {
@@ -124,6 +133,7 @@ export default {
       this.authorized = this.authorize('global', null, this.$route.params.tid)
       if (this.authorized) {
         try {
+           this.menu = await this.menuParams('Our Team Profile', 'M')
           var params = {}
           params.tid = this.$route.params.tid
           this.team = await AuthorService.getTeam(params)
@@ -147,8 +157,7 @@ export default {
 }
 </script>
 <style scoped>
-h2{
-  color:#2d9593;
+h2 {
+  color: #2d9593;
 }
-
 </style>

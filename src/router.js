@@ -25,7 +25,7 @@ import TeamProfile from './views/team/TeamProfile.vue'
 
 import TeamRegister from './views/team/TeamRegister.vue'
 import TeamYear from './views/team/TeamYear.vue'
-import MyNavBar from './components/MyNavBar.vue'
+import NavBar from './components/NavBar.vue'
 
 import OurTeam from './views/team/OurTeam.vue'
 import Validate from './views/Validate.vue'
@@ -44,7 +44,7 @@ export default new Router({
     {
       path: '/debug',
       name: 'debugger',
-      component: MyNavBar,
+      component: NavBar,
       props: false
     },
     {

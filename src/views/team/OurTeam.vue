@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -18,7 +18,7 @@
 import AuthorService from '@/services/AuthorService.js'
 import UserList from '@/components/UserList.vue'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
-import NavBar from '@/components/TeamNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 
 export default {
   props: ['tid'],
@@ -59,13 +59,14 @@ export default {
     )
     if (this.authorized) {
       try {
+         this.menu = await this.menuParams('Our Team', 'M')
         var params = {}
         params.tid = this.$route.params.tid
         this.team = await AuthorService.getTeam(params)
-        var route = [];
-        route['route'] = JSON.stringify(this.$route.params);
+        var route = []
+        route['route'] = JSON.stringify(this.$route.params)
         this.users = await AuthorService.getTeamMembersReported(route)
-        console.log (this.users)
+        console.log(this.users)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }
@@ -74,7 +75,7 @@ export default {
 }
 </script>
 <style scoped>
-h1{
-  color:#2d9593;
+h1 {
+  color: #2d9593;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -17,14 +17,21 @@
           }"
         >
           <div v-if="this.member.image">
-            <img v-bind:src="appDir.members + this.member.image" class="member" />
+            <img
+              v-bind:src="appDir.members + this.member.image"
+              class="member"
+            />
           </div>
           <div class="card-names">
-            <span class="card-name">{{ this.member.firstname }} {{ this.member.lastname }}</span>
+            <span class="card-name"
+              >{{ this.member.firstname }} {{ this.member.lastname }}</span
+            >
           </div>
         </div>
       </div>
-      <h1 v-if="missingMonths(this.missing)">Needs progress for these months:</h1>
+      <h1 v-if="missingMonths(this.missing)">
+        Needs progress for these months:
+      </h1>
       <div v-for="missed in missing">
         <p class="months" @click="openProgress(missed)">{{ months[missed] }}</p>
       </div>
@@ -34,7 +41,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -90,6 +97,7 @@ export default {
       this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
+           this.menu = await this.menuParams('Our Team Member Reports', 'M')
           var params = []
           params['uid'] = this.$route.params.uid
           var d = new Date()

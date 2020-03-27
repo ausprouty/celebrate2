@@ -11,7 +11,9 @@ const user = JSON.parse(localStorage.getItem('user')) || defaultUser
 export default new Vuex.Store({
   plugins: [saveStatePlugin], // <-- Use
   state: {
-    user,
+    user: {},
+    my: {},
+    team: {},
     appDir: {
       css: '/content/',
       styles: '/styles/',
@@ -52,11 +54,18 @@ export default new Vuex.Store({
       console.log('token')
       console.log(state.user.token)
       localStorage.setItem('user', JSON.stringify(state.user))
+    },
+    SEEING_MEMBER(state, value) {
+      state.my = value[0]
+      localStorage.setItem('my', JSON.stringify(state.my))
     }
   },
   actions: {
     loginUser({ commit }, [mark]) {
       commit('LOGIN_USER', [mark])
+    },
+    seeingMember({ commit }, [mark]) {
+      commit('SEEING_MEMBER', [mark])
     }
   }
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -50,7 +50,12 @@
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+          <div
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="progress"
+          >
             <div class="app-link">
               <div
                 class="shadow-card -shadow"
@@ -69,14 +74,21 @@
                     :id="item.id + 'R'"
                     class="item_name"
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >{{ item.name }}</div>
+                  >
+                    {{ item.name }}
+                  </div>
                   <div :id="item.id" class="collapsed">
                     <ItemEntryProgress :item="item"></ItemEntryProgress>
                   </div>
                 </div>
                 <hr />
                 <div class="entry">
-                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
+                  <BaseInput
+                    label="Number:"
+                    v-model="item.entry"
+                    type="number"
+                    class="field"
+                  />
                 </div>
                 <div v-if="item.details">
                   <BaseTextarea
@@ -110,8 +122,10 @@
         <div v-if="this.$route.params.page < 5" class="right">
           <button class="button green right" @click="nextForm">></button>
         </div>
-         <div v-if="this.$route.params.page == 5" class="right">
-          <button class="button green right" @click="finishForm">Finished</button>
+        <div v-if="this.$route.params.page == 5" class="right">
+          <button class="button green right" @click="finishForm">
+            Finished
+          </button>
         </div>
       </div>
     </div>
@@ -120,7 +134,7 @@
 
 <script>
 import AuthorService from '@/services/AuthorService.js'
-import NavBar from '@/components/TeamNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import ItemEntryProgress from '@/components/ItemEntryProgress.vue'
 import ItemEntryDetails from '@/components/ItemEntryDetails.vue'
 import ItemEntryPrayer from '@/components/ItemEntryPrayer.vue'
@@ -251,6 +265,7 @@ export default {
       )
       if (this.authorized) {
         try {
+           this.menu = await this.menuParams('Our Team Month', 'M')
           var params = {}
           var d = new Date()
           if (typeof this.$route.params.year == 'undefined') {
@@ -361,8 +376,6 @@ img.icon {
   width: 48px;
   padding-right: 10px;
 }
-
-
 
 .important {
   background-color: rgb(243, 243, 148);

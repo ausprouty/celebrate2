@@ -1,6 +1,6 @@
 <template>
   <div class="white">
-    <NavBar />
+    <NavBar v-bind="menu"></NavBar>
     <div v-if="!this.authorized" class="not_authorized">
       <p>
         You have stumbled into a restricted page. Sorry I can not show it to you
@@ -10,15 +10,20 @@
     <div v-if="this.authorized">
       <div v-if="showApple()" class="important center">
         <h2 class="center">Please install this app on your Apple Device</h2>
-        <img class = "ios" src="/images/installOnIOS.png" />
-         <h2 class="center">This prompt will not be shown again</h2>
-         <br>
+        <img class="ios" src="/images/installOnIOS.png" />
+        <h2 class="center">This prompt will not be shown again</h2>
+        <br />
       </div>
       <BackImage :image="appDir.members + this.member.image"></BackImage>
       <h2 class="center">What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
+          <div
+            v-for="(item, id) in this.items"
+            :key="id"
+            :item="item"
+            class="progress"
+          >
             <div class="app-link">
               <div class="shadow-card -shadow">
                 <div class="wrapper">
@@ -66,11 +71,15 @@
             <!-- End of applink-->
           </div>
           <!-- End of for loop-->
-          <button class="button green" id="update" @click="saveForm">Update</button>
-          <button class="button grey right" @click="updateSettings">Settings</button>
+          <button class="button green" id="update" @click="saveForm">
+            Update
+          </button>
+          <button class="button grey right" @click="updateSettings">
+            Settings
+          </button>
         </form>
       </div>
-      
+
       <!-- End of Subheading-->
     </div>
     <!-- End of Authorized-->
@@ -80,7 +89,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import TodayEntered from '@/components/TodayEntered.vue'
-import NavBar from '@/components/MyNavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import BackImage from '@/components/BackImage.vue'
 import { mapState } from 'vuex'
 import { integer } from 'vuelidate/lib/validators'
@@ -117,11 +126,10 @@ export default {
   },
   methods: {
     showApple() {
-   
       let isApple = ['iPhone', 'iPad', 'iPod'].includes(navigator.platform)
       if (!isApple) {
         var lastSeenPrompt = localStorage.getItem('lastSeenPrompt')
-        if (!lastSeenPrompt){
+        if (!lastSeenPrompt) {
           localStorage.setItem('lastSeenPrompt', Date.now())
           return true
         }
@@ -233,6 +241,7 @@ export default {
     )
     if (this.authorized) {
       try {
+         this.menu = await this.menuParams('My Today', 'M')
         var params = []
         var route = {}
         route.uid = this.$route.params.uid
@@ -333,12 +342,10 @@ img.icon {
   padding-right: 10px;
 }
 
-
-
 .important {
   background-color: rgb(243, 243, 148);
 }
-.ios{
+.ios {
   max-width: 600px;
   width: 90%;
   margin-bottom: 20px;
@@ -390,7 +397,7 @@ td.item {
 td.goals {
   width: 20%;
 }
-.important{
+.important {
   background-color: yellow;
 }
 </style>
