@@ -50,7 +50,7 @@
           <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
             <div class="app-link">
               <div
-                class="shadow-card -shadow"
+                class="shadow-card -shadow pointer"
                 v-bind:class="{ important: evaluateSelect(item.goal_numbers) }"
               >
                 <div class="container" @click="showDefinition(item)">
@@ -349,18 +349,19 @@ export default {
 table.time {
   display: block;
   background-color: white;
-  padding: 10px;
-  width: 97%;
-  margin: auto;
+  width: 100%;
+  padding-top: 10px;
   padding-bottom: 20px;
 }
 tr.time {
   width: 100%;
 }
 td.left {
-  background-color: purple;
+  background-color: var(--color-green);
   color: white;
   padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 10px;
   text-align: left;
   width: 20%;
@@ -368,9 +369,11 @@ td.left {
 td.right {
   width: 20%;
   color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 10px;
   text-align: right;
-  background-color: purple;
+  background-color: var(--color-green);
   padding-right: 10px;
 }
 a.left,
@@ -390,7 +393,7 @@ div.inline {
 
 table.heading {
   display: block;
-  background-color: rgb(243, 243, 148);
+  background-color:var(--color-yellow-lighter);
   padding: 10px;
   width: 97%;
   margin: auto;
@@ -415,13 +418,13 @@ img.icon {
   padding-right: 10px;
 }
 div.today {
-  background-color: #bdf4a4;
+  background-color:var(--color-yellow-lighter);
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .important {
-  background-color: rgb(243, 243, 148);
+  background-color:var(--color-yellow);
 }
 
 div.item_name {
@@ -430,7 +433,7 @@ div.item_name {
 
 p.objective {
   padding-left: 10px;
-  color: black;
+  color:var(--color-black);
   font-weight: 700;
   font-size: 16px;
   margin-top: -5px;
@@ -441,7 +444,7 @@ ul.motto {
   padding-inline-start: 20px;
 }
 li.motto {
-  color: black;
+  color: var(--color-black);
   padding-left: 0px;
   font-size: 12px;
   font-style: italic;
@@ -456,14 +459,14 @@ div.right {
   padding: 0 18px;
   display: none;
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: var(--color-grey);
 }
 
 td.item {
   width: 80%;
 }
 .item_name {
-  color: black;
+  color:var(--color-black);
   font-weight: bold;
 }
 

@@ -9,8 +9,11 @@
 <style>
 :root {
   --color-black: #020101;
+  --color-blue: blue;
+
   --color-black-lighter: #324f23;
   --color-grey: #efefef;
+  --color-grey-medium: #bbbbbb;
   --color-grey-dark: #666666;
   --color-green: #44b340;
   --color-green-lighter: #9bd263;
@@ -108,7 +111,7 @@ h3,
 h4,
 h5,
 h6 {
-  align-items: center;
+  text-align: center;
   font-family: 'Montserrat', sans-serif;
   color: var(--color-green);
 }
@@ -250,8 +253,8 @@ button {
   font-weight: bold;
   border-radius: 6px;
   text-align: center;
-  padding: 0 10px;
-  height: 36px;
+  padding: 10px;
+  height: 45px;
   cursor: pointer;
 }
 .button.red {
@@ -342,7 +345,7 @@ textarea {
 }
 select {
   width: 100%;
-  height: 52px;
+  height: 36px;
   padding: 0 24px 0 10px;
   vertical-align: middle;
   background: var(--color-white)

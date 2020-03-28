@@ -106,6 +106,13 @@ export default {
         document.getElementById(item.id).innerHTML = null
       }
     },
+    authorizeEdit(item){
+    var can_edit = this.authorize(
+        'team',
+        this.$route.params.uid,
+        this.$route.params.tid
+      )
+    },
     evaluateSelect(quantity) {
       if (quantity > 0) {
         return true

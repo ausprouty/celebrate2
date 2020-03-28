@@ -233,15 +233,15 @@ table.goals {
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--color-grey-light);
 }
 
 tr:hover {
-  background-color: #ddd;
+  background-color: var(--color-grey);
 }
 td,
 th {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-grey);
   padding: 8px;
 }
 
@@ -253,8 +253,8 @@ th {
   color: white;
 }
 .definitions {
-  background-color: #f5f594;
-  background-color: #f9f9a4;
+
+  background-color: var(--color-yellow);
   padding: 10px;
 }
 

@@ -17,6 +17,8 @@ import MyYear from './views/my/MyYear.vue'
 import MyToday from './views/my/MyToday.vue'
 import MyTodayUpdate from './views/my/MyTodayUpdate.vue'
 import NotFoundComponent from './views/NotFound.vue'
+import TeamEvent from './views/team/TeamEvent.vue'
+import TeamEvents from './views/team/TeamEvents.vue'
 import TeamGoals from './views/team/TeamGoals.vue'
 import TeamItem from './views/team/TeamItem.vue'
 import TeamMonth from './views/team/TeamMonth.vue'
@@ -149,6 +151,18 @@ export default new Router({
       path: '/team/current/:tid/:uid',
       name: 'teamMemberReports',
       component: TeamMemberReports,
+      props: true
+    },
+    {
+      path: '/team/event/:tid/:uid',
+      name: 'teamEvent',
+      component: TeamEvent,
+      props: true
+    },
+    {
+      path: '/team/events/:tid/:uid',
+      name: 'teamEvents',
+      component: TeamEvents,
       props: true
     },
     {

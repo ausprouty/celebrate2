@@ -101,7 +101,25 @@ export default {
       },
       scope_options: [],
       scope: [],
-      selected: {},
+      selected: {
+        celebration_set: 'standard',
+        code: 'conversations',
+        cumulative: 'Y',
+        definition:
+          'Number of people with whom a gospel conversation was initiated, whether face to face or online.',
+        details: null,
+        id: '1',
+        image: 'conversationbubbles_48x48.png',
+        name: 'Gospel Conversations Started',
+        numbers: 'Y',
+        objective: 'Win Individuals',
+        page: '1',
+        paraphrase: 'How many people did you start to share the Gospel with?',
+        sequence: '1',
+        tid: null,
+        uid: null
+      },
+
       canvasId: 'traffic-chart'
     }
   },
@@ -201,7 +219,7 @@ export default {
 </script>
 <style scoped>
 div.chart-area {
-  background-color: white;
+  background-color: var(--color-white);
 }
 div.traffic-chart {
   height: 300px;
@@ -210,38 +228,37 @@ div.select {
   padding-bottom: 90px;
 }
 .last_year {
-  color: #d70206;
+  color: var(--color-red);
 }
 .this_year {
-  color: #1edb1e;
-  color: #21641c;
+  color: var(--color-green);
 }
 
 table.progress_table {
   width: 60%;
   margin: auto;
   text-align: center;
-  background-color: #21641c;
+  background-color: var(--color-green);
 }
 td {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-grey);
 }
 td.row_label {
   width: 80%;
   text-align: left;
-  color: white;
+  color: var(--color-white);
 }
 td.row_value {
   width: 20%;
   text-align: right;
-  color: white;
+  color: var(--color-white);
 }
 img.icon {
   width: 48px;
 }
 
 .definition {
-  color: red;
+  color: var(--color-red);
   font-size: 14px;
 }
 </style>

@@ -16,7 +16,7 @@
             <th>Item</th>
             <th>Often?</th>
           </tr>
-          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
+          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals hand">
             <td class="icon">
               <img
                 v-bind:src="
@@ -209,19 +209,19 @@ export default {
 table.goals {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: var(--color-grey);
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color:var(--color-grey);
 }
 
 tr:hover {
-  background-color: #ddd;
+  background-color:var(--color-grey-medium);
 }
 td,
 th {
-  border: 1px solid #ddd;
+  border: 1px solid ;
   padding: 8px;
 }
 
@@ -229,21 +229,21 @@ th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
-  background-color: #4caf50;
+  background-color: var(--color-green);
   color: white;
 }
 .goal {
-  color: green;
+  color:var(--color-green);
   line-height: 18px;
 }
 td.item {
   width: 80%;
 }
 .item {
-  color: blue;
+  color: var(--color-blue);
 }
 .definition {
-  color: red;
+  color:var(--color-red);
   font-size: 14px;
 }
 
@@ -251,6 +251,6 @@ td.often {
   width: 20%;
 }
 .selected {
-  background-color: yellow;
+  background-color:var(--color-yellow);
 }
 </style>
