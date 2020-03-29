@@ -87,8 +87,8 @@ import vSelect from 'vue-select'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
 import '@/assets/css/vueSelect.css'
 export default {
+   props: ['tid', 'id'],
   computed: mapState(['user']),
-  props: ['tid', 'id'],
   components: {
     NavBar,
     'v-select': vSelect
@@ -176,7 +176,7 @@ export default {
   async created() {
     this.authorized = this.authorize(
       'team',
-      this.$route.params.uid,
+      this.user.uid,
       this.$route.params.tid
     )
     if (this.authorized) {
@@ -189,7 +189,7 @@ export default {
         console.log(res)
         this.images = res['icons']
         this.directory = res['dir']
-        var params = {}
+        params = {}
         params['uid'] = this.uid
         params['tid'] = this.user.team
         if (typeof this.$route.params.id != 'undefined') {

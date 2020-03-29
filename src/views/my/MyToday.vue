@@ -18,12 +18,7 @@
       <h2 class="center">What did the Holy Spirit enable you to do today?</h2>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="progress"
-          >
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
             <div class="app-link">
               <div class="shadow-card -shadow">
                 <div class="wrapper">
@@ -71,12 +66,8 @@
             <!-- End of applink-->
           </div>
           <!-- End of for loop-->
-          <button class="button green" id="update" @click="saveForm">
-            Update
-          </button>
-          <button class="button grey right" @click="updateSettings">
-            Settings
-          </button>
+          <button class="button green" id="update" @click="saveForm">Update</button>
+          <button class="button grey right" @click="updateSettings">Settings</button>
         </form>
       </div>
 
@@ -245,12 +236,15 @@ export default {
         var route = {}
         route.uid = this.$route.params.uid
         route.tid = this.user.team
+        console.log('this.user')
+        console.log(this.user)
         route.year = new Date().getFullYear()
         route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
         this.items = await AuthorService.getProgressToday(params)
         params['uid'] = this.$route.params.uid
         this.member = await AuthorService.getUser(params)
+        console.log('this member')
         console.log(this.member)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

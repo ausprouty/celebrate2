@@ -20,12 +20,7 @@
             <th>Item</th>
             <th>Goal</th>
           </tr>
-          <tr
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="goals"
-          >
+          <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
             <td class="icon">
               <img
                 v-bind:src="
@@ -36,12 +31,19 @@
             </td>
             <td
               :id="item.id + 'R'"
-              class="item"
+              class="item hand"
               @click="showDefinition(item)"
               v-bind:class="{ selected: evaluateSelect(item.number) }"
             >
               {{ item.name }}
-              <span :id="item.id" class="definition"></span>
+              <div :id="item.id + 'C'" class="hidden">
+                <span :id="item.id" class="definition"></span>
+                <div
+                  v-if="authorizeItemEdit(item)"
+                  class="hand update"
+                  @click="updateItem(item.id)"
+                >Update Item</div>
+              </div>
             </td>
             <td :id="item.id + 'R'" class="goal">
               <input class="goal" type="text" v-model="item.number" />
@@ -51,9 +53,7 @@
 
         <br />
 
-        <button class="button green" id="update" @click="saveFormAndLeave">
-          Update
-        </button>
+        <button class="button green" id="update" @click="saveFormAndLeave">Update</button>
       </form>
       <button class="button red" @click="addItem">Add Team Item</button>
     </div>
@@ -87,32 +87,18 @@ export default {
   },
   methods: {
     showDefinition(item) {
+      var id = item.id + 'C'
       var present = document.getElementById(item.id).innerHTML
-
       if (present == '') {
         var message = '<br>(' + item.paraphrase + ')'
-        if (item.uid == this.$route.params.uid) {
-          var link =
-            message +
-            '<br> <a href= "/team/' +
-            this.$route.params.tid +
-            '/item/' +
-            item.id +
-            '"> Update Item </a>'
-          message = link
-        }
         document.getElementById(item.id).innerHTML = message
+        document.getElementById(id).className = 'definition'
       } else {
         document.getElementById(item.id).innerHTML = null
+        document.getElementById(id).className = 'hidden'
       }
     },
-    authorizeEdit(item){
-    var can_edit = this.authorize(
-        'team',
-        this.$route.params.uid,
-        this.$route.params.tid
-      )
-    },
+
     evaluateSelect(quantity) {
       if (quantity > 0) {
         return true
@@ -189,7 +175,8 @@ export default {
     )
     if (this.authorized) {
       try {
-         this.menu = await this.menuParams('Our Team Goals', 'M')
+        console.log(this.user)
+        this.menu = await this.menuParams('Our Team Goals', 'M')
         var params = []
         var route = {}
         route.uid = null
@@ -210,7 +197,6 @@ export default {
 </script>
 
 <style scoped>
-
 table.goals {
   width: 100%;
   border-collapse: collapse;
@@ -218,15 +204,15 @@ table.goals {
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--color-grey-lightest);
 }
 
 tr:hover {
-  background-color: #ddd;
+  background-color: var(--color-grey-light);
 }
 td,
 th {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-grey-light);
   padding: 8px;
 }
 
@@ -234,11 +220,11 @@ th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
-  background-color: #4caf50;
+  background-color: var(--color-green);
   color: white;
 }
 .goal {
-  color: green;
+  color: var(--color-green);
   line-height: 18px;
   width: 60px;
 }
@@ -246,14 +232,18 @@ td.item {
   width: 80%;
 }
 .item {
-  color: blue;
+  color: var(--color-blue);
 }
 .definition {
-  color: red;
+  color: var(--color-red);
   font-size: 14px;
+}
+div.update {
+  margin-top: 10px;
+  color: var(--color-black);
 }
 
 .selected {
-  background-color: yellow;
+  background-color: var(--color-yellow);
 }
 </style>

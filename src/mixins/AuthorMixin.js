@@ -24,6 +24,7 @@ export const authorMixin = {
       // if login has expired (see Author.php for length; right now 1 month)
       var date = new Date()
       var timestamp = date.getTime()
+
       if (this.user.expires < timestamp) {
         this.$router.push({ name: 'login' })
       }
@@ -67,6 +68,35 @@ export const authorMixin = {
         return true
       }
 
+      return false
+    },
+    authorizeItemEdit(item) {
+      if (item.celebration_set == 'standard') {
+        if (this.user.scope == 'global') {
+          return true
+        } else {
+          return false
+        }
+      }
+      if (item.celebration_set == 'personal') {
+        if (item.uid == this.$route.params.uid) {
+          return true
+        } else {
+          return false
+        }
+      }
+      if (item.celebration_set == 'team') {
+        if (item.tid == this.$route.params.tid) {
+          if (this.user.scope == 'global') {
+            return true
+          }
+          if (this.user.scope == 'team') {
+            return true
+          }
+        } else {
+          return false
+        }
+      }
       return false
     },
     disableButton(id) {

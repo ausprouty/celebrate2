@@ -135,13 +135,13 @@ export default {
           link: 'teamGoals'
         },
         {
-          index: 3,
+          index: 4,
           value: 'Team Events',
           show: false,
           link: 'teamEvents'
         },
         {
-          index: 4,
+          index: 5,
           value: 'Team Profile',
           show: true,
           link: 'teamProfile'
