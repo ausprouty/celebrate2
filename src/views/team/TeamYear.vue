@@ -114,7 +114,7 @@ export default {
       this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-          this.menu = await this.menuParams('Our Team Year', 'M')
+          this.menu = await this.menuParams('Team Yearly Progress', 'M')
           var params = []
           params.route = JSON.stringify(this.$route.params)
           this.scope = await AuthorService.getItemsTeam(params)

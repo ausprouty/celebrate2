@@ -5,6 +5,7 @@ import Debug from './views/admin/Debug.vue'
 
 import Login from './views/my/Login.vue'
 import Logout from './views/my/Logout.vue'
+import AdminItem from './views/admin/AdminItem.vue'
 import MyGoals from './views/my/MyGoals.vue'
 import MyDisciples from './views/my/MyDisciples.vue'
 import MyItem from './views/my/MyItem.vue'
@@ -60,6 +61,12 @@ export default new Router({
       name: 'logout',
       component: Logout,
       props: false
+    },
+    {
+      path: '/admin/item/:id/:uid?/:tid?',
+      name: 'adminItem',
+      component: AdminItem,
+      props: true
     },
     {
       path: '/my/:uid',

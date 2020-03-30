@@ -389,6 +389,9 @@ li {
 div.bible {
   text-align: left;
 }
+.left {
+  text-align: left;
+}
 .menu-card {
   margin-left: 12px;
   padding: 10px;

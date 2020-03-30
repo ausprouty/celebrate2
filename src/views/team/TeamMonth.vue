@@ -265,7 +265,7 @@ export default {
       )
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('Our Team Month', 'M')
+           this.menu = await this.menuParams('Team Monthly Progress', 'M')
           var params = {}
           var d = new Date()
           if (typeof this.$route.params.year == 'undefined') {

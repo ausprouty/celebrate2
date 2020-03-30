@@ -133,7 +133,7 @@ export default {
       this.authorized = this.authorize('global', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('Our Team Profile', 'M')
+           this.menu = await this.menuParams('Team Profile', 'M')
           var params = {}
           params.tid = this.$route.params.tid
           this.team = await AuthorService.getTeam(params)

@@ -8,12 +8,9 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2 v-if="this.$route.id" class="center">Enter a Team Item</h2>
-      <h2 v-if="!this.$route.id" class="center">Update Team Item</h2>
-      <p class="center">
-        Is there something that you want our TEAM keep track of? Something you
-        want to celebrate? Here is where you can customize Celebrate to meet
-        your needs.
+      <h2>Enter a Standard Item</h2>
+      <p>
+        These are the standard items which GMA wants us to monitor
       </p>
       <form @submit.prevent="saveForm">
         <BaseInput
@@ -24,9 +21,18 @@
           :class="{ error: $v.item.name.$error }"
           @blur="$v.item.name.$touch()"
         />
+         <BaseTextarea
+          v-model="$v.item.paraphrase.$model"
+          label="Standard Definition"
+          type="text"
+          class="field"
+          :class="{ error: $v.item.paraphrase.$error }"
+          @blur="$v.item.paraphrase.$touch()"
+        />
+
         <BaseTextarea
           v-model="$v.item.paraphrase.$model"
-          label="Description"
+          label="Paraphrase"
           type="text"
           class="field"
           :class="{ error: $v.item.paraphrase.$error }"
@@ -55,12 +61,17 @@
         <div>
           <h3 class="left">Icon:</h3>
           <div v-if="$v.item.image.$model">
-            <img v-bind:src="'/images/icons/team/' + $v.item.image.$model.image" class="icon" />
+            <img
+              v-bind:src="
+                '/images/icons/personal/' + $v.item.image.$model.image
+              "
+              class="icon"
+            />
             <br />
           </div>
           <v-select :options="images" label="title" v-model="$v.item.image.$model">
             <template slot="option" slot-scope="option">
-              <img :src="'/images/icons/team/' + option.image" class="icon" />
+              <img :src="'/images/icons/personal/' + option.image" class="icon" />
               {{ option.title }}
             </template>
           </v-select>
@@ -74,6 +85,7 @@
 <script>
 import AuthorService from '@/services/AuthorService.js'
 import NavBar from '@/components/NavBar.vue'
+
 import { required } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex'
 import { authorMixin } from '@/mixins/AuthorMixin.js'
@@ -81,8 +93,8 @@ import vSelect from 'vue-select'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
 import '@/assets/css/vueSelect.css'
 export default {
-  props: ['tid', 'id'],
   computed: mapState(['user']),
+  props: ['uid', 'tid', 'id'],
   components: {
     NavBar,
     'v-select': vSelect
@@ -95,12 +107,11 @@ export default {
       yes_or_no: ['Y', 'N'],
       item: {
         id: null,
-        celebration_set: 'team',
+        celebration_set: 'personal',
         tid: null,
         uid: null,
         sequence: null,
         page: null,
-        objective: 'Team Goals',
         code: null,
         name: null,
         definition: null,
@@ -112,6 +123,15 @@ export default {
           title: 'add',
           image: 'add_48x48.png'
         }
+      },
+      member: {
+        firstname: null,
+        lastname: null,
+        phone: null,
+        scope: null,
+        username: null,
+        password: null,
+        image: 'blank.png'
       }
     }
   },
@@ -138,6 +158,7 @@ export default {
       this.disableButton('update')
       this.disableButton('delete')
       var params = {}
+      this.item.uid = this.$route.params.uid
       this.item.tid = this.$route.params.tid
       this.item.image = this.item.image.image
       params.item = JSON.stringify(this.item)
@@ -150,44 +171,47 @@ export default {
       this.disableButton('update')
       this.disableButton('delete')
       var params = {}
-      params.uid = this.uid
+      params.uid = this.$route.params.uid
+      params.tid = this.$route.params.tid
       params.item = JSON.stringify(this.item)
       console.log(params)
       var res = await AuthorService.deleteItem(params)
       console.log(res)
       this.return()
     },
+
     return() {
       this.$router.push({
-        name: 'teamGoals',
+        name: 'myGoals',
         params: {
+          uid: this.$route.params.uid,
           tid: this.$route.params.tid
         }
       })
     }
   },
   beforeCreate: function() {
-    document.body.className = 'team'
+    document.body.className = 'user'
   },
   async created() {
     this.authorized = this.authorize(
-      'team',
-      this.user.uid,
+      'admin',
+      this.$route.params.uid,
       this.$route.params.tid
     )
     if (this.authorized) {
       try {
-        this.menu = await this.menuParams('Team Items', 'M')
+        this.menu = await this.menuParams('Standard Items', 'M')
         var params = {}
-        params['icons'] = 'team'
+        params['icons'] = 'standard'
         params['icon_size'] = '48x48'
         var res = await AuthorService.getIcons(params)
         console.log(res)
         this.images = res['icons']
         this.directory = res['dir']
-        params = {}
-        params['uid'] = this.uid
-        params['tid'] = this.user.team
+        console.log(this.images)
+        params['uid'] = this.$route.params.uid
+        params['tid'] = this.$route.params.tid
         if (typeof this.$route.params.id != 'undefined') {
           params['id'] = this.$route.params.id
           res = await AuthorService.getItem(params)
@@ -201,12 +225,13 @@ export default {
           }
         }
       } catch (error) {
-        console.log('There was an error in TeamItem.vue:', error) // Logs out the error
+        console.log('There was an error in MyItem.vue:', error) // Logs out the error
       }
     }
   }
 }
 </script>
+
 <style scoped>
 img.icon {
   width: 48px;

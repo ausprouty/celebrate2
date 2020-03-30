@@ -52,7 +52,7 @@
           />
         </div>
         <div>
-          <h3>Icon:</h3>
+          <h3 class="left">Icon:</h3>
           <div v-if="$v.item.image.$model">
             <img
               v-bind:src="

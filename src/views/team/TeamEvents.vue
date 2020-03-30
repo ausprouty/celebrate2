@@ -181,7 +181,7 @@ export default {
     )
     if (this.authorized) {
       try {
-         this.menu = await this.menuParams('Our Team Items', 'M')
+         this.menu = await this.menuParams('Team Events', 'M')
         var params = {}
         params['icons'] = 'team'
         params['icon_size'] = '48x48'

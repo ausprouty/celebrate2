@@ -116,13 +116,31 @@ export default {
     },
     async updateItem(id) {
       await this.saveForm()
-      this.$router.push({
-        name: 'teamItem',
-        params: {
-          tid: this.$route.params.tid,
-          id: id
+      var l = this.items.length
+      var set = 'team'
+      for (var i = 0; i < l; i++) {
+        if (this.items[i].id == id) {
+          set = this.items[i].celebration_set
         }
-      })
+      }
+      alert(set)
+      if (set == 'team') {
+        this.$router.push({
+          name: 'teamItem',
+          params: {
+            tid: this.$route.params.tid,
+            id: id
+          }
+        })
+      }
+      if (set == 'standard') {
+        this.$router.push({
+          name: 'adminItem',
+          params: {
+            id: id
+          }
+        })
+      }
     },
     async saveForm() {
       try {
@@ -176,7 +194,7 @@ export default {
     if (this.authorized) {
       try {
         console.log(this.user)
-        this.menu = await this.menuParams('Our Team Goals', 'M')
+        this.menu = await this.menuParams('Team Goals', 'M')
         var params = []
         var route = {}
         route.uid = null

@@ -19,8 +19,15 @@ export const authorMixin = {
     authorize(reason, uid, tid) {
       // if not logged in
       if (typeof this.user.expires == 'undefined') {
-        this.$router.push({ name: 'login' })
+        // see if we have a user item in local starage
+        if (localStorage.getItem('user')) {
+          var user = JSON.parse(localStorage.getItem('user'))
+          this.$store.dispatch('loginUser', [user])
+        } else {
+          this.$router.push({ name: 'login' })
+        }
       }
+
       // if login has expired (see Author.php for length; right now 1 month)
       var date = new Date()
       var timestamp = date.getTime()
@@ -116,14 +123,15 @@ export const authorMixin = {
         }
       }
       if (params.image == 'blank.png') {
-        console.log('still blank')
         var p = {}
-        p['route'] = JSON.stringify(this.$route.params)
-        var member = await AuthorService.getUser(p)
-        this.$store.dispatch('seeingMember', [member])
-        params.image = member.image
+        // uid is blank in team 
+        if (typeof this.$route.params.uid != 'undefined') {
+          p['route'] = JSON.stringify(this.$route.params)
+          var member = await AuthorService.getUser(p)
+          this.$store.dispatch('seeingMember', [member])
+          params.image = member.image
+        }
         params.time = 'Time'
-        console.log(params)
       }
       return params
     }

@@ -97,7 +97,7 @@ export default {
       this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('Our Team Member Reports', 'M')
+           this.menu = await this.menuParams('Team Reports', 'M')
           var params = []
           params['uid'] = this.$route.params.uid
           var d = new Date()
