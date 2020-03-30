@@ -21,7 +21,7 @@
             <th>Goal</th>
           </tr>
           <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
-            <td class="icon">
+            <td class="icon top">
               <img
                 v-bind:src="
                   appDir.icons + item.celebration_set + '/' + item.image
@@ -31,7 +31,7 @@
             </td>
             <td
               :id="item.id + 'R'"
-              class="item hand"
+              class="item hand top"
               @click="showDefinition(item)"
               v-bind:class="{ selected: evaluateSelect(item.number) }"
             >
@@ -45,8 +45,9 @@
                 >Update Item</div>
               </div>
             </td>
-            <td :id="item.id + 'R'" class="goal">
+            <td :id="item.id + 'R'" class="goal top">
               <input class="goal" type="text" v-model="item.number" />
+              {{ totalOrAverage(item.cumulative) }}
             </td>
           </tr>
         </table>
@@ -98,7 +99,13 @@ export default {
         document.getElementById(id).className = 'hidden'
       }
     },
-
+    totalOrAverage(input) {
+      if (input == 'Y') {
+        return 'total'
+      } else {
+        return 'average'
+      }
+    },
     evaluateSelect(quantity) {
       if (quantity > 0) {
         return true
@@ -123,7 +130,6 @@ export default {
           set = this.items[i].celebration_set
         }
       }
-      alert(set)
       if (set == 'team') {
         this.$router.push({
           name: 'teamItem',
@@ -215,6 +221,9 @@ export default {
 </script>
 
 <style scoped>
+[type='number'] {
+  font-size: 12px;
+}
 table.goals {
   width: 100%;
   border-collapse: collapse;
@@ -242,9 +251,12 @@ th {
   color: white;
 }
 .goal {
-  color: var(--color-green);
+  color: var(--color-blue);
   line-height: 18px;
   width: 60px;
+}
+td.top {
+  vertical-align: top;
 }
 td.item {
   width: 80%;

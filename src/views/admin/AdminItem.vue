@@ -22,12 +22,12 @@
           @blur="$v.item.name.$touch()"
         />
          <BaseTextarea
-          v-model="$v.item.paraphrase.$model"
+          v-model="$v.item.definition.$model"
           label="Standard Definition"
           type="text"
           class="field"
-          :class="{ error: $v.item.paraphrase.$error }"
-          @blur="$v.item.paraphrase.$touch()"
+          :class="{ error: $v.item.definition.$error }"
+          @blur="$v.item.definition.$touch()"
         />
 
         <BaseTextarea
@@ -63,7 +63,7 @@
           <div v-if="$v.item.image.$model">
             <img
               v-bind:src="
-                '/images/icons/personal/' + $v.item.image.$model.image
+                '/images/icons/standard/' + $v.item.image.$model.image
               "
               class="icon"
             />
@@ -71,12 +71,13 @@
           </div>
           <v-select :options="images" label="title" v-model="$v.item.image.$model">
             <template slot="option" slot-scope="option">
-              <img :src="'/images/icons/personal/' + option.image" class="icon" />
+              <img :src="'/images/icons/standard/' + option.image" class="icon" />
               {{ option.title }}
             </template>
           </v-select>
         </div>
       </form>
+      <br/> <br/>
       <button class="button green" id="update" @click="saveForm">Update</button>
       <button class="button red" id="delete" @click="deleteForm">Delete</button>
     </div>
@@ -181,13 +182,7 @@ export default {
     },
 
     return() {
-      this.$router.push({
-        name: 'myGoals',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
-        }
-      })
+       window.history.back()
     }
   },
   beforeCreate: function() {

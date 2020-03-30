@@ -46,8 +46,8 @@ import { required } from 'vuelidate/lib/validators'
 export default {
   data() {
     return {
-      username: null,
-      password: null,
+      username: '',
+      password: '',
       submitted: false,
       wrong: null
     }

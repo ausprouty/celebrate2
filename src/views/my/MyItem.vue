@@ -70,6 +70,7 @@
           </v-select>
         </div>
       </form>
+       <br/> <br/>
       <button class="button green" id="update" @click="saveForm">Update</button>
       <button class="button red" id="delete" @click="deleteForm">Delete</button>
     </div>
@@ -174,13 +175,7 @@ export default {
     },
 
     return() {
-      this.$router.push({
-        name: 'myGoals',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
-        }
-      })
+       window.history.back()
     }
   },
   beforeCreate: function() {

@@ -18,7 +18,7 @@
             <th>Goal</th>
           </tr>
           <tr v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
-            <td class="icon">
+            <td class="icon top">
               <img
                 v-bind:src="
                   appDir.icons + item.celebration_set + '/' + item.image
@@ -28,7 +28,7 @@
             </td>
             <td
               :id="item.id + 'R'"
-              class="item"
+              class="item top"
               @click="showDefinition(item)"
               v-bind:class="{ selected: evaluateSelect(item.number) }"
             >
@@ -42,8 +42,9 @@
                 >Update Item</div>
               </div>
             </td>
-            <td :id="item.id + 'R'" class="goal">
+            <td :id="item.id + 'R'" class="goal top">
               <input class="goal" type="text" v-model="item.number" />
+                 {{ totalOrAverage(item.cumulative) }}
             </td>
           </tr>
         </table>
@@ -102,6 +103,13 @@ export default {
       } else {
         document.getElementById(item.id).innerHTML = null
         document.getElementById(id).className = 'hidden'
+      }
+    },
+    totalOrAverage(input) {
+      if (input == 'Y') {
+        return 'total'
+      } else {
+        return 'average'
       }
     },
     evaluateSelect(quantity) {
@@ -218,9 +226,12 @@ th {
   color: white;
 }
 .goal {
-  color: var(--color-green);
+  color: var(--color-blue);
   line-height: 18px;
   width: 60px;
+}
+td.top {
+  vertical-align: top;
 }
 td.item {
   width: 80%;
