@@ -6,6 +6,7 @@ import Debug from './views/admin/Debug.vue'
 import Login from './views/my/Login.vue'
 import Logout from './views/my/Logout.vue'
 import AdminItem from './views/admin/AdminItem.vue'
+import AdminTeams from './views/admin/AdminTeams.vue'
 import MyGoals from './views/my/MyGoals.vue'
 import MyDisciples from './views/my/MyDisciples.vue'
 import MyItem from './views/my/MyItem.vue'
@@ -69,6 +70,12 @@ export default new Router({
       name: 'adminItem',
       component: AdminItem,
       props: true
+    },
+    {
+      path: '/admin/teams',
+      name: 'adminTeams',
+      component: AdminTeams,
+      props: false
     },
     {
       path: '/my/:uid',

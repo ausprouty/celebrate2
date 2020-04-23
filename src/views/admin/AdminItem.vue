@@ -9,9 +9,7 @@
     </div>
     <div v-if="this.authorized">
       <h2>Enter a Standard Item</h2>
-      <p>
-        These are the standard items which GMA wants us to monitor
-      </p>
+      <p>These are the standard items which GMA wants us to monitor</p>
       <form @submit.prevent="saveForm">
         <BaseInput
           v-model="$v.item.name.$model"
@@ -21,7 +19,7 @@
           :class="{ error: $v.item.name.$error }"
           @blur="$v.item.name.$touch()"
         />
-         <BaseTextarea
+        <BaseTextarea
           v-model="$v.item.definition.$model"
           label="Standard Definition"
           type="text"
@@ -77,7 +75,8 @@
           </v-select>
         </div>
       </form>
-      <br/> <br/>
+      <br />
+      <br />
       <button class="button green" id="update" @click="saveForm">Update</button>
       <button class="button red" id="delete" @click="deleteForm">Delete</button>
     </div>
@@ -156,17 +155,20 @@ export default {
   },
   methods: {
     async saveForm() {
-      this.disableButton('update')
-      this.disableButton('delete')
-      var params = {}
-      this.item.uid = this.$route.params.uid
-      this.item.tid = this.$route.params.tid
-      this.item.image = this.item.image.image
-      params.item = JSON.stringify(this.item)
-      console.log(params)
-      var res = await AuthorService.updateItem(params)
-      //console.log(res)
-      this.return()
+      if (!this.saved) {
+        this.saved = true
+        this.disableButton('update')
+        this.disableButton('delete')
+        var params = {}
+        this.item.uid = this.$route.params.uid
+        this.item.tid = this.$route.params.tid
+        this.item.image = this.item.image.image
+        params.item = JSON.stringify(this.item)
+        console.log(params)
+        var res = await AuthorService.updateItem(params)
+        //console.log(res)
+        this.return()
+      }
     },
     async deleteForm() {
       this.disableButton('update')
@@ -182,7 +184,7 @@ export default {
     },
 
     return() {
-       window.history.back()
+      window.history.back()
     }
   },
   beforeCreate: function() {

@@ -22,9 +22,7 @@
           @blur="$v.firstname.$touch()"
         />
         <template v-if="$v.firstname.$error">
-          <p v-if="!$v.firstname.required" class="errorMessage">
-            First name is required.
-          </p>
+          <p v-if="!$v.firstname.required" class="errorMessage">First name is required.</p>
         </template>
 
         <BaseInput
@@ -37,9 +35,7 @@
           @blur="$v.firstname.$touch()"
         />
         <template v-if="$v.lastname.$error">
-          <p v-if="!$v.lastname.required" class="errorMessage">
-            Last name is required.
-          </p>
+          <p v-if="!$v.lastname.required" class="errorMessage">Last name is required.</p>
         </template>
         Scope:
         <v-select
@@ -60,9 +56,7 @@
           @blur="$v.username.$touch()"
         />
         <template v-if="$v.username.$error">
-          <p v-if="!$v.username.required" class="errorMessage">
-            Username is required.
-          </p>
+          <p v-if="!$v.username.required" class="errorMessage">Username is required.</p>
         </template>
 
         <BaseInput
@@ -75,9 +69,7 @@
           @blur="$v.password.$touch()"
         />
         <template v-if="$v.password.$error">
-          <p v-if="!$v.password.required" class="errorMessage">
-            Password is required.
-          </p>
+          <p v-if="!$v.password.required" class="errorMessage">Password is required.</p>
         </template>
         <div v-if="!this.registered">
           <p class="errorMessage">{{ this.error_message }}</p>
@@ -85,9 +77,7 @@
 
         <br />
         <br />
-        <button class="button red" id="update" @click="saveUserForm">
-          Register
-        </button>
+        <button class="button red" id="update" @click="saveUserForm">Register</button>
       </form>
     </div>
   </div>
@@ -134,34 +124,37 @@ export default {
   methods: {
     async saveUserForm() {
       try {
-        this.disableButton('update')
+        if (!this.saved) {
+          this.saved = true
+          this.disableButton('update')
 
-        var params = {}
-        params.authorizer = this.user.uid
-        params.firstname = this.firstname
-        params.lastname = this.lastname
-        var length = this.scope.length
-        var scope_formatted = ''
-        var temp = ''
-        for (var i = 0; i < length; i++) {
-          temp = scope_formatted + this.scope[i].code
-          scope_formatted = temp
-        }
-        temp = scope_formatted.replace(/\|\|/g, '|')
-        params.scope = temp
-        params.username = this.username
-        params.password = this.password
-        console.log('params from SaveForm')
-        console.log(params)
-        var res = null
-        res = await AuthorService.registerUser(params)
-        console.log('res from Author Service')
-        console.log(res)
-        if (res.data.error) {
-          this.registered = false
-          this.error_message = res.data.message
-        } else {
-          location.reload(true)
+          var params = {}
+          params.authorizer = this.user.uid
+          params.firstname = this.firstname
+          params.lastname = this.lastname
+          var length = this.scope.length
+          var scope_formatted = ''
+          var temp = ''
+          for (var i = 0; i < length; i++) {
+            temp = scope_formatted + this.scope[i].code
+            scope_formatted = temp
+          }
+          temp = scope_formatted.replace(/\|\|/g, '|')
+          params.scope = temp
+          params.username = this.username
+          params.password = this.password
+          console.log('params from SaveForm')
+          console.log(params)
+          var res = null
+          res = await AuthorService.registerUser(params)
+          console.log('res from Author Service')
+          console.log(res)
+          if (res.data.error) {
+            this.registered = false
+            this.error_message = res.data.message
+          } else {
+            location.reload(true)
+          }
         }
       } catch (error) {
         console.log('Register There was an error ', error) //
@@ -201,7 +194,7 @@ export default {
       this.$route.params.uid,
       this.$route.params.tid
     )
-     this.menu = await this.menuParams('Our Team Registration', 'M')
+    this.menu = await this.menuParams('Our Team Registration', 'M')
   }
 }
 </script>

@@ -66,7 +66,8 @@
           </v-select>
         </div>
       </form>
-       <br/> <br/>
+      <br />
+      <br />
       <button class="button green" id="update" @click="saveForm">Update</button>
       <button class="button red" id="delete" @click="deleteForm">Delete</button>
     </div>
@@ -136,16 +137,19 @@ export default {
   },
   methods: {
     async saveForm() {
-      this.disableButton('update')
-      this.disableButton('delete')
-      var params = {}
-      this.item.tid = this.$route.params.tid
-      this.item.image = this.item.image.image
-      params.item = JSON.stringify(this.item)
-      console.log(params)
-      var res = await AuthorService.updateItem(params)
-      //console.log(res)
-      this.return()
+      if (!this.saved) {
+        this.saved = true
+        this.disableButton('update')
+        this.disableButton('delete')
+        var params = {}
+        this.item.tid = this.$route.params.tid
+        this.item.image = this.item.image.image
+        params.item = JSON.stringify(this.item)
+        console.log(params)
+        var res = await AuthorService.updateItem(params)
+        //console.log(res)
+        this.return()
+      }
     },
     async deleteForm() {
       this.disableButton('update')
@@ -159,7 +163,7 @@ export default {
       this.return()
     },
     return() {
-       window.history.back()
+      window.history.back()
     }
   },
   beforeCreate: function() {

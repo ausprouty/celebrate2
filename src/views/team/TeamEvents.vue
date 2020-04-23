@@ -54,17 +54,10 @@
         <div>
           <h3>Icon:</h3>
           <div v-if="$v.item.image.$model">
-            <img
-              v-bind:src="'/images/icons/team/' + $v.item.image.$model.image"
-              class="icon"
-            />
+            <img v-bind:src="'/images/icons/team/' + $v.item.image.$model.image" class="icon" />
             <br />
           </div>
-          <v-select
-            :options="images"
-            label="title"
-            v-model="$v.item.image.$model"
-          >
+          <v-select :options="images" label="title" v-model="$v.item.image.$model">
             <template slot="option" slot-scope="option">
               <img :src="'/images/icons/team/' + option.image" class="icon" />
               {{ option.title }}
@@ -139,16 +132,19 @@ export default {
   },
   methods: {
     async saveForm() {
-      this.disableButton('update')
-      this.disableButton('delete')
-      var params = {}
-      this.item.tid = this.$route.params.tid
-      this.item.image = this.item.image.image
-      params.item = JSON.stringify(this.item)
-      console.log(params)
-      var res = await AuthorService.updateItem(params)
-      //console.log(res)
-      this.return()
+      if (!this.saved) {
+        this.saved = true
+        this.disableButton('update')
+        this.disableButton('delete')
+        var params = {}
+        this.item.tid = this.$route.params.tid
+        this.item.image = this.item.image.image
+        params.item = JSON.stringify(this.item)
+        console.log(params)
+        var res = await AuthorService.updateItem(params)
+        //console.log(res)
+        this.return()
+      }
     },
     async deleteForm() {
       this.disableButton('update')
@@ -181,7 +177,7 @@ export default {
     )
     if (this.authorized) {
       try {
-         this.menu = await this.menuParams('Team Events', 'M')
+        this.menu = await this.menuParams('Team Events', 'M')
         var params = {}
         params['icons'] = 'team'
         params['icon_size'] = '48x48'
@@ -212,7 +208,6 @@ export default {
 }
 </script>
 <style scoped>
-
 img.icon {
   width: 48px;
 }

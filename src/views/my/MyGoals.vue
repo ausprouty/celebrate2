@@ -141,27 +141,30 @@ export default {
     },
     async saveForm() {
       try {
-        this.disableButton('update')
-        var params = {}
-        var plan = []
-        var now = {}
-        var clean = 0
-        var l = this.items.length
-        for (var i = 0; i < l; i++) {
-          now.id = this.items[i]['id']
-          now.number = 0
-          clean = parseInt(this.items[i]['number'], 10)
-          if (typeof clean == 'number') {
-            now.number = clean
+        if (!this.saved) {
+          this.saved = true
+          this.disableButton('update')
+          var params = {}
+          var plan = []
+          var now = {}
+          var clean = 0
+          var l = this.items.length
+          for (var i = 0; i < l; i++) {
+            now.id = this.items[i]['id']
+            now.number = 0
+            clean = parseInt(this.items[i]['number'], 10)
+            if (typeof clean == 'number') {
+              now.number = clean
+            }
+            plan.push(now)
+            now = {}
           }
-          plan.push(now)
-          now = {}
+          params['goals'] = JSON.stringify(plan)
+          params['uid'] = this.$route.params.uid
+          params['tid'] = this.$route.params.tid
+          params['year'] = new Date().getFullYear()
+          var res = await AuthorService.updateGoals(params)
         }
-        params['goals'] = JSON.stringify(plan)
-        params['uid'] = this.$route.params.uid
-        params['tid'] = this.$route.params.tid
-        params['year'] = new Date().getFullYear()
-        var res = await AuthorService.updateGoals(params)
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
       }

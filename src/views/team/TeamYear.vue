@@ -89,13 +89,12 @@ export default {
   },
 
   props: ['tid', 'year', 'item'],
-  computed: mapState(['user', 'appDir', 'months']),
+  computed: mapState([ 'appDir', 'months', 'team', 'user']),
   mixins: [authorMixin],
   data() {
     return {
       item_details: {},
       series: [],
-      team: [],
       res: [],
       scope_options: [],
       scope: [],

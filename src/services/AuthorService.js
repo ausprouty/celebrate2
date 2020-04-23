@@ -18,6 +18,16 @@ const apiSECURE = axios.create({
 // I want to export a JSON.stringified of response.data.content.text
 export default {
   /////////////////////////////////////////////////
+
+  async createTeamProfile(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=createTeamProfile&action=createTeamProfile',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async debug(params) {
     console.log('debug')
     var contentForm = this.toAuthorizedFormData(params)
@@ -38,6 +48,14 @@ export default {
     let response = res.data.content
     return response
   },
+  async deleteTeam(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let response = await apiSECURE.post(
+      'AuthorApi.php?page=deleteTeam&action=deleteTeam',
+      contentForm
+    )
+    return response
+    },
   async deleteTodayEntry(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -270,6 +288,17 @@ export default {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=getTeam&action=getTeam',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async getTeams(params) {
+    console.log('get team parameters')
+    console.log(params)
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getTeams&action=getTeams',
       contentForm
     )
     let response = res.data.content

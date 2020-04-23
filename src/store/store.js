@@ -13,7 +13,14 @@ export default new Vuex.Store({
   state: {
     user: {},
     my: {},
-    team: {},
+    team: {
+      tid: null,
+      name: null,
+      strategy: null,
+      focus: null,
+      state: null,
+      game: null
+    },
     appDir: {
       css: '/content/',
       styles: '/styles/',
@@ -31,9 +38,10 @@ export default new Vuex.Store({
       rldir: 'ltr',
       css: ''
     },
-    states: ['all','ACT', 'NSW', 'NT', 'QLD', 'SA', 'VIC', 'WA'],
+    states: ['all', 'ACT', 'NSW', 'NT', 'QLD', 'SA', 'VIC', 'WA'],
     strategies: ['GCM'],
-    focus_areas:['GCM', 'MyFriends', 'Shiftm2M'],
+   
+    focus_areas: ['GCM', 'MyFriends', 'Shiftm2M'],
     months: [
       '',
       'January',

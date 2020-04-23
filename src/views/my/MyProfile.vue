@@ -129,18 +129,21 @@ export default {
   methods: {
     async saveForm() {
       try {
-        this.disableButton('update')
-        this.disableButton('delete')
-        var params = this.member
-        console.log('Save Form')
-        console.log(this.member)
-        params.member_uid = this.member.uid
-        params.authorizer = this.user.uid
-        console.log('params for SaveForm')
-        console.log(params)
-        let res = null
-        await AuthorService.updateUserProfile(params)
-        this.show()
+        if (!this.saved) {
+          this.saved = true
+          this.disableButton('update')
+          this.disableButton('delete')
+          var params = this.member
+          console.log('Save Form')
+          console.log(this.member)
+          params.member_uid = this.member.uid
+          params.authorizer = this.user.uid
+          console.log('params for SaveForm')
+          console.log(params)
+          let res = null
+          await AuthorService.updateUserProfile(params)
+          this.show()
+        }
       } catch (error) {
         console.log('Update There was an error ', error) //
       }

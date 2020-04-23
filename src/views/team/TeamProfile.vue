@@ -21,12 +21,8 @@
           type="text"
           placeholder
           class="field"
-          :class="{ error: $v.team.name.$error }"
-          @mousedown="$v.team.name.$touch()"
         />
-        <template v-if="$v.team.name.$error">
-          <p v-if="!$v.team.name.required" class="errorMessage">Team Name is required</p>
-        </template>
+
         <br />
         <br />
         <BaseSelect
@@ -99,18 +95,32 @@ export default {
   methods: {
     async saveForm() {
       try {
-        this.disableButton('update')
-        this.disableButton('delete')
-        var params = this.team
-        params.authorizer = this.user.uid
-        console.log(params)
-        await AuthorService.updateTeamProfile(params)
-        this.$router.push({
-          name: 'ourTeam',
-          params: {
-            tid: this.$route.params.tid
+        if (!this.saved) {
+          this.saved = true
+          this.disableButton('update')
+          this.disableButton('delete')
+          var params = this.team
+          params.authorizer = this.user.uid
+          console.log(params)
+          if (this.team.tid) {
+            await AuthorService.updateTeamProfile(params)
+            this.$router.push({
+              name: 'ourTeam',
+              params: {
+                tid: this.$route.params.tid
+              }
+            })
           }
-        })
+        } else {
+          var resp = await AuthorService.createTeamProfile(params)
+          console.log(resp)
+          this.$router.push({
+            name: 'ourTeam',
+            params: {
+              tid: resp.tid
+            }
+          })
+        }
       } catch (error) {
         console.log('Update There was an error ', error) //
       }
@@ -129,7 +139,7 @@ export default {
         } else {
           this.registered = true
           this.$router.push({
-            name: 'farm'
+            name: 'adminTeams'
           })
         }
       } catch (error) {
@@ -142,14 +152,15 @@ export default {
         try {
           this.menu = await this.menuParams('Team Profile', 'M')
           var params = {}
-          params.tid = this.$route.params.tid
-          this.team = await AuthorService.getTeam(params)
-          console.log(this.team)
-          if (this.team.image) {
-            this.team_image = this.team.image
+          if (this.$route.params.tid) {
+            params.tid = this.$route.params.tid
+            this.team = await AuthorService.getTeam(params)
+            console.log(this.team)
+            if (this.team.image) {
+              this.team_image = this.team.image
+            }
+            console.log(this.team)
           }
-
-          console.log(this.team)
         } catch (error) {
           console.log('There was an error in TeamProfile.vue:', error) // Logs out the error
         }

@@ -109,22 +109,25 @@ export default {
     },
 
     async saveForm() {
-      this.disableButton('update')
-      this.disableButton('delete')
-      var params = {}
-      params['today'] = JSON.stringify(this.today)
-      console.log(params)
-      await AuthorService.updateTodayEntry(params)
-      this.$router.push({
-        name: 'myMonth',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid,
-          page: this.$route.params.page,
-          month: this.$route.params.month,
-          year: this.$route.params.year
-        }
-      })
+      if (!this.saved) {
+        this.saved = true
+        this.disableButton('update')
+        this.disableButton('delete')
+        var params = {}
+        params['today'] = JSON.stringify(this.today)
+        console.log(params)
+        await AuthorService.updateTodayEntry(params)
+        this.$router.push({
+          name: 'myMonth',
+          params: {
+            uid: this.$route.params.uid,
+            tid: this.$route.params.tid,
+            page: this.$route.params.page,
+            month: this.$route.params.month,
+            year: this.$route.params.year
+          }
+        })
+      }
     },
     async deleteForm() {
       var params = {}

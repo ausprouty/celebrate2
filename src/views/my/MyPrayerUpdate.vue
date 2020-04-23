@@ -8,21 +8,13 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <BackImage
-        :image="appDir.members + this.member.image"
-        :time="this.time"
-      ></BackImage>
+      <BackImage :image="appDir.members + this.member.image" :time="this.time"></BackImage>
       <div class="center">
         <h2>Update Prayer</h2>
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="progress"
-          >
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
             <div class="app-link">
               <div
                 class="shadow-card -shadow"
@@ -41,21 +33,14 @@
                     :id="item.id + 'R'"
                     class="item_name"
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >
-                    {{ item.name }}
-                  </div>
+                  >{{ item.name }}</div>
                   <div :id="item.id" class="collapsed">
                     <ItemEntryProgress :item="item"></ItemEntryProgress>
                   </div>
                 </div>
                 <hr />
                 <div class="entry">
-                  <BaseInput
-                    label="Number:"
-                    v-model="item.entry"
-                    type="number"
-                    class="field"
-                  />
+                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
                 </div>
                 <div v-if="item.details">
                   <BaseTextarea
@@ -84,9 +69,7 @@
           </div>
         </form>
 
-        <button class="button green" id="update" @click="saveForm">
-          Update
-        </button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
       </div>
     </div>
   </div>
@@ -174,20 +157,23 @@ export default {
     },
 
     async saveForm() {
-      var params = {}
-      this.disableButton('update')
-      this.$route.params.year = this.items[0]['year']
-      this.$route.params.month = this.items[0]['month']
-      params['route'] = JSON.stringify(this.$route.params)
-      params['items'] = JSON.stringify(this.items)
-      await AuthorService.updateProgressPageEntry(params)
-      this.$router.push({
-        name: 'myPrayers',
-        params: {
-          uid: this.$route.params.uid,
-          tid: this.$route.params.tid
-        }
-      })
+      if (!this.saved) {
+        this.saved = true
+        var params = {}
+        this.disableButton('update')
+        this.$route.params.year = this.items[0]['year']
+        this.$route.params.month = this.items[0]['month']
+        params['route'] = JSON.stringify(this.$route.params)
+        params['items'] = JSON.stringify(this.items)
+        await AuthorService.updateProgressPageEntry(params)
+        this.$router.push({
+          name: 'myPrayers',
+          params: {
+            uid: this.$route.params.uid,
+            tid: this.$route.params.tid
+          }
+        })
+      }
     },
     async loadForm() {
       this.authorized = this.authorize(
