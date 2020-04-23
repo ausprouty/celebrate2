@@ -110,16 +110,16 @@ export default {
                 tid: this.$route.params.tid
               }
             })
+          } else {
+            var resp = await AuthorService.createTeamProfile(params)
+            console.log(resp)
+            this.$router.push({
+              name: 'ourTeam',
+              params: {
+                tid: resp.tid
+              }
+            })
           }
-        } else {
-          var resp = await AuthorService.createTeamProfile(params)
-          console.log(resp)
-          this.$router.push({
-            name: 'ourTeam',
-            params: {
-              tid: resp.tid
-            }
-          })
         }
       } catch (error) {
         console.log('Update There was an error ', error) //
