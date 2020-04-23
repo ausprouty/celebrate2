@@ -31,6 +31,9 @@ export default new Vuex.Store({
       rldir: 'ltr',
       css: ''
     },
+    states: ['all','ACT', 'NSW', 'NT', 'QLD', 'SA', 'VIC', 'WA'],
+    strategies: ['GCM'],
+    focus_areas:['GCM', 'MyFriends', 'Shiftm2M'],
     months: [
       '',
       'January',

@@ -251,7 +251,7 @@ th {
   color: white;
 }
 .goal {
-  color: var(--color-blue);
+  color: var(--color-green-dark);
   line-height: 18px;
   width: 60px;
 }
@@ -262,7 +262,7 @@ td.item {
   width: 80%;
 }
 .item {
-  color: var(--color-blue);
+  color: var(--color-green-dark);
 }
 .definition {
   color: var(--color-red);

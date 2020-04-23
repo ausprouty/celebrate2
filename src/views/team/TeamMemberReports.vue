@@ -16,22 +16,15 @@
             not_current: this.evaluateCurrent(this.member.current)
           }"
         >
-          <div v-if="this.member.image">
-            <img
-              v-bind:src="appDir.members + this.member.image"
-              class="member"
-            />
+          <div class="inline" v-if="this.member.image">
+            <img v-bind:src="appDir.members + this.member.image" class="member" />
           </div>
           <div class="card-names">
-            <span class="card-name"
-              >{{ this.member.firstname }} {{ this.member.lastname }}</span
-            >
+            <span class="card-name">{{ this.member.firstname }} {{ this.member.lastname }}</span>
           </div>
         </div>
       </div>
-      <h1 v-if="missingMonths(this.missing)">
-        Needs progress for these months:
-      </h1>
+      <h1 v-if="missingMonths(this.missing)">Needs progress for these months:</h1>
       <div v-for="missed in missing">
         <p class="months" @click="openProgress(missed)">{{ months[missed] }}</p>
       </div>
@@ -97,7 +90,7 @@ export default {
       this.authorized = this.authorize('team', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('Team Reports', 'M')
+          this.menu = await this.menuParams('Team Member Reports', 'M')
           var params = []
           params['uid'] = this.$route.params.uid
           var d = new Date()
@@ -151,5 +144,8 @@ div.card-names {
 .months {
   font-size: 18pt;
   padding-left: 20px;
+}
+div.inline {
+  display: inline;
 }
 </style>

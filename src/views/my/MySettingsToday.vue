@@ -213,15 +213,15 @@ table.goals {
 }
 
 tr:nth-child(even) {
-  background-color:var(--color-grey);
+  background-color: var(--color-grey);
 }
 
 tr:hover {
-  background-color:var(--color-grey-medium);
+  background-color: var(--color-grey-medium);
 }
 td,
 th {
-  border: 1px solid ;
+  border: 1px solid;
   padding: 8px;
 }
 
@@ -233,17 +233,17 @@ th {
   color: white;
 }
 .goal {
-  color:var(--color-green);
+  color: var(--color-green);
   line-height: 18px;
 }
 td.item {
   width: 80%;
 }
 .item {
-  color: var(--color-blue);
+  color: var(--color-green-dark);
 }
 .definition {
-  color:var(--color-red);
+  color: var(--color-red);
   font-size: 14px;
 }
 
@@ -251,6 +251,6 @@ td.often {
   width: 20%;
 }
 .selected {
-  background-color:var(--color-yellow);
+  background-color: var(--color-yellow);
 }
 </style>

@@ -44,7 +44,7 @@
             </td>
             <td :id="item.id + 'R'" class="goal top">
               <input class="goal" type="text" v-model="item.number" />
-                 {{ totalOrAverage(item.cumulative) }}
+              {{ totalOrAverage(item.cumulative) }}
             </td>
           </tr>
         </table>
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     showDefinition(item) {
-       var id = item.id + 'C'
+      var id = item.id + 'C'
       var present = document.getElementById(item.id).innerHTML
       if (present == '') {
         var message = '<br>(' + item.paraphrase + ')'
@@ -226,7 +226,7 @@ th {
   color: white;
 }
 .goal {
-  color: var(--color-blue);
+  color: var(--color-green-dark);
   line-height: 18px;
   width: 60px;
 }
@@ -237,7 +237,7 @@ td.item {
   width: 80%;
 }
 .item {
-  color: var(--color-blue);
+  color: var(--color-green-dark);
 }
 .definition {
   color: var(--color-red);

@@ -9,13 +9,14 @@
 <style>
 :root {
   --color-black: #020101;
-  --color-blue: blue;
+  
 
   --color-black-lighter: #324f23;
   --color-grey: #efefef;
   --color-grey-medium: #bbbbbb;
   --color-grey-dark: #666666;
   --color-green: #44b340;
+  --color-green-dark:#297f25;
   --color-green-lighter: #9bd263;
   --color-green-lightest: #b2d292;
   --color-red: #a41121;

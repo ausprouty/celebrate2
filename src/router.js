@@ -9,10 +9,12 @@ import AdminItem from './views/admin/AdminItem.vue'
 import MyGoals from './views/my/MyGoals.vue'
 import MyDisciples from './views/my/MyDisciples.vue'
 import MyItem from './views/my/MyItem.vue'
+import MyMonth from './views/my/MyMonth.vue'
 import MyPrayers from './views/my/MyPrayers.vue'
 import MyPrayerUpdate from './views/my/MyPrayerUpdate.vue'
 import MyProfile from './views/my/MyProfile.vue'
-import MyMonth from './views/my/MyMonth.vue'
+import MyPasswordReset from './views/my/MyPasswordReset.vue'
+import MyPasswordSent from './views/my/MyPasswordSent.vue'
 import MySettingsToday from './views/my/MySettingsToday.vue'
 import MyYear from './views/my/MyYear.vue'
 import MyToday from './views/my/MyToday.vue'
@@ -93,6 +95,12 @@ export default new Router({
       props: true
     },
     {
+      path: '/my/month/:uid/:tid/:page?/:month?/:year?',
+      name: 'myMonth',
+      component: MyMonth,
+      props: true
+    },
+    {
       path: '/my/prayer/:uid/:tid/:pid',
       name: 'myPrayerUpdate',
       component: MyPrayerUpdate,
@@ -105,9 +113,15 @@ export default new Router({
       props: true
     },
     {
-      path: '/my/month/:uid/:tid/:page?/:month?/:year?',
-      name: 'myMonth',
-      component: MyMonth,
+      path: '/my/reset/:token/:uid',
+      name: 'myPasswordReset',
+      component: MyPasswordReset,
+      props: true
+    },
+    {
+      path: '/my/sent',
+      name: 'myPasswordSent',
+      component: MyPasswordSent,
       props: true
     },
     {

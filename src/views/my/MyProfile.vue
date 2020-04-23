@@ -45,12 +45,19 @@
           class="field"
         />
 
-        <p @click="changePassword()" class="change">Change Username or Password</p>
+        <p @click="changePassword()" class="change">Change Username, Password or Email</p>
 
         <div v-if="this.change_password">
           <BaseInput
             v-model="$v.member.username.$model"
             label="Username"
+            type="text"
+            placeholder
+            class="field"
+          />
+          <BaseInput
+            v-model="$v.member.email.$model"
+            label="Email"
             type="text"
             placeholder
             class="field"
@@ -94,6 +101,7 @@ export default {
       member: {
         firstname: null,
         lastname: null,
+        email: null,
         phone: null,
         scope: null,
         username: null,
@@ -114,6 +122,7 @@ export default {
       phone: {},
 
       username: {},
+      email: { required },
       password: {}
     }
   },

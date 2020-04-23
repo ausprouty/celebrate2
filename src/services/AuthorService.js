@@ -345,6 +345,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async retrievePassword(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=retrievePassword&action=retrievePassword',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async updateDisciples(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
@@ -420,6 +429,15 @@ export default {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=updateSettingsToday&action=updateSettingsToday',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
+  async updateTeamProfile(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=updateTeamProfile&action=updateTeamProfile',
       contentForm
     )
     let response = res.data.content

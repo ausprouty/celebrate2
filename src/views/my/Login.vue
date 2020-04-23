@@ -31,10 +31,13 @@
       <br />
       <br />
       <button class="button red" @click="saveForm">Login</button>
+
+    
       <template v-if="wrong">
         <p class="errorMessage">Wrong username or password. Try again</p>
       </template>
     </form>
+      <button class="button grey" @click="retrievePassword">Forgot Password</button>
   </div>
 </template>
 
@@ -58,6 +61,19 @@ export default {
     password: { required }
   },
   methods: {
+    async retrievePassword() {
+      var params = {}
+      if (this.username) {
+        params.username = this.username
+        await AuthorService.retrievePassword(params)
+        this.$router.push({
+          name: 'myPasswordSent'
+        })
+      } else {
+        alert ('Please enter username so we can retrieve your password')
+       
+      }
+    },
     async saveForm() {
       try {
         var params = {}

@@ -25,34 +25,32 @@
           @mousedown="$v.team.name.$touch()"
         />
         <template v-if="$v.team.name.$error">
-          <p v-if="!$v.team.name.required" class="errorMessage">
-            Team Name is required
-          </p>
+          <p v-if="!$v.team.name.required" class="errorMessage">Team Name is required</p>
         </template>
         <br />
         <br />
-        <BaseInput
-          v-model="$v.team.code.$model"
-          label="Code"
-          type="text"
-          placeholder
+        <BaseSelect
+          label="Strategy"
+          :options="this.strategies"
+          v-model="$v.team.strategy.$model"
           class="field"
-          :class="{ error: $v.team.code.$error }"
-          @mousedown="$v.team.code.$touch()"
         />
-        <template v-if="$v.team.code.$error">
-          <p v-if="!$v.team.code.required" class="errorMessage">
-            Code is required
-          </p>
-        </template>
+        <BaseSelect
+          label="Focus"
+          :options="this.focus_areas"
+          v-model="$v.team.focus.$model"
+          class="field"
+        />
+        <BaseSelect
+          label="State"
+          :options="this.states"
+          v-model="$v.team.state.$model"
+          class="field"
+        />
 
         <br />
-        <button class="button green" id="update" @click="saveForm">
-          Update
-        </button>
-        <button class="button red" id="delete" @click="deleteForm">
-          Delete
-        </button>
+        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button red" id="delete" @click="deleteForm">Delete</button>
       </form>
     </div>
   </div>
@@ -78,7 +76,9 @@ export default {
       team: {
         tid: null,
         name: null,
-        code: null,
+        strategy: null,
+        focus: null,
+        state: null,
         game: null
       },
       team_image: null,
@@ -87,11 +87,13 @@ export default {
       registered: true
     }
   },
-  computed: mapState(['user']),
+  computed: mapState(['focus_areas', 'states', 'strategies', 'user']),
   validations: {
     team: {
       name: { required },
-      code: { required }
+      strategy: { required },
+      focus: { required },
+      state: {}
     }
   },
   methods: {
@@ -103,7 +105,12 @@ export default {
         params.authorizer = this.user.uid
         console.log(params)
         await AuthorService.updateTeamProfile(params)
-        this.show()
+        this.$router.push({
+          name: 'ourTeam',
+          params: {
+            tid: this.$route.params.tid
+          }
+        })
       } catch (error) {
         console.log('Update There was an error ', error) //
       }
@@ -133,10 +140,11 @@ export default {
       this.authorized = this.authorize('global', null, this.$route.params.tid)
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('Team Profile', 'M')
+          this.menu = await this.menuParams('Team Profile', 'M')
           var params = {}
           params.tid = this.$route.params.tid
           this.team = await AuthorService.getTeam(params)
+          console.log(this.team)
           if (this.team.image) {
             this.team_image = this.team.image
           }
@@ -156,6 +164,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
