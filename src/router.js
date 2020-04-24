@@ -5,6 +5,7 @@ import Debug from './views/admin/Debug.vue'
 
 import Login from './views/my/Login.vue'
 import Logout from './views/my/Logout.vue'
+import AdminCelebrationSets from './views/admin/AdminCelebrationSets.vue'
 import AdminItem from './views/admin/AdminItem.vue'
 import AdminTeams from './views/admin/AdminTeams.vue'
 import MyGoals from './views/my/MyGoals.vue'
@@ -66,9 +67,15 @@ export default new Router({
       props: false
     },
     {
-      path: '/admin/item/:id/:uid?/:tid?',
+      path: '/admin/item/:id?/:celebration_set?/:uid?/:tid?',
       name: 'adminItem',
       component: AdminItem,
+      props: true
+    },
+    {
+      path: '/admin/sets/:celebration_set?',
+      name: 'adminCelebrationSets',
+      component: AdminCelebrationSets,
       props: true
     },
     {

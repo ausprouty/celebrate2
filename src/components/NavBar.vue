@@ -72,9 +72,15 @@ export default {
       admin_menu: [
         {
           index: 0,
-          value: 'Show Teams',
+          value: 'Teams',
           show: true,
           link: 'adminTeams'
+        },
+         {
+          index: 1,
+          value: 'Celebration Sets',
+          show: true,
+          link: 'adminCelebrationSets',
         }
       ],
       my_menu: [

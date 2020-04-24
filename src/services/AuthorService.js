@@ -135,6 +135,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async getItemsCelebrationSet(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=getItemsCelebrationSet&action=getItemsCelebrationSet',
+      contentForm
+    )
+    let response = JSON.parse(res.data.content)
+    return response
+  },
   async getItemsMember(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(

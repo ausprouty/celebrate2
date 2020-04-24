@@ -8,9 +8,15 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>Enter a Standard Item</h2>
-      <p>These are the standard items which GMA wants us to monitor</p>
+      <h2>Enter a Strategy Item</h2>
+      <p>Items which Strategy Coordinators celebrate</p>
       <form @submit.prevent="saveForm">
+        <BaseSelect
+          label="Celebration Set"
+          :options="this.focus_areas"
+          v-model="$v.item.celebration_set.$model"
+          class="field"
+        />
         <BaseInput
           v-model="$v.item.name.$model"
           label="Item"
@@ -93,8 +99,8 @@ import vSelect from 'vue-select'
 // see https://stackoverflow.com/questions/55479380/adding-images-to-vue-select-dropdown
 import '@/assets/css/vueSelect.css'
 export default {
-  computed: mapState(['user']),
-  props: ['uid', 'tid', 'id'],
+  computed: mapState(['focus_areas', 'user']),
+  props: [ 'id', 'celebration_set', 'uid', 'tid'],
   components: {
     NavBar,
     'v-select': vSelect

@@ -85,6 +85,17 @@ div.not_authorized {
   padding: 20px;
   font-size: 24px;
 }
+div.wrapper {
+  display: block;
+  width: 100%;
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+div.icon {
+  float: left; /* add this */
+}
+div.entry {
+  overflow: hidden; /* if you don't want #second to wrap below #first */
+}
 
 #app {
   box-sizing: border-box;
