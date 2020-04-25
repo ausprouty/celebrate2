@@ -8,14 +8,22 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>Enter a Strategy Item</h2>
-      <p>Items which Strategy Coordinators celebrate</p>
+      <h2>Enter an Item to Celebrate</h2>
+
       <form @submit.prevent="saveForm">
         <BaseSelect
           label="Celebration Set"
           :options="this.focus_areas"
           v-model="$v.item.celebration_set.$model"
           class="field"
+        />
+        <BaseInput
+          v-model="$v.item.objective.$model"
+          label="Objective"
+          type="text"
+          class="field"
+          :class="{ error: $v.item.objective.$error }"
+          @blur="$v.item.objective.$touch()"
         />
         <BaseInput
           v-model="$v.item.name.$model"
@@ -67,7 +75,10 @@
           <div v-if="$v.item.image.$model">
             <img
               v-bind:src="
-                '/images/icons/standard/' + $v.item.image.$model.image
+                '/images/icons/' +
+                  celebration_set +
+                  '/' +
+                  $v.item.image.$model.image
               "
               class="icon"
             />
@@ -75,7 +86,7 @@
           </div>
           <v-select :options="images" label="title" v-model="$v.item.image.$model">
             <template slot="option" slot-scope="option">
-              <img :src="'/images/icons/standard/' + option.image" class="icon" />
+              <img :src="'/images/icons/' + celebration_set + '/' + option.image" class="icon" />
               {{ option.title }}
             </template>
           </v-select>
@@ -100,7 +111,7 @@ import vSelect from 'vue-select'
 import '@/assets/css/vueSelect.css'
 export default {
   computed: mapState(['focus_areas', 'user']),
-  props: [ 'id', 'celebration_set', 'uid', 'tid'],
+  props: ['id', 'celebration_set', 'uid', 'tid'],
   components: {
     NavBar,
     'v-select': vSelect
@@ -118,6 +129,7 @@ export default {
         uid: null,
         sequence: null,
         page: null,
+        objective: null,
         code: null,
         name: null,
         definition: null,
@@ -150,6 +162,7 @@ export default {
       sequence: {},
       page: {},
       code: {},
+      objective: { required },
       name: { required },
       definition: {},
       paraphrase: { required },
@@ -194,7 +207,7 @@ export default {
     }
   },
   beforeCreate: function() {
-    document.body.className = 'user'
+    document.body.className = 'admin'
   },
   async created() {
     this.authorized = this.authorize(
@@ -204,10 +217,11 @@ export default {
     )
     if (this.authorized) {
       try {
-        this.menu = await this.menuParams('Standard Items', 'M')
+        this.menu = await this.menuParams('Strategy Item', 'M')
         var params = {}
-        params['icons'] = 'standard'
+        params['icons'] = this.$route.params.celebration_set
         params['icon_size'] = '48x48'
+        console.log(params)
         var res = await AuthorService.getIcons(params)
         console.log(res)
         this.images = res['icons']
@@ -238,5 +252,8 @@ export default {
 <style scoped>
 img.icon {
   width: 48px;
+}
+.field {
+  padding-top: 20px;
 }
 </style>

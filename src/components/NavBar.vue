@@ -6,7 +6,7 @@
 
     <div class="container">
       <div class="back hand float" @click="goBack()">
-        <img class="icon hand" src="/images/icons/standard/back_48x48.png" />
+        <img class="icon hand" src="/images/icons/admin/back_48x48.png" />
       </div>
       <div class="hand pad float" @click="showMyMenu()">
         <img class="icon hand" src="/images/icons/personal/person_48x48.png" />
@@ -78,9 +78,21 @@ export default {
         },
          {
           index: 1,
+          value: 'Trainings',
+          show: true,
+          link: 'adminTrainings'
+        },
+         {
+          index: 2,
+          value: 'Post to Cru',
+          show: true,
+          link: 'adminPost'
+        },
+        {
+          index: 3,
           value: 'Celebration Sets',
           show: true,
-          link: 'adminCelebrationSets',
+          link: 'adminCelebrationSets'
         }
       ],
       my_menu: [
@@ -187,7 +199,6 @@ export default {
         this.show_my = true
         document.getElementById('team_menu').style.display = 'none'
         this.show_team = false
-        
       } else {
         document.getElementById('admin_menu').style.display = 'none'
         this.show_my = false
@@ -215,12 +226,18 @@ export default {
         document.getElementById('my_menu').style.display = 'none'
         this.show_my = false
       } else {
-         document.getElementById('my_team').style.display = 'none'
+        document.getElementById('my_team').style.display = 'none'
         this.show_team = false
       }
     },
     setNewSelectedOption(selectedOption) {
       this.showMenu = false
+      if (typeof this.$route.params.uid == 'undefined') {
+        this.$route.params.uid = this.my.uid
+      }
+      if (typeof this.$route.params.tid == 'undefined') {
+        this.$route.params.tid = this.my.team
+      }
       this.$router.push({
         name: selectedOption.link,
         params: {

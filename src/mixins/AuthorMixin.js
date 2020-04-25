@@ -78,7 +78,7 @@ export const authorMixin = {
       return false
     },
     authorizeItemEdit(item) {
-      if (item.celebration_set == 'standard') {
+      if (item.celebration_set == 'Cru') {
         if (this.user.scope == 'global') {
           return true
         } else {

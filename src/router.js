@@ -7,6 +7,7 @@ import Login from './views/my/Login.vue'
 import Logout from './views/my/Logout.vue'
 import AdminCelebrationSets from './views/admin/AdminCelebrationSets.vue'
 import AdminItem from './views/admin/AdminItem.vue'
+import AdminItemsSort from './views/admin/AdminItemsSort.vue'
 import AdminTeams from './views/admin/AdminTeams.vue'
 import MyGoals from './views/my/MyGoals.vue'
 import MyDisciples from './views/my/MyDisciples.vue'
@@ -70,6 +71,12 @@ export default new Router({
       path: '/admin/item/:id?/:celebration_set?/:uid?/:tid?',
       name: 'adminItem',
       component: AdminItem,
+      props: true
+    },
+    {
+      path: '/admin/items/sort/:celebration_set',
+      name: 'adminItemsSort',
+      component: AdminItemsSort,
       props: true
     },
     {

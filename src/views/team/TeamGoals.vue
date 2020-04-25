@@ -139,7 +139,7 @@ export default {
           }
         })
       }
-      if (set == 'standard') {
+      if (set == 'Cru') {
         this.$router.push({
           name: 'adminItem',
           params: {

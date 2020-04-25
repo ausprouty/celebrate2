@@ -9,13 +9,13 @@
     <div v-if="authorized">
       <div class="container">
         <div class="back" @click="goBack()">
-          <img class="icon" src="/images/icons/standard/back_48x48.png" />
+          <img class="icon" src="/images/icons/admin/back_48x48.png" />
         </div>
         <div class="my">
           <img v-bind:src="appDir.members + this.image" class="member" />
         </div>
         <div class="team">
-          <img class="icon" src="/images/icons/standard/group_48x48.png" />
+          <img class="icon" src="/images/icons/admin/group_48x48.png" />
         </div>
         <div class="breadcrumb">{{ this.breadcrumb }}</div>
         <div class="time" v-if="this.time">{{ this.time }}</div>

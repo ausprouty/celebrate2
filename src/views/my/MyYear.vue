@@ -102,7 +102,7 @@ export default {
       scope_options: [],
       scope: [],
       selected: {
-        celebration_set: 'standard',
+        celebration_set: 'Cru',
         code: 'conversations',
         cumulative: 'Y',
         definition:

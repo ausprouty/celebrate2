@@ -8,7 +8,10 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <div v-for="set in this.focus_areas" :key="set">{{ set }}</div>
+      <div class="name" v-for="set in this.focus_areas" :key="set">
+        <span class="link hand" @click="selectSet(set)">{{ set }}</span>
+      </div>
+      <br />
       <h1 class="center">What {{ this.$route.params.celebration_set }} celebrates</h1>
       <div v-for="(item, id) in this.items" :key="id" :item="item" class="goals">
         <div class="app-link">
@@ -29,6 +32,7 @@
         </div>
       </div>
       <button class="button green" id="update" @click="newItem">New Item in this Set</button>
+      <button class="button grey" id="update" @click="sort">Sort</button>
     </div>
   </div>
 </template>
@@ -46,14 +50,19 @@ export default {
 
   mixins: [authorMixin],
   props: ['celebration_set'],
+  computed: mapState(['appDir', 'focus_areas']),
+
   data() {
     return {
       authorized: false,
       items: {}
     }
   },
-  computed: mapState(['appDir', 'focus_areas']),
   methods: {
+    selectSet(set) {
+      this.$route.params.celebration_set = set
+      this.show()
+    },
     editItem(item) {
       this.$router.push({
         name: 'adminItem',
@@ -70,6 +79,20 @@ export default {
           celebration_set: this.$route.params.celebration_set
         }
       })
+    },
+    sort() {
+      this.$router.push({
+        name: 'adminItemsSort',
+        params: {
+          celebration_set: this.$route.params.celebration_set
+        }
+      })
+    },
+    async show() {
+      var params = {}
+      params.celebration_set = this.$route.params.celebration_set
+      this.items = await AuthorService.getItemsCelebrationSet(params)
+      console.log(this.items)
     }
   },
   beforeCreate: function() {
@@ -80,13 +103,10 @@ export default {
     if (this.authorized) {
       try {
         this.menu = await this.menuParams('Celebration Sets', 'M')
-        var params = {}
         if (typeof this.$route.params.celebration_set == 'undefined') {
           this.$route.params.celebration_set = 'Cru'
         }
-        params.celebration_set = this.$route.params.celebration_set
-        this.items = await AuthorService.getItemsCelebrationSet(params)
-        console.log(this.items)
+        this.show()
       } catch (error) {
         console.log('There was an error in Celebration Sets.vue:', error) // Logs out the error
       }
@@ -101,5 +121,8 @@ export default {
 div.name {
   float: left;
   padding-left: 20px;
+}
+.link {
+  text-decoration: underline;
 }
 </style>
