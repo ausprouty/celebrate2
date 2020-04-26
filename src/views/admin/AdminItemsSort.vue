@@ -59,21 +59,15 @@ export default {
   methods: {
     async saveForm() {
       try {
-        console.log(this.content)
-        alert('look at console')
-        var response = await AuthorService.updateItems(this.content)
-        if (response.data.error != true) {
-          this.$router.push({
-            name: 'adminItems',
-            params: {
-              celebration_set: this.$route.params.celebration_set
-            }
-          })
-        } else {
-          this.error = true
-          this.loaded = false
-          this.error_message = response.data.message
-        }
+        var params = {}
+        params.items = JSON.stringify(this.items)
+        var response = await AuthorService.sortItems(params)
+        this.$router.push({
+          name: 'AdminCelebrationSets',
+          params: {
+            celebration_set: this.$route.params.celebration_set
+          }
+        })
       } catch (error) {
         console.log('There was an error in AdminItemsSort ', error)
         this.error = true
@@ -86,14 +80,14 @@ export default {
     this.authorized = this.authorize('admin', null, null)
     if (this.authorized) {
       try {
-          this.loading = true;
+        this.loading = true
         this.menu = await this.menuParams('Sort Items', 'M')
         var params = {}
         params.celebration_set = this.$route.params.celebration_set
         this.items = await AuthorService.getItemsCelebrationSet(params)
         console.log(this.items)
-        this.loading = false;
-        this.loaded = true;
+        this.loading = false
+        this.loaded = true
       } catch (error) {
         console.log('There was an error in ItemsSort.vue:', error) // Logs out the error
       }

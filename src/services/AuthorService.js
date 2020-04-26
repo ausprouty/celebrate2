@@ -383,6 +383,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async sortItems(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=sortItems&action=sortItems',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async retrievePassword(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(

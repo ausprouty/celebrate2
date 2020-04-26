@@ -10,6 +10,7 @@
     <div v-if="this.authorized">
       <h1 class="center">{{ this.team.name }}</h1>
       <UserList v-for="user in users" :key="user.uid" :user="user" />
+       <button class="button grey" id="update" @click="newMember">Add Members</button>
     </div>
   </div>
 </template>
@@ -47,6 +48,17 @@ export default {
         }
       ]
     }
+  },
+  methods:{
+    newMember(){
+      this.$router.push({
+        name: 'teamMemberRegister',
+        params: {
+          tid: this.$route.params.tid
+        }
+      })
+    }
+
   },
   beforeCreate: function() {
     document.body.className = 'team'

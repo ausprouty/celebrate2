@@ -25,7 +25,8 @@
                   class="icon"
                 />
               </div>
-              <div class="name">{{ item.name }}</div>
+              <div class="name"><span class="green" >({{ item.objective }})</span><br> {{ item.name }} </div>
+               
             </div>
             {{ item.paraphrase }}
           </div>
@@ -124,5 +125,9 @@ div.name {
 }
 .link {
   text-decoration: underline;
+}
+.green{
+  color: green;
+  font-weight: 200;
 }
 </style>

@@ -29,6 +29,7 @@ import TeamGoals from './views/team/TeamGoals.vue'
 import TeamItem from './views/team/TeamItem.vue'
 import TeamMonth from './views/team/TeamMonth.vue'
 import TeamMemberReports from './views/team/TeamMemberReports.vue'
+import TeamMemberProfile from './views/team/TeamMemberProfile.vue'
 import TeamProfile from './views/team/TeamProfile.vue'
 
 import TeamRegister from './views/team/TeamRegister.vue'
@@ -55,12 +56,7 @@ export default new Router({
       component: NavBar,
       props: false
     },
-    {
-      path: '/farm/:tid?',
-      name: 'farm',
-      component: TeamRegister,
-      props: true
-    },
+    
     {
       path: '/logout',
       name: 'logout',
@@ -157,8 +153,6 @@ export default new Router({
       component: MyTodayUpdate,
       props: true
     },
-  
-
     {
       path: '/my/today/settings/:uid/:tid/',
       name: 'myTodaySettings',
@@ -208,6 +202,12 @@ export default new Router({
       props: true
     },
     {
+      path: '/team/member/:tid/:uid?',
+      name: 'teamMemberProfile',
+      component: TeamMemberProfile,
+      props: true
+    },
+    {
       path: '/team/profile/:tid',
       name: 'teamProfile',
       component: TeamProfile,
@@ -217,6 +217,12 @@ export default new Router({
       path: '/team/month/:tid/:page?/:month?/:year?',
       name: 'teamMonth',
       component: TeamMonth,
+      props: true
+    },
+    {
+      path: '/team/register/:tid?',
+      name: 'teamMemberRegister',
+      component: TeamRegister,
       props: true
     },
     {

@@ -1,8 +1,8 @@
 <template>
-  <div class="app-link" v-on:click="showTeam(team)">
+  <div class="app-link hand" v-on:click="showTeam(team)">
     <div class="shadow-card -shadow">
       <div class="card-name">{{ team.name }}</div>
-      <div class="strategy">{{ team.strategy }}  -- {{ team.focus }}</div>
+      <div class="strategy">{{ team.strategy }} -- {{ team.focus }}</div>
     </div>
   </div>
 </template>
@@ -14,7 +14,6 @@ export default {
   },
   methods: {
     showTeam: function(team) {
-     
       this.$router.push({
         name: 'teamProfile',
         params: {
