@@ -124,10 +124,10 @@ export const authorMixin = {
       }
       if (params.image == 'blank.png') {
         var p = {}
-        // uid is blank in team 
+        // uid is blank in team
         if (typeof this.$route.params.uid != 'undefined') {
           p['route'] = JSON.stringify(this.$route.params)
-          var member = await AuthorService..do('getUser',p)
+          var member = await AuthorService.do('getUser', p)
           this.$store.dispatch('seeingMember', [member])
           params.image = member.image
         }

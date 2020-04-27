@@ -86,13 +86,13 @@
       <div v-if="!this.single_entry">
         <button class="button grey" id="update" @click="oneMember">Enter Only One Person</button>
         <BaseTextarea
-          label="Enter Many People"
-          v-model="this.multiple_people"
-          type="textarea"
-          class="field paragraph"
+          v-model="$v.people.names.$model"
+          label="Enter Multiple People here:"
+          type="text"
+          class="field"
         />
-        <p>(Tab Delimited) First Name, Last Name, Email</p>
-        <button class="button green" id="update" @click="createTeamMembers">Record These Members</button>
+        <p>(Tab Delimited) Training Name (not used), First Name, Last Name, Email</p>
+        <button class="button green" id="update" @click="createTeamMembers()">Record These Members</button>
       </div>
     </div>
   </div>
@@ -134,7 +134,9 @@ export default {
       wrong: null,
       registered: true,
       single_entry: true,
-      multiple_people: 'a'
+      people: {
+        names: null
+      }
     }
   },
   validations: {
@@ -147,6 +149,9 @@ export default {
       image: {},
       username: {},
       password: {}
+    },
+    people: {
+      names: {}
     }
   },
   methods: {
@@ -157,7 +162,8 @@ export default {
       this.single_entry = false
     },
     async createTeamMembers() {
-      console.log(this.multiple_people)
+      console.log(this.$v.people.names.$model)
+      alert('look at people')
       try {
         if (!this.saved) {
           this.saved = true
@@ -166,13 +172,14 @@ export default {
           var params = {}
           params.tid = this.$route.params.tid
           params.authorizer = this.user.uid
-          params.members = this.multiple_people
+          params.members = this.$v.people.names.$model
           console.log('params for SaveMembers')
           console.log(params)
-          let res = null
           await AuthorService.do('createTeamMembers', params)
           this.show()
         }
+      } catch (error) {
+        console.log('Update There was an error ', error) //
       }
     },
     async saveForm() {
@@ -240,7 +247,7 @@ export default {
           this.menu = await this.menuParams('Team Member Profile', 'M')
           if (typeof this.$route.params.uid != 'undefined') {
             params.uid = this.$route.params.uid
-            this.member = await AuthorService..do('getUser',params)
+            this.member = await AuthorService.do('getUser', params)
             this.member.password = null
             if (this.member.image) {
               this.member_image = '/images/members/' + this.member.image
@@ -248,7 +255,7 @@ export default {
             console.log(this.member)
           } else {
             params.tid = this.$route.params.tid
-            this.team = await AuthorService.do {'getTeam',params)
+            this.team = await AuthorService.do('getTeam', params)
             this.change_password = true
             this.single_entry = false
             console.log(this.team)

@@ -141,7 +141,7 @@ export default {
           this.menu = await this.menuParams('My Year', 'M')
           var params = []
           params.route = JSON.stringify(this.$route.params)
-          this.member = await AuthorService..do('getUser',params)
+          this.member = await AuthorService.do('getUser', params)
           this.scope = await AuthorService.getItemsMember(params)
 
           this.res = await AuthorService.do('getProgressPersonForYear', params)

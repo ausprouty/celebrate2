@@ -121,7 +121,7 @@ export default {
         }
       })
     },
-    async .do ('updateItem',id) {
+    async updateItem(id) {
       await this.saveForm()
       this.$router.push({
         name: 'myItem',
@@ -156,7 +156,7 @@ export default {
           params['tid'] = this.$route.params.tid
           params['year'] = new Date().getFullYear()
           console.log(params)
-          var res = await AuthorService.do('updateSettingsToday',params)
+          var res = await AuthorService.do('updateSettingsToday', params)
           this.$router.push({
             name: 'myToday',
             params: {
@@ -193,10 +193,10 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.do('getSettingsToday',params)
+        this.items = await AuthorService.do('getSettingsToday', params)
         console.log(this.items)
         params['uid'] = this.$route.params.uid
-        this.member = await AuthorService..do('getUser',params)
+        this.member = await AuthorService.do('getUser', params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

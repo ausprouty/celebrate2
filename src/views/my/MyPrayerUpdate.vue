@@ -187,7 +187,7 @@ export default {
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           this.items = await AuthorService.do('getPrayerUpdate', params)
-          this.member = await AuthorService..do('getUser',params)
+          this.member = await AuthorService.do('getUser', params)
           this.objective = this.items[0]['objective']
           this.time =
             this.months[this.items[0]['month']] + ',  ' + this.items[0]['year']

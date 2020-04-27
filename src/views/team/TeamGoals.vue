@@ -41,7 +41,7 @@
                 <div
                   v-if="authorizeItemEdit(item)"
                   class="hand update"
-                  @click=".do ('updateItem',item.id)"
+                  @click="updateItem(item.id)"
                 >Update Item</div>
               </div>
             </td>
@@ -121,7 +121,7 @@ export default {
         }
       })
     },
-    async .do ('updateItem',id) {
+   async updateItem(id) {
       await this.saveForm()
       var l = this.items.length
       var set = 'team'
@@ -210,7 +210,7 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        this.team = await AuthorService.do, 'getTeam', params)
+        this.team = await AuthorService.do('getTeam', params)
         console.log('this team')
         console.log(this.team.image)
         this.items = await AuthorService.do('getGoals', params)

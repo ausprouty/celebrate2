@@ -38,7 +38,7 @@
                 <div
                   v-if="authorizeItemEdit(item)"
                   class="hand update"
-                  @click=".do ('updateItem',item.id)"
+                  @click="updateItem(item.id)"
                 >Update Item</div>
               </div>
             </td>
@@ -128,7 +128,7 @@ export default {
         }
       })
     },
-    async .do ('updateItem',id) {
+    async updateItem(id) {
       await this.saveForm()
       this.$router.push({
         name: 'myItem',
@@ -163,7 +163,7 @@ export default {
           params['uid'] = this.$route.params.uid
           params['tid'] = this.$route.params.tid
           params['year'] = new Date().getFullYear()
-          var res = await AuthorService.do('updateGoals',params)
+          var res = await AuthorService.do('updateGoals', params)
         }
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
@@ -191,8 +191,8 @@ export default {
         route.tid = this.$route.params.tid
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
-        this.member = await AuthorService..do('getUser',params)
-        this.items = await AuthorService.do('getGoals',params)
+        this.member = await AuthorService.do('getUser', params)
+        this.items = await AuthorService.do('getGoals', params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

@@ -160,7 +160,7 @@ export default {
         this.item.image = this.item.image.image
         params.item = JSON.stringify(this.item)
         console.log(params)
-        var res = await AuthorService..do ('updateItem',params)
+        var res = await AuthorService.do('updateItem', params)
         //console.log(res)
         this.return()
       }

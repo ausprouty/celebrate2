@@ -280,7 +280,7 @@ export default {
       this.saveForm()
       var params = []
       params['route'] = JSON.stringify(this.$route.params)
-      await AuthorService.do('updateReportedPerson',params)
+      await AuthorService.do('updateReportedPerson', params)
       this.$router.push({
         name: 'myToday',
         params: {
@@ -313,7 +313,7 @@ export default {
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
           params['uid'] = this.$route.params.uid
-          this.member = await AuthorService..do('getUser',params)
+          this.member = await AuthorService.do('getUser', params)
           this.picture = await AuthorService.do('getImagePage', params)
           this.items = await AuthorService.do('getProgressPageEntry', params)
           params['items'] = JSON.stringify(this.items)

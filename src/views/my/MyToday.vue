@@ -208,9 +208,9 @@ export default {
               this.items[i]['prayer'] = null
             }
           }
-          var res = await AuthorService.do('updateProgressToday',params)
+          var res = await AuthorService.do('updateProgressToday', params)
 
-          this.items = await AuthorService.do ('getProgressToday',params)
+          this.items = await AuthorService.do('getProgressToday', params)
         }
       } catch (error) {
         console.log('There was an error in saveForm ', error) //
@@ -241,9 +241,9 @@ export default {
         route.year = new Date().getFullYear()
         route.month = new Date().getMonth() + 1
         params['route'] = JSON.stringify(route)
-        this.items = await AuthorService.do('getProgressToday',params)
+        this.items = await AuthorService.do('getProgressToday', params)
         params['uid'] = this.$route.params.uid
-        this.member = await AuthorService..do('getUser',params)
+        this.member = await AuthorService.do('getUser', params)
         console.log('this member')
         console.log(this.member)
       } catch (error) {
