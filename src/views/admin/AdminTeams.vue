@@ -55,7 +55,7 @@ export default {
       try {
         this.menu = await this.menuParams('Teams', 'M')
         var params = {}
-        this.teams = await AuthorService.getTeams(params)
+        this.teams = await AuthorService.do('getTeams', params)
         console.log(this.teams)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

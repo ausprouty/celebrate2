@@ -189,7 +189,7 @@ export default {
           console.log('params for SaveForm')
           console.log(params)
           let res = null
-          await AuthorService.updateUserProfile(params)
+          await AuthorService.do('updateUserProfile', params)
           this.show()
         }
       } catch (error) {
@@ -240,7 +240,7 @@ export default {
           this.menu = await this.menuParams('Team Member Profile', 'M')
           if (typeof this.$route.params.uid != 'undefined') {
             params.uid = this.$route.params.uid
-            this.member = await AuthorService.getUser(params)
+            this.member = await AuthorService..do('getUser',params)
             this.member.password = null
             if (this.member.image) {
               this.member_image = '/images/members/' + this.member.image
@@ -248,7 +248,7 @@ export default {
             console.log(this.member)
           } else {
             params.tid = this.$route.params.tid
-            this.team = await AuthorService.getTeam(params)
+            this.team = await AuthorService.do {'getTeam',params)
             this.change_password = true
             this.single_entry = false
             console.log(this.team)

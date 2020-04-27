@@ -61,7 +61,7 @@ export default {
       try {
         var params = {}
         params.items = JSON.stringify(this.items)
-        var response = await AuthorService.sortItems(params)
+        var response = await AuthorService.do('sortItems',params)
         this.$router.push({
           name: 'AdminCelebrationSets',
           params: {

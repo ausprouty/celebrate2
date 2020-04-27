@@ -141,7 +141,7 @@ export default {
         this.item.image = this.item.image.image
         params.item = JSON.stringify(this.item)
         console.log(params)
-        var res = await AuthorService.updateItem(params)
+        var res = await AuthorService..do ('updateItem',params)
         //console.log(res)
         this.return()
       }
@@ -190,7 +190,7 @@ export default {
         params['tid'] = this.user.team
         if (typeof this.$route.params.id != 'undefined') {
           params['id'] = this.$route.params.id
-          res = await AuthorServicce.do('getItem', params)
+          res = await AuthorService.do('getItem', params)
           if (typeof res != 'undefined') {
             this.item = res
             var im = this.item.image

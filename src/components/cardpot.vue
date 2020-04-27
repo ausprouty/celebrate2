@@ -53,7 +53,7 @@ export default {
       if (this.image == 'blank') {
         var p = {}
         p['route'] = JSON.stringify(this.params)
-        this.member = await AuthorService.getUser(p)
+        this.member = await AuthorService..do('getUser',p)
         this.$store.dispatch('seeingMember', [this.member])
         this.image = this.member.image
       }

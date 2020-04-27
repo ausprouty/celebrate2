@@ -74,10 +74,10 @@ export default {
          this.menu = await this.menuParams('Our Team', 'M')
         var params = {}
         params.tid = this.$route.params.tid
-        this.team = await AuthorService.getTeam(params)
+        this.team = await AuthorService.do('getTeam',params)
         var route = []
         route['route'] = JSON.stringify(this.$route.params)
-        this.users = await AuthorService.getTeamMembersReported(route)
+        this.users = await AuthorService.do('getTeamMembersReported',route)
         console.log(this.users)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

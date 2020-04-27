@@ -117,8 +117,8 @@ export default {
           var params = []
           params.route = JSON.stringify(this.$route.params)
           this.scope = await AuthorService.getItemsTeam(params)
-          this.team = await AuthorService.getTeam(params)
-          this.res = await AuthorService.getProgressTeamForYear(params)
+          this.team = await AuthorService.do('getTeam', params)
+          this.res = await AuthorService.do('getProgressTeamForYear', params)
           var temp = JSON.parse(this.res.item)
           this.item_details = temp[0]
 

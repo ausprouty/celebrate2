@@ -102,8 +102,8 @@ export default {
             this.$route.params.month = d.getMonth()
           }
           params['route'] = JSON.stringify(this.$route.params)
-          this.member = await AuthorService.getUser(params)
-          this.missing = await AuthorService.getMemberReportsCurrent(params)
+          this.member = await AuthorService..do('getUser',params)
+          this.missing = await AuthorService.do('getMemberReportsCurrent',params)
 
           console.log('this.missing')
           console.log(this.missing)

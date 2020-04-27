@@ -103,7 +103,7 @@ export default {
           params.authorizer = this.user.uid
           console.log(params)
           if (this.team.tid) {
-            await AuthorService.updateTeamProfile(params)
+            await AuthorService.do('updateTeamProfile',params)
             this.$router.push({
               name: 'ourTeam',
               params: {
@@ -154,7 +154,7 @@ export default {
           var params = {}
           if (this.$route.params.tid) {
             params.tid = this.$route.params.tid
-            this.team = await AuthorService.getTeam(params)
+            this.team = await AuthorService.do('getTeam', params)
             console.log(this.team)
             if (this.team.image) {
               this.team_image = this.team.image

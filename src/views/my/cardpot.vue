@@ -38,21 +38,15 @@
               <input class="group" type="text" v-model="disciple.group_name" />
             </td>
             <td class="firstname">
-              <input
-                class="firstname"
-                type="text"
-                v-model="disciple.firstname"
-              />
+              <input class="firstname" type="text" v-model="disciple.firstname" />
             </td>
             <td class="progress">
-              <v-select
-                :options="progress_options"
-                label="name"
-                v-model="disciple.progress"
-              >
-                <template slot="option" slot-scope="option" class="option_name">{{
+              <v-select :options="progress_options" label="name" v-model="disciple.progress">
+                <template slot="option" slot-scope="option" class="option_name">
+                  {{
                   option.name
-                }}</template>
+                  }}
+                </template>
               </v-select>
             </td>
           </tr>
@@ -63,28 +57,18 @@
             class="disciples"
           >
             <td class="group">
-              <input
-                class="group"
-                type="text"
-                v-model="new_disciple.group_name"
-              />
+              <input class="group" type="text" v-model="new_disciple.group_name" />
             </td>
             <td class="firstname">
-              <input
-                class="firstname"
-                type="text"
-                v-model="new_disciple.firstname"
-              />
+              <input class="firstname" type="text" v-model="new_disciple.firstname" />
             </td>
             <td class="progress">
-              <v-select
-                :options="progress_options"
-                label="name"
-                v-model="new_disciple.progress"
-              >
-                <template slot="option" slot-scope="option" class="option_name">{{
+              <v-select :options="progress_options" label="name" v-model="new_disciple.progress">
+                <template slot="option" slot-scope="option" class="option_name">
+                  {{
                   option.name
-                }}</template>
+                  }}
+                </template>
               </v-select>
             </td>
           </tr>
@@ -241,7 +225,7 @@ export default {
         console.log(this.progress_options)
         var route = {}
         params['uid'] = this.$route.params.uid
-        this.member = await AuthorService.getUser(params)
+        this.member = await AuthorService..do('getUser',params)
         console.log(this.member)
         if (this.member.image) {
           this.member_image = '/images/members/' + this.member.image

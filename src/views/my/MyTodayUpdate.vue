@@ -51,13 +51,13 @@
             </div>
           </div>
         </form>
-        <button class="button green" id="update" @click="saveForm">Update</button>
+        <button class="button green" id="update" @click="saveForm">
+          Update
+        </button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button
-          class="button grey"
-          id="delete"
-          @click="deleteForm"
-        >Delete</button>
+        <button class="button grey" id="delete" @click="deleteForm">
+          Delete
+        </button>
       </div>
     </div>
   </div>
@@ -116,7 +116,7 @@ export default {
         var params = {}
         params['today'] = JSON.stringify(this.today)
         console.log(params)
-        await AuthorService.updateTodayEntry(params)
+        await AuthorService.do('updateTodayEntry', params)
         this.$router.push({
           name: 'myMonth',
           params: {
@@ -156,10 +156,10 @@ export default {
           this.menu = await this.menuParams('My Today Update', 'M')
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
-          this.today = await AuthorService.getTodayEntry(params)
+          this.today = await AuthorService.do('getTodayEntry',params)
           console.log(this.today)
           params['id'] = this.today.item
-          this.item = await AuthorServicce.do('getItem', params)
+          this.item = await AuthorService.do('getItem', params)
           console.log(this.item)
           this.time = this.months[this.today.month] + ',  ' + this.today.year
           console.log(this.item)

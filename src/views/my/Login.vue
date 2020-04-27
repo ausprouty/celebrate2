@@ -65,7 +65,7 @@ export default {
       var params = {}
       if (this.username) {
         params.username = this.username
-        await AuthorService.retrievePassword(params)
+        await AuthorService.do('retrievePassword',params)
         this.$router.push({
           name: 'myPasswordSent'
         })

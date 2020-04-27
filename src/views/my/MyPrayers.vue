@@ -160,9 +160,9 @@ export default {
           console.log(this.menu)
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
-          this.picture = await AuthorServicce.do('getImagePage', params)
-          this.items = await AuthorService.getPrayersTeam(params)
-          this.member = await AuthorService.getUser(params)
+          this.picture = await AuthorService.do('getImagePage', params)
+          this.items = await AuthorService.do('getPrayersTeam', params)
+          this.member = await AuthorService..do('getUser',params)
           console.log(this.items)
 
           this.time =

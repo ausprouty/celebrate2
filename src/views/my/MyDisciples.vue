@@ -173,7 +173,7 @@ export default {
           params['tid'] = this.$route.params.tid
           params['year'] = new Date().getFullYear()
           console.log(params)
-          var res = await AuthorService.updateDisciples(params)
+          var res = await AuthorService.do('updateDisciples',params)
           this.$router.push({
             name: 'myTodaySettings',
             params: {
@@ -203,7 +203,7 @@ export default {
         console.log(this.progress_options)
         var route = {}
         params['uid'] = this.$route.params.uid
-        this.member = await AuthorService.getUser(params)
+        this.member = await AuthorService..do('getUser',params)
         console.log(this.member)
         if (this.member.image) {
           this.member_image = '/images/members/' + this.member.image
@@ -253,7 +253,6 @@ th {
   color: white;
 }
 .definitions {
-
   background-color: var(--color-yellow);
   padding: 10px;
 }
