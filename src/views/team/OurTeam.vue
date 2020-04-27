@@ -52,7 +52,7 @@ export default {
   methods:{
     newMember(){
       this.$router.push({
-        name: 'teamMemberRegister',
+        name: 'teamMemberProfile',
         params: {
           tid: this.$route.params.tid
         }

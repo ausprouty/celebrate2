@@ -31,8 +31,6 @@ import TeamMonth from './views/team/TeamMonth.vue'
 import TeamMemberReports from './views/team/TeamMemberReports.vue'
 import TeamMemberProfile from './views/team/TeamMemberProfile.vue'
 import TeamProfile from './views/team/TeamProfile.vue'
-
-import TeamRegister from './views/team/TeamRegister.vue'
 import TeamYear from './views/team/TeamYear.vue'
 import NavBar from './components/NavBar.vue'
 
@@ -217,12 +215,6 @@ export default new Router({
       path: '/team/month/:tid/:page?/:month?/:year?',
       name: 'teamMonth',
       component: TeamMonth,
-      props: true
-    },
-    {
-      path: '/team/register/:tid?',
-      name: 'teamMemberRegister',
-      component: TeamRegister,
       props: true
     },
     {

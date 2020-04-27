@@ -28,6 +28,15 @@ export default {
     let response = res.data.content
     return response
   },
+  async createTeamMembers(params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=createTeamMembers&action=createTeamMembers',
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
   async debug(params) {
     console.log('debug')
     var contentForm = this.toAuthorizedFormData(params)

@@ -8,75 +8,93 @@
       </p>
     </div>
     <div v-if="this.authorized">
-      <h2>Update {{ member.firstname }} {{ member.lastname }}</h2>
+      <h2 v-if="member.firstname">Update {{ member.firstname }} {{ member.lastname }}</h2>
+      <h2 v-if="team.name">Enter new member(s) for {{ team.name }}</h2>
+      <div v-if="this.single_entry">
 
-      <form @submit.prevent="saveForm">
-        <BaseInput
-          v-model="$v.member.firstname.$model"
-          label="First Name"
-          type="text"
-          placeholder
-          class="field"
-          :class="{ error: $v.member.firstname.$error }"
-          @mousedown="$v.member.firstname.$touch()"
-        />
-        <template v-if="$v.member.firstname.$error">
-          <p v-if="!$v.member.firstname.required" class="errorMessage">First Name is required</p>
-        </template>
-
-        <BaseInput
-          v-model="$v.member.lastname.$model"
-          label="Last Name"
-          type="text"
-          placeholder
-          class="field"
-          :class="{ error: $v.member.lastname.$error }"
-          @mousedown="$v.member.lastname.$touch()"
-        />
-        <template v-if="$v.member.lastname.$error">
-          <p v-if="!$v.member.lastname.required" class="errorMessage">Last Name is required</p>
-        </template>
-
-        <BaseInput
-          v-model="$v.member.phone.$model"
-          label="Phone"
-          type="text"
-          placeholder
-          class="field"
-        />
-
-        <p @click="changePassword()" class="change">Change Username, Password or Email</p>
-
-        <div v-if="this.change_password">
+          <button class="button grey" id="update" @click="manyMembers">Enter Many People</button>
+        <form @submit.prevent="saveForm">
           <BaseInput
-            v-model="$v.member.username.$model"
-            label="Username"
+            v-model="$v.member.firstname.$model"
+            label="First Name"
+            type="text"
+            placeholder
+            class="field"
+            :class="{ error: $v.member.firstname.$error }"
+            @mousedown="$v.member.firstname.$touch()"
+          />
+          <template v-if="$v.member.firstname.$error">
+            <p v-if="!$v.member.firstname.required" class="errorMessage">First Name is required</p>
+          </template>
+
+          <BaseInput
+            v-model="$v.member.lastname.$model"
+            label="Last Name"
+            type="text"
+            placeholder
+            class="field"
+            :class="{ error: $v.member.lastname.$error }"
+            @mousedown="$v.member.lastname.$touch()"
+          />
+          <template v-if="$v.member.lastname.$error">
+            <p v-if="!$v.member.lastname.required" class="errorMessage">Last Name is required</p>
+          </template>
+
+          <BaseInput
+            v-model="$v.member.phone.$model"
+            label="Phone"
             type="text"
             placeholder
             class="field"
           />
-          <BaseInput
-            v-model="$v.member.email.$model"
-            label="Email"
-            type="text"
-            placeholder
-            class="field"
-          />
+          <p
+            v-if="!team.name"
+            @click="changePassword()"
+            class="change"
+          >Change Username, Password or Email</p>
 
-          <BaseInput
-            v-model="$v.member.password.$model"
-            label="Password"
-            type="password"
-            placeholder
-            class="field"
-          />
-        </div>
+          <div v-if="this.change_password">
+            <BaseInput
+              v-model="$v.member.username.$model"
+              label="Username"
+              type="text"
+              placeholder
+              class="field"
+            />
+            <BaseInput
+              v-model="$v.member.email.$model"
+              label="Email"
+              type="text"
+              placeholder
+              class="field"
+            />
 
-        <br />
-        <br />
-        <button class="button green" id="update" click="saveForm">Update</button>
-        <button class="button red" id="delete" @click="deleteForm">Delete</button>
-      </form>
+            <BaseInput
+              v-model="$v.member.password.$model"
+              label="Password"
+              type="password"
+              placeholder
+              class="field"
+            />
+          </div>
+
+          <br />
+          <br />
+          <button class="button green" id="update" click="saveForm">Update</button>
+          <button class="button red" id="delete" @click="deleteForm">Delete</button>
+        </form>
+      </div>
+      <div v-if="!this.single_entry">
+        <button class="button grey" id="update" @click="oneMember">Enter Only One Person</button>
+        <BaseTextarea
+          label="Enter Many People"
+          v-model="this.multiple_people"
+          type="textarea"
+          class="field paragraph"
+        />
+        <p>(Tab Delimited) First Name, Last Name, Email</p>
+        <button class="button green" id="update" @click="createTeamMembers">Record These Members</button>
+      </div>
     </div>
   </div>
 </template>
@@ -108,11 +126,16 @@ export default {
         username: null,
         password: null
       },
+      team: {
+        name: null
+      },
       change_password: false,
       member_image: null,
       submitted: false,
       wrong: null,
-      registered: true
+      registered: true,
+      single_entry: true,
+      multiple_people: 'a'
     }
   },
   validations: {
@@ -122,12 +145,37 @@ export default {
       lastname: { required },
       email: { required },
       phone: {},
-      image:{},
+      image: {},
       username: {},
       password: {}
     }
   },
   methods: {
+    oneMember() {
+      this.single_entry = true
+    },
+    manyMembers() {
+      this.single_entry = false
+    },
+    async createTeamMembers() {
+      console.log (this.multiple_people)
+      try {
+        if (!this.saved) {
+          this.saved = true
+          this.disableButton('update')
+          this.disableButton('delete')
+          var params = {}
+          params.tid = this.$route.params.tid
+          params.authorizer = this.user.uid
+          params.members = this.multiple_people        
+          console.log('params for SaveMembers')
+          console.log(params)
+          let res = null
+          await AuthorService.createTeamMembers(params)
+          this.show()
+        }
+      }
+    },
     async saveForm() {
       try {
         if (!this.saved) {
@@ -189,9 +237,9 @@ export default {
       )
       if (this.authorized) {
         try {
+          var params = {}
           this.menu = await this.menuParams('Team Member Profile', 'M')
           if (typeof this.$route.params.uid != 'undefined') {
-            var params = {}
             params.uid = this.$route.params.uid
             this.member = await AuthorService.getUser(params)
             this.member.password = null
@@ -199,6 +247,12 @@ export default {
               this.member_image = '/images/members/' + this.member.image
             }
             console.log(this.member)
+          } else {
+            params.tid = this.$route.params.tid
+            this.team = await AuthorService.getTeam(params)
+            this.change_password = true
+            this.single_entry = false
+            console.log(this.team)
           }
         } catch (error) {
           console.log('There was an error in TeamMemberProfile.vue:', error) // Logs out the error
