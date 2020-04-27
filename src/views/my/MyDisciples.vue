@@ -213,7 +213,7 @@ export default {
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
         console.log(params)
-        this.disciples = await AuthorService.getDisciples(params)
+        this.disciples = await AuthorService.do('getDisciples', params)
         this.items = await AuthorService.getItemsStandard(params)
 
         console.log(this.disciples)

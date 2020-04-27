@@ -314,7 +314,7 @@ export default {
           params['route'] = JSON.stringify(this.$route.params)
           params['uid'] = this.$route.params.uid
           this.member = await AuthorService.getUser(params)
-          this.picture = await AuthorService.getImagePage(params)
+          this.picture = await AuthorServicce.do('getImagePage', params)
           this.items = await AuthorService.getProgressPageEntry(params)
           params['items'] = JSON.stringify(this.items)
           this.today = await AuthorService.getTodayForProgressPageEntry(params)
@@ -393,7 +393,7 @@ div.inline {
 
 table.heading {
   display: block;
-  background-color:var(--color-yellow-lighter);
+  background-color: var(--color-yellow-lighter);
   padding: 10px;
   width: 97%;
   margin: auto;
@@ -418,13 +418,13 @@ img.icon {
   padding-right: 10px;
 }
 div.today {
-  background-color:var(--color-yellow-lighter);
+  background-color: var(--color-yellow-lighter);
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .important {
-  background-color:var(--color-yellow);
+  background-color: var(--color-yellow);
 }
 
 div.item_name {
@@ -433,7 +433,7 @@ div.item_name {
 
 p.objective {
   padding-left: 10px;
-  color:var(--color-black);
+  color: var(--color-black);
   font-weight: 700;
   font-size: 16px;
   margin-top: -5px;
@@ -466,7 +466,7 @@ td.item {
   width: 80%;
 }
 .item_name {
-  color:var(--color-black);
+  color: var(--color-black);
   font-weight: bold;
 }
 

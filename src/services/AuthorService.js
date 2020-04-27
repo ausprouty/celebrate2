@@ -18,25 +18,16 @@ const apiSECURE = axios.create({
 // I want to export a JSON.stringified of response.data.content.text
 export default {
   /////////////////////////////////////////////////
+  async do(what, params) {
+    var contentForm = this.toAuthorizedFormData(params)
+    let res = await apiSECURE.post(
+      'AuthorApi.php?page=' + what + '&action=' + what,
+      contentForm
+    )
+    let response = res.data.content
+    return response
+  },
 
-  async createTeamProfile(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=createTeamProfile&action=createTeamProfile',
-      contentForm
-    )
-    let response = res.data.content
-    return response
-  },
-  async createTeamMembers(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=createTeamMembers&action=createTeamMembers',
-      contentForm
-    )
-    let response = res.data.content
-    return response
-  },
   async debug(params) {
     console.log('debug')
     var contentForm = this.toAuthorizedFormData(params)
@@ -45,18 +36,7 @@ export default {
   },
 
   ////////////////////////////////////////////////
-  async deleteItem(params) {
-    console.log('entered delete item')
-    console.log(params)
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=deleteItem&action=deleteItem',
-      contentForm
-    )
-    console.log(res)
-    let response = res.data.content
-    return response
-  },
+
   async deleteTeam(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
@@ -64,16 +44,8 @@ export default {
       contentForm
     )
     return response
-    },
-  async deleteTodayEntry(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=deleteTodayEntry&action=deleteTodayEntry',
-      contentForm
-    )
-    let response = res.data.content
-    return response
   },
+
   async deleteUser(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let response = await apiSECURE.post(
@@ -84,66 +56,10 @@ export default {
     //  console.log(response)
     return response
   },
-  async getDisciples(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=getDisciples&action=getDisciples',
-      contentForm
-    )
-    console.log('from getDisciples')
-    console.log(res)
-    let response = res.data.content
-    return response
-  },
-  async getGoals(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=getGoals&action=getGoals',
-      contentForm
-    )
-    console.log('from getGoals')
-    console.log(res)
-    let response = res.data.content
-    return response
-  },
-  async getGoalsPage(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=getGoalsPage&action=getGoalsPage',
-      contentForm
-    )
-    console.log('from getGoals')
-    console.log(res)
-    let response = res.data.content
-    return response
-  },
-  async getIcons(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=getIcons&action=getIcons',
-      contentForm
-    )
-    let response = res.data.content
-    return response
-  },
-  async getItem(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=getItem&action=getItem',
-      contentForm
-    )
-    let response = res.data.content
-    return response
-  },
-  async getImagePage(params) {
-    var contentForm = this.toAuthorizedFormData(params)
-    let res = await apiSECURE.post(
-      'AuthorApi.php?page=getImagePage&action=getImagePage',
-      contentForm
-    )
-    let response = res.data.content
-    return response
-  },
+
+  
+ 
+
   async getItemsCelebrationSet(params) {
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(

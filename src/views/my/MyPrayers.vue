@@ -75,9 +75,7 @@ export default {
       highlight: true,
       picture: 'IMG_6282.JPG',
       objective: null,
-      time: null,
-      
-
+      time: null
     }
   },
   validations: {
@@ -158,11 +156,11 @@ export default {
       )
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('My Prayers', 'M')
+          this.menu = await this.menuParams('My Prayers', 'M')
           console.log(this.menu)
           var params = {}
           params['route'] = JSON.stringify(this.$route.params)
-          this.picture = await AuthorService.getImagePage(params)
+          this.picture = await AuthorServicce.do('getImagePage', params)
           this.items = await AuthorService.getPrayersTeam(params)
           this.member = await AuthorService.getUser(params)
           console.log(this.items)

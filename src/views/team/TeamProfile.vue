@@ -111,7 +111,7 @@ export default {
               }
             })
           } else {
-            var resp = await AuthorService.createTeamProfile(params)
+            var resp = await AuthorService.do('createTeamProfile', params)
             console.log(resp)
             this.$router.push({
               name: 'ourTeam',

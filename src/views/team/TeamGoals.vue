@@ -213,7 +213,7 @@ export default {
         this.team = await AuthorService.getTeam(params)
         console.log('this team')
         console.log(this.team.image)
-        this.items = await AuthorService.getGoals(params)
+        this.items = await AuthorService.do('getGoals', params)
         console.log(this.items)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error

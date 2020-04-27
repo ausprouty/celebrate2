@@ -192,7 +192,7 @@ export default {
         route.year = new Date().getFullYear()
         params['route'] = JSON.stringify(route)
         this.member = await AuthorService.getUser(params)
-        this.items = await AuthorService.getGoals(params)
+        this.items = await AuthorService.do('getGoals',params)
       } catch (error) {
         console.log('There was an error in Team.vue:', error) // Logs out the error
       }

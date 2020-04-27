@@ -158,7 +158,7 @@ export default {
       params.uid = this.uid
       params.item = JSON.stringify(this.item)
       console.log(params)
-      var res = await AuthorService.deleteItem(params)
+      var res = await AuthorService.do('deleteItem', params)
       console.log(res)
       this.return()
     },
@@ -181,7 +181,7 @@ export default {
         var params = {}
         params['icons'] = 'team'
         params['icon_size'] = '48x48'
-        var res = await AuthorService.getIcons(params)
+        var res = await AuthorService.do('getIcons', params)
         console.log(res)
         this.images = res['icons']
         this.directory = res['dir']
@@ -190,7 +190,7 @@ export default {
         params['tid'] = this.user.team
         if (typeof this.$route.params.id != 'undefined') {
           params['id'] = this.$route.params.id
-          res = await AuthorService.getItem(params)
+          res = await AuthorServicce.do('getItem', params)
           if (typeof res != 'undefined') {
             this.item = res
             var im = this.item.image

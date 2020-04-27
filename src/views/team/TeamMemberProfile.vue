@@ -11,8 +11,7 @@
       <h2 v-if="member.firstname">Update {{ member.firstname }} {{ member.lastname }}</h2>
       <h2 v-if="team.name">Enter new member(s) for {{ team.name }}</h2>
       <div v-if="this.single_entry">
-
-          <button class="button grey" id="update" @click="manyMembers">Enter Many People</button>
+        <button class="button grey" id="update" @click="manyMembers">Enter Many People</button>
         <form @submit.prevent="saveForm">
           <BaseInput
             v-model="$v.member.firstname.$model"
@@ -158,7 +157,7 @@ export default {
       this.single_entry = false
     },
     async createTeamMembers() {
-      console.log (this.multiple_people)
+      console.log(this.multiple_people)
       try {
         if (!this.saved) {
           this.saved = true
@@ -167,11 +166,11 @@ export default {
           var params = {}
           params.tid = this.$route.params.tid
           params.authorizer = this.user.uid
-          params.members = this.multiple_people        
+          params.members = this.multiple_people
           console.log('params for SaveMembers')
           console.log(params)
           let res = null
-          await AuthorService.createTeamMembers(params)
+          await AuthorService.do('createTeamMembers', params)
           this.show()
         }
       }

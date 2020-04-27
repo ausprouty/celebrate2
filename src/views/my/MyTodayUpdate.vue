@@ -133,7 +133,7 @@ export default {
       var params = {}
       params['id'] = this.$route.params.todayid
       alert(params['id'])
-      await AuthorService.deleteTodayEntry(params)
+      await AuthorService.do('deleteTodayEntry', params)
       this.$router.push({
         name: 'myMonth',
         params: {
@@ -159,7 +159,7 @@ export default {
           this.today = await AuthorService.getTodayEntry(params)
           console.log(this.today)
           params['id'] = this.today.item
-          this.item = await AuthorService.getItem(params)
+          this.item = await AuthorServicce.do('getItem', params)
           console.log(this.item)
           this.time = this.months[this.today.month] + ',  ' + this.today.year
           console.log(this.item)

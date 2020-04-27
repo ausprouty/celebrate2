@@ -50,12 +50,7 @@
       </div>
       <div class="subheading">
         <form @submit.prevent="saveForm">
-          <div
-            v-for="(item, id) in this.items"
-            :key="id"
-            :item="item"
-            class="progress"
-          >
+          <div v-for="(item, id) in this.items" :key="id" :item="item" class="progress">
             <div class="app-link">
               <div
                 class="shadow-card -shadow"
@@ -74,21 +69,14 @@
                     :id="item.id + 'R'"
                     class="item_name"
                     v-bind:class="{ selected: evaluateSelect(item.number) }"
-                  >
-                    {{ item.name }}
-                  </div>
+                  >{{ item.name }}</div>
                   <div :id="item.id" class="collapsed">
                     <ItemEntryProgress :item="item"></ItemEntryProgress>
                   </div>
                 </div>
                 <hr />
                 <div class="entry">
-                  <BaseInput
-                    label="Number:"
-                    v-model="item.entry"
-                    type="number"
-                    class="field"
-                  />
+                  <BaseInput label="Number:" v-model="item.entry" type="number" class="field" />
                 </div>
                 <div v-if="item.details">
                   <BaseTextarea
@@ -123,9 +111,7 @@
           <button class="button green right" @click="nextForm">></button>
         </div>
         <div v-if="this.$route.params.page == 5" class="right">
-          <button class="button green right" @click="finishForm">
-            Finished
-          </button>
+          <button class="button green right" @click="finishForm">Finished</button>
         </div>
       </div>
     </div>
@@ -265,7 +251,7 @@ export default {
       )
       if (this.authorized) {
         try {
-           this.menu = await this.menuParams('Team Monthly Progress', 'M')
+          this.menu = await this.menuParams('Team Monthly Progress', 'M')
           var params = {}
           var d = new Date()
           if (typeof this.$route.params.year == 'undefined') {
@@ -280,7 +266,7 @@ export default {
           }
           console.log(this.$route.params)
           params['route'] = JSON.stringify(this.$route.params)
-          this.picture = await AuthorService.getImagePage(params)
+          this.picture = await AuthorServicce.do('getImagePage', params)
           this.items = await AuthorService.getProgressPageEntry(params)
           this.objective = this.items[0]['objective']
           this.time =
@@ -304,8 +290,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 table.time {
   display: block;
   background-color: white;
