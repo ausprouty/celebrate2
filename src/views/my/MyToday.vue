@@ -235,7 +235,7 @@ export default {
         var params = []
         var route = {}
         route.uid = this.$route.params.uid
-        route.tid = this.user.team
+        route.tid =  this.$route.params.tid
         console.log('this.user')
         console.log(this.user)
         route.year = new Date().getFullYear()

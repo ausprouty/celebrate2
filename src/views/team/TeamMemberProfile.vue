@@ -46,26 +46,16 @@
             placeholder
             class="field"
           />
-          <p
-            v-if="!team.name"
-            @click="changePassword()"
-            class="change"
-          >Change Username, Password or Email</p>
+          <p v-if="!team.name" @click="changePassword()" class="change">Change Password or Email</p>
 
           <div v-if="this.change_password">
-            <BaseInput
-              v-model="$v.member.username.$model"
-              label="Username"
-              type="text"
-              placeholder
-              class="field"
-            />
             <BaseInput
               v-model="$v.member.email.$model"
               label="Email"
               type="text"
               placeholder
               class="field"
+              @click="checkUnique()"
             />
 
             <BaseInput
@@ -92,7 +82,7 @@
           class="field"
         />
         <p>(Tab Delimited) Training Name (not used), First Name, Last Name, Email</p>
-        <button class="button green" id="update" @click="createTeamMembers()">Record These Members</button>
+        <button class="button green" id="create" @click="createTeamMembers()">Record These Members</button>
       </div>
     </div>
   </div>
@@ -122,7 +112,6 @@ export default {
         email: null,
         phone: null,
         image: 'blank.png',
-        username: null,
         password: null
       },
       team: {
@@ -130,6 +119,7 @@ export default {
       },
       change_password: false,
       member_image: null,
+      original_email: null,
       submitted: false,
       wrong: null,
       registered: true,
@@ -161,14 +151,26 @@ export default {
     manyMembers() {
       this.single_entry = false
     },
+    async checkUnique() {
+      if (this.original_email != this.$v.member.email.$model) {
+        var params = {}
+        params.email = this.$v.member.email.$model
+        var res = await AuthorService.do('checkEmailIsUnique', params)
+        if (res != 1) {
+          alert('This email is already registered')
+        }
+        return res
+      } else {
+        return 1
+      }
+    },
+
     async createTeamMembers() {
       console.log(this.$v.people.names.$model)
-      alert('look at people')
       try {
         if (!this.saved) {
           this.saved = true
-          this.disableButton('update')
-          this.disableButton('delete')
+          this.disableButton('create')
           var params = {}
           params.tid = this.$route.params.tid
           params.authorizer = this.user.uid
@@ -188,19 +190,28 @@ export default {
           this.saved = true
           this.disableButton('update')
           this.disableButton('delete')
-          var params = this.member
-          console.log('Save Form')
-          console.log(this.member)
-          params.member_uid = this.member.uid
-          params.authorizer = this.user.uid
-          console.log('params for SaveForm')
-          console.log(params)
-          let res = null
-          await AuthorService.do('updateUserProfile', params)
-          this.show()
+          var res = await this.checkUnique()
+          console.log(res)
+          if (res == 1) {
+            var params = {}
+            params = this.member
+            console.log('Save Form')
+            console.log(this.member)
+            params.member_uid = this.member.uid
+            params.authorizer = this.user.uid
+            console.log('params for SaveForm')
+            console.log(params)
+            await AuthorService.do('updateUserProfile', params)
+            this.show()
+          } else {
+            throw new Error('This email is not unique')
+          }
         }
       } catch (error) {
-        console.log('Update There was an error ', error) //
+        console.log('Update There was an error ', error)
+        this.enableButton('update')
+        this.enableButton('delete')
+        this.saved = false
       }
     },
 
@@ -221,7 +232,7 @@ export default {
         } else {
           this.registered = true
           this.$router.push({
-            name: 'farm'
+            name: 'adminTeams'
           })
         }
       } catch (error) {
@@ -249,6 +260,7 @@ export default {
             params.uid = this.$route.params.uid
             this.member = await AuthorService.do('getUser', params)
             this.member.password = null
+            this.original_email = this.member.email
             if (this.member.image) {
               this.member_image = '/images/members/' + this.member.image
             }
@@ -258,6 +270,7 @@ export default {
             this.team = await AuthorService.do('getTeam', params)
             this.change_password = true
             this.single_entry = false
+            this.single_entry = true
             console.log(this.team)
           }
         } catch (error) {

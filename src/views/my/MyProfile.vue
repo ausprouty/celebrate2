@@ -45,16 +45,10 @@
           class="field"
         />
 
-        <p @click="changePassword()" class="change">Change Username, Password or Email</p>
+        <p @click="changePassword()" class="change">Change Password or Email</p>
 
         <div v-if="this.change_password">
-          <BaseInput
-            v-model="$v.member.username.$model"
-            label="Username"
-            type="text"
-            placeholder
-            class="field"
-          />
+          
           <BaseInput
             v-model="$v.member.email.$model"
             label="Email"
@@ -104,7 +98,6 @@ export default {
         email: null,
         phone: null,
         scope: null,
-        username: null,
         password: null,
         image: 'blank.png'
       },
@@ -120,8 +113,6 @@ export default {
       firstname: { required },
       lastname: { required },
       phone: {},
-
-      username: {},
       email: { required },
       password: {}
     }
@@ -134,13 +125,8 @@ export default {
           this.disableButton('update')
           this.disableButton('delete')
           var params = this.member
-          console.log('Save Form')
-          console.log(this.member)
           params.member_uid = this.member.uid
           params.authorizer = this.user.uid
-          console.log('params for SaveForm')
-          console.log(params)
-          let res = null
           await AuthorService.do('updateUserProfile', params)
           this.show()
         }
@@ -154,7 +140,6 @@ export default {
         var params = {}
         params.authorizer = this.user.uid
         params.member_uid = this.member.uid
-        params.member_username = this.member.username
         console.log('params from DeleteForm')
         console.log(params)
         let res = await AuthorService.deleteUser(params)
@@ -166,7 +151,10 @@ export default {
         } else {
           this.registered = true
           this.$router.push({
-            name: 'farm'
+            name: 'team',
+            params:{
+              team: t
+            }
           })
         }
       } catch (error) {

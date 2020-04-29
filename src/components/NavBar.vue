@@ -291,7 +291,7 @@ div.breadcrumb {
 .dropdown-content-admin {
   display: none;
   position: absolute;
-  background-color: blue;
+  background-color: red;
 
   min-width: 300px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -300,7 +300,7 @@ div.breadcrumb {
 .dropdown-content-my {
   display: none;
   position: absolute;
-  background-color: orange;
+  background-color: blue;
 
   min-width: 300px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -309,7 +309,7 @@ div.breadcrumb {
 .dropdown-content-team {
   display: none;
   position: absolute;
-  background-color: red;
+  background-color: orange;
 
   min-width: 300px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);

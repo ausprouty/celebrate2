@@ -109,6 +109,9 @@ export const authorMixin = {
     disableButton(id) {
       document.getElementById(id).style.visibility = 'hidden'
     },
+    enableButton(id) {
+      document.getElementById(id).style.visibility = 'visible'
+    },
     async menuParams(breadcrumb) {
       var params = this.$route.params
 

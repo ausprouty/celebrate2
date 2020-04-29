@@ -19,6 +19,7 @@ const apiSECURE = axios.create({
 export default {
   /////////////////////////////////////////////////
   async do(what, params) {
+    console.log (what)
     var contentForm = this.toAuthorizedFormData(params)
     let res = await apiSECURE.post(
       'AuthorApi.php?page=' + what + '&action=' + what,

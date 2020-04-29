@@ -62,8 +62,6 @@ export default new Vuex.Store({
   mutations: {
     LOGIN_USER(state, value) {
       state.user = value[0]
-      console.log('token')
-      console.log(state.user.token)
       localStorage.setItem('user', JSON.stringify(state.user))
     },
     SEEING_MEMBER(state, value) {

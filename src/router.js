@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Debug from './views/admin/Debug.vue'
 
 import Login from './views/my/Login.vue'
-import Logout from './views/my/Logout.vue'
 import AdminCelebrationSets from './views/admin/AdminCelebrationSets.vue'
 import AdminItem from './views/admin/AdminItem.vue'
 import AdminItemsSort from './views/admin/AdminItemsSort.vue'
@@ -49,18 +48,18 @@ export default new Router({
       props: false
     },
     {
+      path: '/logout',
+      name: 'logout',
+      component: Login,
+      props: false
+    },
+    {
       path: '/debug',
       name: 'debugger',
       component: NavBar,
       props: false
     },
-    
-    {
-      path: '/logout',
-      name: 'logout',
-      component: Logout,
-      props: false
-    },
+
     {
       path: '/admin/item/:id?/:celebration_set?/:uid?/:tid?',
       name: 'adminItem',
