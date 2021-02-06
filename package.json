@@ -1,10 +1,10 @@
 {
-  "name": "Celebrate",
-  "version": "0.0.1",
+  "name": "celebrate",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve  --mode local",
+    "build": "vue-cli-service build   --mode remote",
     "lint": "vue-cli-service lint",
     "build_prod": "vue-cli-service build --mode production"
   },

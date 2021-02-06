@@ -9,7 +9,7 @@
     </div>
     <div v-if="this.authorized">
       <h2 v-if="member.firstname">Update {{ member.firstname }} {{ member.lastname }}</h2>
-      <h2 v-if="team.name">Enter new member(s) for {{ team.name }}</h2>
+      <h2 v-if="!member.firstname">Enter new member(s) for {{ team.name }}</h2>
       <div v-if="this.single_entry">
         <button class="button grey" id="update" @click="manyMembers">Enter Many People</button>
         <form @submit.prevent="saveForm">
@@ -195,6 +195,7 @@ export default {
           if (res == 1) {
             var params = {}
             params = this.member
+            params.tid = this.$route.params.tid
             console.log('Save Form')
             console.log(this.member)
             params.member_uid = this.member.uid
@@ -202,7 +203,13 @@ export default {
             console.log('params for SaveForm')
             console.log(params)
             await AuthorService.do('updateUserProfile', params)
-            this.show()
+            console.log('I finished saving user')
+            this.$router.push({
+              name: 'ourTeam',
+              params: {
+                tid: this.$route.params.tid
+              }
+            })
           } else {
             throw new Error('This email is not unique')
           }
